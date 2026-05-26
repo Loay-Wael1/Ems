@@ -60,54 +60,6 @@
           <span class="video-card-subtitle en">Feedback · 0:32</span>
         </div>
       </button>
-
-      <!-- Video 4 -->
-      <button class="video-card reveal-on-scroll reveal-delay-3" type="button" data-video="/اعلان.mp4" data-title="رأي من Easy Fit" aria-label="تشغيل فيديو رأي من Easy Fit">
-        <div class="video-thumbnail-container">
-          <img src="/posters/studio-1.jpg" class="video-poster-img" alt="رأي من استوديو إيزي فيت" loading="lazy" width="360" height="640" />
-          <div class="video-overlay">
-            <span class="video-play-btn">
-              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            </span>
-          </div>
-        </div>
-        <div class="video-card-info">
-          <h3 class="video-card-title">رأي من Easy Fit</h3>
-          <span class="video-card-subtitle en">Studio media · 0:15</span>
-        </div>
-      </button>
-
-      <!-- Video 5 -->
-      <button class="video-card reveal-on-scroll reveal-delay-4" type="button" data-video="/اعلان 1.mp4" data-title="تجربة الاستوديو" aria-label="تشغيل فيديو تجربة الاستوديو">
-        <div class="video-thumbnail-container">
-          <img src="/posters/studio-2.jpg" class="video-poster-img" alt="تجربة الاستوديو والتجهيزات" loading="lazy" width="360" height="640" />
-          <div class="video-overlay">
-            <span class="video-play-btn">
-              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            </span>
-          </div>
-        </div>
-        <div class="video-card-info">
-          <h3 class="video-card-title">تجربة الاستوديو</h3>
-          <span class="video-card-subtitle en">Studio media · 0:29</span>
-        </div>
-      </button>
-
-      <!-- Video 6 -->
-      <button class="video-card reveal-on-scroll reveal-delay-5" type="button" data-video="/اعلان (2).mp4" data-title="تفعيل العضلات" aria-label="تشغيل فيديو تفعيل العضلات">
-        <div class="video-thumbnail-container">
-          <img src="/posters/studio-3.jpg" class="video-poster-img" alt="فيديو تفعيل عضلات الجسم" loading="lazy" width="360" height="640" />
-          <div class="video-overlay">
-            <span class="video-play-btn">
-              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            </span>
-          </div>
-        </div>
-        <div class="video-card-info">
-          <h3 class="video-card-title">تفعيل العضلات</h3>
-          <span class="video-card-subtitle en">Studio media · 0:24</span>
-        </div>
-      </button>
       
     </div>
   </div>
@@ -121,7 +73,13 @@
       <span class="modal-title-text" id="modalTitle">Easy Fit Alexandria</span>
     </div>
     <div class="modal-player-container">
-      <video class="modal-video-tag" id="modalVideo" controls playsinline></video>
+      <video 
+        class="modal-video-tag" 
+        id="modalVideo" 
+        controls 
+        playsinline 
+        preload="metadata"
+      ></video>
     </div>
   </div>
 </dialog>
@@ -184,6 +142,12 @@
 
   modal?.addEventListener('click', (e) => {
     if (e.target === modal) {
+      closeModal();
+    }
+  });
+
+  modal?.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
       closeModal();
     }
   });

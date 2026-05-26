@@ -807,7 +807,7 @@ p {
 
 .video-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
 }
 
@@ -831,16 +831,17 @@ p {
 
 .video-thumbnail-container {
   position: relative;
-  aspect-ratio: 9/16;
+  aspect-ratio: 9 / 16;
   overflow: hidden;
-  background: #000;
+  background: #f1f3f7;
   width: 100%;
 }
 
 .video-poster-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  background: #f1f3f7;
 }
 
 .video-overlay {
@@ -958,18 +959,23 @@ p {
 }
 
 .modal-player-container {
-  flex-grow: 1;
-  background: #000;
-  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  background: #000;
+  max-height: 82vh;
+  overflow: hidden;
+  position: relative;
+  flex-grow: 1;
 }
 
 .modal-video-tag {
-  width: 100%;
-  height: 100%;
+  width: auto;
+  height: auto;
+  max-width: min(100%, 520px);
+  max-height: 82vh;
   object-fit: contain;
+  background: #000;
 }
 
 /* Locations Section */
@@ -1142,6 +1148,9 @@ p {
     grid-template-columns: 1fr;
     gap: 20px;
   }
+  .video-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 768px) {
@@ -1181,6 +1190,13 @@ p {
   }
   .ems-visual-card {
     padding: 30px;
+  }
+  .video-grid {
+    grid-template-columns: 1fr;
+  }
+  .modal-video-tag {
+    max-width: 100%;
+    max-height: 78vh;
   }
 }
 
