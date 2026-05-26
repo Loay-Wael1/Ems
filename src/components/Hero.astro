@@ -2,39 +2,18 @@
 ---
 <section class="hero-section" id="hero" aria-labelledby="hero-title">
   <div class="container hero-grid">
-    <!-- Visual side: Premium, minimal typographic timer and raw logo connected by a dotted wave -->
-    <div class="hero-visual">
-      <div class="hero-editorial-panel">
-        <!-- Subtle dotted wave motif flowing from logo area to timer -->
-        <svg class="hero-pulse-wave" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="150" cy="150" r="130" stroke="rgba(6, 14, 29, 0.06)" stroke-width="1" stroke-dasharray="4 6" />
-          <circle cx="150" cy="150" r="100" stroke="rgba(6, 14, 29, 0.04)" stroke-width="1.5" />
-          <path d="M 60,150 C 120,70 180,230 240,150" stroke="var(--teal)" stroke-opacity="0.25" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round" />
-        </svg>
-
-        <!-- Timer Display -->
-        <div class="hero-timer-display">20:00</div>
-        
-        <!-- Original logo clean, official, and untouched (no circle wrapping or fake glow) -->
-        <div class="hero-logo-frame">
-          <img src="/logo-transparent.png" class="hero-logo-img" alt="شعار Easy Fit" width="140" height="140" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Text content side -->
+    <!-- Text content side (on the RIGHT for RTL reading flow) -->
     <div class="hero-content">
       <p class="hero-eyebrow">Alexandria’s 1st EMS Studio</p>
       
       <h1 id="hero-title" class="hero-title">
-        <span>٢٠ دقيقة.</span>
-        <span>جسمك كله يشتغل.</span>
-        <span>وإنت تحت متابعة كوتش.</span>
+        <span>جسمك يشتغل بذكاء.</span>
+        <span>في جلسة قصيرة ومتابَعة.</span>
       </h1>
       
       <p class="hero-description">
         مش كل الناس عندها وقت للجيم كل يوم، ومش كل جسم محتاج نفس نوع التمرين. 
-        في Easy Fit، جلسة EMS قصيرة ومركزة بتتظبط حسب هدفك — خسارة دهون، شد جسم، زيادة عضلات، أو رجوع محسوب للتمرين.
+        في Easy Fit، جلسة EMS بتتظبط حسب هدفك — خسارة دهون، شد جسم، زيادة عضلات، أو رجوع محسوب للتمرين.
       </p>
 
       <div class="hero-actions">
@@ -46,23 +25,59 @@
         </a>
       </div>
     </div>
+
+    <!-- Visual side: Premium, minimal visual and raw logo (on the LEFT for RTL reading flow) -->
+    <div class="hero-visual">
+      <div class="hero-editorial-panel">
+        <!-- Static dotted wave motif (no spin loops) -->
+        <svg class="hero-pulse-wave" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="150" cy="150" r="130" stroke="rgba(6, 14, 29, 0.05)" stroke-width="1" stroke-dasharray="4 6" />
+          <circle cx="150" cy="150" r="100" stroke="rgba(6, 14, 29, 0.03)" stroke-width="1.5" />
+          <path d="M 60,150 C 120,70 180,230 240,150" stroke="var(--teal)" stroke-opacity="0.15" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round" />
+        </svg>
+
+        <!-- Original logo clean, official, and untouched (no circle wrapping or fake glow) -->
+        <div class="hero-logo-frame">
+          <img src="/logo-transparent.png" class="hero-logo-img" alt="شعار Easy Fit" width="140" height="140" />
+        </div>
+
+        <!-- Elegant supporting badge (replaces the repetitive timer) -->
+        <div class="hero-badge">جلسة EMS مركزة</div>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- Proof Claim Band -->
-<section class="claim-band" aria-label="أرقام تهمك عن تمرين Easy Fit">
+<section class="claim-band" aria-label="ميزات ستوديو Easy Fit">
   <div class="container claim-grid">
     <div class="claim-item">
-      <div class="claim-title en">20 Min EMS</div>
-      <div class="claim-desc">تعادل ساعتين تمرين في الجيم</div>
+      <div class="claim-title">أول EMS Studio في إسكندرية</div>
+      <div class="claim-desc">أول ستوديو متخصص بمعدات معتمدة</div>
     </div>
     <div class="claim-item">
-      <div class="claim-title">1st EMS Studio</div>
-      <div class="claim-desc">أول ستوديو متخصص في الإسكندرية</div>
+      <div class="claim-title">مدربين وخبراء تغذية</div>
+      <div class="claim-desc">متابعة مخصصة ومستمرة لتحقيق أهدافك</div>
     </div>
     <div class="claim-item">
-      <div class="claim-title">Coaches & Nutrition</div>
-      <div class="claim-desc">متابعة تمرين وتغذية متخصصة</div>
+      <div class="claim-title">فرعين: سموحة وجناكليس</div>
+      <div class="claim-desc">اختر الفرع الأقرب وابدأ التمرين بسهولة</div>
     </div>
   </div>
 </section>
+
+<style>
+  .hero-badge {
+    display: inline-block;
+    font-family: var(--font-ar);
+    font-size: 0.95rem;
+    color: var(--ink);
+    background: var(--surface-2);
+    border: 1px solid var(--border-strong);
+    padding: 6px 20px;
+    border-radius: 50px;
+    font-weight: 500;
+    margin-top: 10px;
+    z-index: 2;
+  }
+</style>

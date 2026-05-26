@@ -3,19 +3,19 @@
 <div class="intro-panel" id="pageReveal" aria-hidden="true">
   <div class="intro-content">
     <div class="intro-logo-frame">
-      <!-- Clean, subtle dotted wave surrounding the logo -->
+      <!-- Clean, subtle dotted wave surrounding the logo (static, no loops) -->
       <svg class="intro-pulse-wave" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="100" cy="100" r="85" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" stroke-dasharray="3 5" />
-        <circle cx="100" cy="100" r="65" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1.5" />
-        <path d="M 30,100 Q 65,40 100,100 T 170,100" stroke="rgba(255, 255, 255, 0.12)" stroke-width="1" stroke-dasharray="2 3" />
+        <circle cx="100" cy="100" r="85" stroke="rgba(6, 14, 29, 0.06)" stroke-width="1" stroke-dasharray="3 5" />
+        <circle cx="100" cy="100" r="65" stroke="rgba(6, 14, 29, 0.04)" stroke-width="1.5" />
+        <path d="M 30,100 Q 65,40 100,100 T 170,100" stroke="rgba(6, 14, 29, 0.08)" stroke-width="1" stroke-dasharray="2 3" />
       </svg>
       <!-- Original logo clean and untouched -->
-      <img src="/logo-transparent.png" class="intro-logo" alt="Easy Fit Logo" width="120" height="120" />
+      <img src="/logo-transparent.png" class="intro-logo" alt="Easy Fit Logo" width="220" height="220" />
     </div>
     
-    <div class="intro-loader">
-      <div class="intro-loader-bar"></div>
-    </div>
+    <!-- Subtitles under the logo -->
+    <div class="intro-subtitle">Alexandria’s 1st EMS Studio</div>
+    <div class="intro-arabic">تمرين أذكى في وقت أقل</div>
   </div>
 </div>
 
@@ -33,8 +33,8 @@
   };
 
   if (root.classList.contains('has-intro') && !reducedMotion && revealPanel) {
+    // Hold logo screen for a brief moment, then trigger opposite slide down / slide up
     setTimeout(() => {
-      // Coordinated opposite movement: panel goes down, hero goes up
       root.classList.add('intro-revealing');
       
       setTimeout(() => {
@@ -42,8 +42,8 @@
         root.classList.remove('has-intro', 'intro-revealing');
         root.classList.add('intro-done');
         revealPanel.remove();
-      }, 1300); // Panel transition matches global.css
-    }, 600); // Brief hold for the loader progress bar
+      }, 900); // 900ms transition time matching global.css slide duration
+    }, 500); // Hold for 500ms (Total time = 1.4s)
   } else {
     if (revealPanel) {
       revealPanel.remove();
