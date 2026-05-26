@@ -2,15 +2,22 @@
 ---
 <section class="hero-section" id="hero" aria-labelledby="hero-title">
   <div class="container hero-grid">
-    <!-- Visual side: Premium, minimal typography and raw untouched logo (Left on Desktop, Right in RTL) -->
+    <!-- Visual side: Premium, minimal typographic timer and raw logo connected by a dotted wave -->
     <div class="hero-visual">
       <div class="hero-editorial-panel">
-        <!-- Clean, elegant timer display -->
+        <!-- Subtle dotted wave motif flowing from logo area to timer -->
+        <svg class="hero-pulse-wave" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="150" cy="150" r="130" stroke="rgba(6, 14, 29, 0.06)" stroke-width="1" stroke-dasharray="4 6" />
+          <circle cx="150" cy="150" r="100" stroke="rgba(6, 14, 29, 0.04)" stroke-width="1.5" />
+          <path d="M 60,150 C 120,70 180,230 240,150" stroke="var(--teal)" stroke-opacity="0.25" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round" />
+        </svg>
+
+        <!-- Timer Display -->
         <div class="hero-timer-display">20:00</div>
         
-        <!-- Original logo clean, official, and untouched (no circle wrapper, no glowing shapes) -->
+        <!-- Original logo clean, official, and untouched (no circle wrapping or fake glow) -->
         <div class="hero-logo-frame">
-          <img src="/logo-transparent.png" class="hero-logo-img" alt="شعار إيزي فيت الإسكندرية" width="140" height="140" />
+          <img src="/logo-transparent.png" class="hero-logo-img" alt="شعار Easy Fit" width="140" height="140" />
         </div>
       </div>
     </div>
