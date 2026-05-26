@@ -464,12 +464,12 @@ p {
     display: flex !important;
     justify-content: center;
     margin-inline: auto;
-    margin-bottom: 18px;
+    margin-bottom: 22px;
   }
 
   .hero-logo-stamp img {
-    width: 64px;
-    height: 64px;
+    width: clamp(112px, 32vw, 140px);
+    height: clamp(112px, 32vw, 140px);
     object-fit: contain;
   }
 }
