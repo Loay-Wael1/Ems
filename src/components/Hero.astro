@@ -1,8 +1,26 @@
 ---
 ---
 <section class="hero-section" id="hero" aria-labelledby="hero-title">
-  <div class="container hero-grid">
-    <!-- Text content side (on the RIGHT for RTL reading flow) -->
+  <!-- Background Image Layer (Optimized for above-the-fold loading) -->
+  <picture class="hero-bg">
+    <source srcset="/hero.webp" type="image/webp" />
+    <img 
+      src="/hero.webp" 
+      alt="" 
+      aria-hidden="true" 
+      width="1920" 
+      height="1080" 
+      loading="eager" 
+      fetchpriority="high" 
+      decoding="async" 
+    />
+  </picture>
+
+  <!-- Responsive readability gradient overlay -->
+  <div class="hero-overlay" aria-hidden="true"></div>
+
+  <!-- Content wrap (forces alignment to right) -->
+  <div class="container hero-content-wrap">
     <div class="hero-content">
       <!-- Clean untouched logo stamp above copy -->
       <div class="hero-logo-stamp">
@@ -21,7 +39,7 @@
         في Easy Fit، جلسة EMS بتتظبط حسب هدفك — خسارة دهون، شد جسم، زيادة عضلات، أو رجوع محسوب للتمرين.
       </p>
 
-      <!-- Support Badge -->
+      <!-- Support claim badge -->
       <div class="hero-support-badge en">20 Min EMS = 2 Hours in Gym</div>
 
       <div class="hero-actions">
@@ -31,26 +49,6 @@
         <a class="btn btn-secondary" href="#testimonials">
           شوف الناس قالت إيه
         </a>
-      </div>
-    </div>
-
-    <!-- Visual side: Eager loaded editorial image card (on the LEFT for RTL reading flow) -->
-    <div class="hero-visual">
-      <div class="hero-image-wrapper">
-        <picture>
-          <source srcset="/hero.webp" type="image/webp" />
-          <img 
-            src="/hero.webp" 
-            alt="جلسة تمرين EMS في ستوديو Easy Fit Alexandria" 
-            class="hero-image-tag" 
-            width="420" 
-            height="525" 
-            loading="eager" 
-            fetchpriority="high" 
-            decoding="async" 
-          />
-        </picture>
-        <div class="hero-image-badge">EMS Session</div>
       </div>
     </div>
   </div>
@@ -75,6 +73,36 @@
 </section>
 
 <style>
+  .hero-eyebrow {
+    color: var(--muted);
+    font-family: var(--font-en);
+    font-weight: 600;
+    font-size: 0.88rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .hero-title {
+    font-size: clamp(2.6rem, 5vw, 4rem);
+    line-height: 1.25;
+    margin-bottom: 28px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .hero-title span {
+    display: block;
+  }
+
+  .hero-description {
+    font-size: 1.12rem;
+    line-height: 1.85;
+    margin-bottom: 40px;
+    color: var(--muted);
+    max-width: 620px;
+  }
+
   .hero-support-badge {
     display: inline-block;
     font-family: var(--font-en);
@@ -84,5 +112,11 @@
     letter-spacing: 0.5px;
     margin-bottom: 24px;
     text-transform: uppercase;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
   }
 </style>
