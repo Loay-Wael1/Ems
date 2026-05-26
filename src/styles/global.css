@@ -456,15 +456,22 @@ p {
 }
 
 .hero-logo-stamp {
-  margin-bottom: 24px;
-  display: flex;
-  justify-content: flex-start;
+  display: none !important;
 }
 
-.hero-logo-stamp img {
-  width: 48px;
-  height: 48px;
-  object-fit: contain;
+@media (max-width: 760px) {
+  .hero-logo-stamp {
+    display: flex !important;
+    justify-content: center;
+    margin-inline: auto;
+    margin-bottom: 18px;
+  }
+
+  .hero-logo-stamp img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+  }
 }
 
 /* Proof Section (Claim Band) */
