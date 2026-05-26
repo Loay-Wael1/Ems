@@ -4,6 +4,11 @@
   <div class="container hero-grid">
     <!-- Text content side (on the RIGHT for RTL reading flow) -->
     <div class="hero-content">
+      <!-- Clean untouched logo stamp above copy -->
+      <div class="hero-logo-stamp">
+        <img src="/logo-transparent.png" alt="شعار Easy Fit" width="48" height="48" />
+      </div>
+
       <p class="hero-eyebrow">Alexandria’s 1st EMS Studio</p>
       
       <h1 id="hero-title" class="hero-title">
@@ -16,6 +21,9 @@
         في Easy Fit، جلسة EMS بتتظبط حسب هدفك — خسارة دهون، شد جسم، زيادة عضلات، أو رجوع محسوب للتمرين.
       </p>
 
+      <!-- Support Badge -->
+      <div class="hero-support-badge en">20 Min EMS = 2 Hours in Gym</div>
+
       <div class="hero-actions">
         <a class="btn btn-primary" href="https://wa.me/201124799978" target="_blank" rel="noopener">
           احجز جلستك التجريبية
@@ -26,23 +34,23 @@
       </div>
     </div>
 
-    <!-- Visual side: Premium, minimal visual and raw logo (on the LEFT for RTL reading flow) -->
+    <!-- Visual side: Eager loaded editorial image card (on the LEFT for RTL reading flow) -->
     <div class="hero-visual">
-      <div class="hero-editorial-panel">
-        <!-- Static dotted wave motif (no spin loops) -->
-        <svg class="hero-pulse-wave" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="150" cy="150" r="130" stroke="rgba(6, 14, 29, 0.05)" stroke-width="1" stroke-dasharray="4 6" />
-          <circle cx="150" cy="150" r="100" stroke="rgba(6, 14, 29, 0.03)" stroke-width="1.5" />
-          <path d="M 60,150 C 120,70 180,230 240,150" stroke="var(--teal)" stroke-opacity="0.15" stroke-width="1.5" stroke-dasharray="2 3" stroke-linecap="round" />
-        </svg>
-
-        <!-- Original logo clean, official, and untouched (no circle wrapping or fake glow) -->
-        <div class="hero-logo-frame">
-          <img src="/logo-transparent.png" class="hero-logo-img" alt="شعار Easy Fit" width="140" height="140" />
-        </div>
-
-        <!-- Elegant supporting badge (replaces the repetitive timer) -->
-        <div class="hero-badge">جلسة EMS مركزة</div>
+      <div class="hero-image-wrapper">
+        <picture>
+          <source srcset="/hero.webp" type="image/webp" />
+          <img 
+            src="/hero.webp" 
+            alt="جلسة تمرين EMS في ستوديو Easy Fit Alexandria" 
+            class="hero-image-tag" 
+            width="420" 
+            height="525" 
+            loading="eager" 
+            fetchpriority="high" 
+            decoding="async" 
+          />
+        </picture>
+        <div class="hero-image-badge">EMS Session</div>
       </div>
     </div>
   </div>
@@ -67,17 +75,14 @@
 </section>
 
 <style>
-  .hero-badge {
+  .hero-support-badge {
     display: inline-block;
-    font-family: var(--font-ar);
-    font-size: 0.95rem;
-    color: var(--ink);
-    background: var(--surface-2);
-    border: 1px solid var(--border-strong);
-    padding: 6px 20px;
-    border-radius: 50px;
-    font-weight: 500;
-    margin-top: 10px;
-    z-index: 2;
+    font-family: var(--font-en);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--teal);
+    letter-spacing: 0.5px;
+    margin-bottom: 24px;
+    text-transform: uppercase;
   }
 </style>

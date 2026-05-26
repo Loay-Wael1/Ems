@@ -381,51 +381,57 @@ p {
   align-items: center;
 }
 
-.hero-editorial-panel {
+.hero-image-wrapper {
   position: relative;
   width: 100%;
-  max-width: 380px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 36px;
+  max-width: 420px;
+  margin-inline: auto;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-strong);
+  background: var(--surface-2);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(6, 14, 29, 0.02);
 }
 
-.hero-timer-display {
-  font-family: var(--font-en);
-  font-size: clamp(5rem, 8vw, 7rem);
-  font-weight: 300;
-  line-height: 1;
-  color: var(--ink);
-  letter-spacing: -2px;
-}
-
-.hero-logo-frame {
-  width: 140px;
-  height: 140px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-
-.hero-logo-img {
+.hero-image-tag {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  z-index: 2;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
 }
 
-/* Subtle dotted pulse wave surrounding / connecting hero visual elements */
-.hero-pulse-wave {
+.hero-image-wrapper:hover .hero-image-tag {
+  transform: scale(1.02);
+}
+
+.hero-image-badge {
   position: absolute;
-  width: 260px;
-  height: 260px;
-  stroke: rgba(6, 14, 29, 0.08);
-  fill: none;
-  stroke-dasharray: 4 6;
-  z-index: 1;
-  pointer-events: none;
+  bottom: 20px;
+  right: 20px;
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--font-en);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 50px;
+  letter-spacing: 0.5px;
+  z-index: 3;
+  text-transform: uppercase;
+}
+
+.hero-logo-stamp {
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.hero-logo-stamp img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
 }
 
 /* Proof Section (Claim Band) */
