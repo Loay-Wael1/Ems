@@ -36,7 +36,37 @@ const {
     <!-- Fonts Preconnect & Load -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    
+    <!-- JSON-LD Structured Data for Local Business -->
+    <script type="application/ld+json" is:inline>
+      {
+        "@context": "https://schema.org",
+        "@type": "HealthAndBeautyBusiness",
+        "name": "Easy Fit Alexandria",
+        "image": "/logo.jpg",
+        "telephone": "+201124799978",
+        "priceRange": "$$",
+        "address": [
+          {
+            "@type": "PostalAddress",
+            "addressLocality": "Alexandria",
+            "addressCountry": "EG",
+            "streetAddress": "Smouha: أبراج دلتا لايف الإداري، شارع مستشفى المدينة للمرأة - خلف مول متاجر"
+          },
+          {
+            "@type": "PostalAddress",
+            "addressLocality": "Alexandria",
+            "addressCountry": "EG",
+            "streetAddress": "Ganaklis: أبراج الزراعيين، شارع أبو قير - أمام السلاب"
+          }
+        ],
+        "sameAs": [
+          "https://www.instagram.com/ems.easyfit.alexandria/",
+          "https://www.facebook.com/ems.easyfit.alexandria"
+        ]
+      }
+    </script>
     
     <!-- Pre-render theme/intro script to prevent Flash of Unwanted Content (FOUC) -->
     <script is:inline>

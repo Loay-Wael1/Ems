@@ -382,15 +382,7 @@ p {
   transform: scale(1);
 }
 
-@keyframes pulseSpin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
 
-@keyframes loadProgress {
-  0% { width: 0; }
-  100% { width: 100%; }
-}
 
 /* Hero Section (Clean off-white editorial layout) */
 .hero-section {
