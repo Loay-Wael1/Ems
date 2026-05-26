@@ -186,18 +186,27 @@ p {
   display: flex;
   flex-direction: column;
   line-height: 1.15;
+  direction: ltr;
+  text-align: left;
+  align-items: flex-start;
 }
 
 .brand-name {
   font-family: var(--font-en);
   font-weight: 700;
   font-size: 1.1rem;
+  direction: ltr;
+  text-align: left;
+  unicode-bidi: isolate;
 }
 
 .brand-sub {
   font-family: var(--font-en);
   font-size: 0.75rem;
   color: var(--muted);
+  direction: ltr;
+  text-align: left;
+  unicode-bidi: isolate;
 }
 
 .nav-links {
