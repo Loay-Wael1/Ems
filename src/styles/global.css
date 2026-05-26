@@ -372,7 +372,15 @@ p {
 .hero-content {
   text-align: right;
   max-width: 620px;
-  margin-left: auto;
+  margin-inline-start: 0;
+  margin-inline-end: auto;
+}
+
+@media (min-width: 981px) {
+  .hero-content {
+    margin-inline-start: clamp(36px, 5vw, 84px);
+    margin-inline-end: auto;
+  }
 }
 
 .hero-logo-stamp {
@@ -1036,6 +1044,7 @@ p {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-inline: auto;
   }
   .hero-description {
     margin-inline: auto;
