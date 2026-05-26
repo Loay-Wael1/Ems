@@ -1,0 +1,56 @@
+---
+---
+<div class="intro-panel" id="pageReveal" aria-hidden="true">
+  <div class="intro-content">
+    <div class="intro-logo-frame">
+      <!-- Pulsing dotted wave inspired by the logo -->
+      <svg class="intro-pulse-wave" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="100" r="90" stroke="var(--teal)" stroke-width="1" stroke-opacity="0.3" stroke-dasharray="4 6" />
+        <circle cx="100" cy="100" r="70" stroke="var(--mint)" stroke-width="1.5" stroke-opacity="0.5" />
+        <!-- Dotted sinus wave path across center -->
+        <path d="M 25,100 C 65,30 85,170 125,100 C 145,60 165,100 175,100" stroke="var(--teal)" stroke-width="2" stroke-dasharray="3 4" stroke-linecap="round" />
+      </svg>
+      <!-- Logo remains clean, untouched, and uncropped -->
+      <img src="/logo-transparent.png" class="intro-logo" alt="Easy Fit Logo" width="120" height="120" />
+    </div>
+    
+    <div class="intro-loader">
+      <div class="intro-loader-bar"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const root = document.documentElement;
+  const revealPanel = document.getElementById('pageReveal');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const markIntroSeen = () => {
+    try {
+      sessionStorage.setItem('easyfitIntroSeen', 'true');
+    } catch (e) {
+      // Privacy modes might restrict storage
+    }
+  };
+
+  if (root.classList.contains('has-intro') && !reducedMotion && revealPanel) {
+    // Stage 1: Wait for loading bar
+    setTimeout(() => {
+      // Stage 2: Slide down panel & Slide up hero content
+      root.classList.add('intro-revealing');
+      
+      setTimeout(() => {
+        // Stage 3: Animation complete, clear layout classes
+        markIntroSeen();
+        root.classList.remove('has-intro', 'intro-revealing');
+        root.classList.add('intro-done');
+        revealPanel.remove();
+      }, 1300); // 1.3s panel slide-down duration
+    }, 600); // Wait 600ms to show logo & load bar
+  } else {
+    if (revealPanel) {
+      revealPanel.remove();
+    }
+    root.classList.add('intro-done');
+  }
+</script>

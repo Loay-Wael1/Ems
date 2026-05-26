@@ -7,3 +7,4 @@ server.err.log
 qa-*.png
 Thumbs.db
 .DS_Store
+.astro/

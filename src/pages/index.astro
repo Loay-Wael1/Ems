@@ -1,0 +1,35 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import IntroReveal from '../components/IntroReveal.astro';
+import Hero from '../components/Hero.astro';
+import ObjectionSection from '../components/ObjectionSection.astro';
+import WhatIsEMS from '../components/WhatIsEMS.astro';
+import TwentyMinutes from '../components/TwentyMinutes.astro';
+import Benefits from '../components/Benefits.astro';
+import SessionSteps from '../components/SessionSteps.astro';
+import Testimonials from '../components/Testimonials.astro';
+import Locations from '../components/Locations.astro';
+import FinalCTA from '../components/FinalCTA.astro';
+---
+
+<Layout>
+  <!-- Full Screen Intro Reveal Activation -->
+  <IntroReveal />
+
+  <!-- Sticky Navigation Header -->
+  <Header />
+
+  <!-- Main Story-Driven Content -->
+  <main id="main-content">
+    <Hero />
+    <ObjectionSection />
+    <WhatIsEMS />
+    <TwentyMinutes />
+    <Benefits />
+    <SessionSteps />
+    <Testimonials />
+    <Locations />
+    <FinalCTA />
+  </main>
+</Layout>
