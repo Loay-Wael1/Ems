@@ -313,14 +313,14 @@ p {
 
 /* Opposite Slide Up Coordination */
 .has-intro .page-shell {
-  transform: translate3d(0, 180px, 0);
+  transform: translate3d(0, 60vh, 0);
   opacity: 0;
   will-change: transform, opacity;
 }
 
 @media (max-width: 760px) {
   .has-intro .page-shell {
-    transform: translate3d(0, 130px, 0);
+    transform: translate3d(0, 55vh, 0);
   }
 }
 
