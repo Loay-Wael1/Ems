@@ -232,6 +232,10 @@ p {
   padding: 8px 18px;
 }
 
+.page-shell {
+  min-height: 100svh;
+}
+
 /* Intro Reveal Animation (Clean navy panel) */
 .intro-panel {
   display: none;
@@ -247,7 +251,7 @@ p {
   align-items: center;
   background: var(--white);
   transform: translate3d(0, 0, 0);
-  transition: transform 1450ms cubic-bezier(0.76, 0, 0.24, 1);
+  transition: transform 1500ms cubic-bezier(0.76, 0, 0.24, 1);
   will-change: transform;
 }
 
@@ -308,24 +312,30 @@ p {
 }
 
 /* Opposite Slide Up Coordination */
-.has-intro main {
-  transform: translate3d(0, 170px, 0);
+.has-intro .page-shell {
+  transform: translate3d(0, 180px, 0);
   opacity: 0;
   will-change: transform, opacity;
 }
 
 @media (max-width: 760px) {
-  .has-intro main {
-    transform: translate3d(0, 125px, 0);
+  .has-intro .page-shell {
+    transform: translate3d(0, 130px, 0);
   }
 }
 
-.intro-revealing main {
+.intro-revealing .page-shell {
   transform: translate3d(0, 0, 0);
   opacity: 1;
   transition:
-    transform 1450ms cubic-bezier(0.16, 1, 0.3, 1) 80ms,
+    transform 1500ms cubic-bezier(0.16, 1, 0.3, 1) 80ms,
     opacity 900ms ease 120ms;
+}
+
+.intro-done .page-shell {
+  transform: none;
+  opacity: 1;
+  will-change: auto;
 }
 
 /* Staggered Hero Inner Elements Reveal */
@@ -337,7 +347,7 @@ p {
 .has-intro .hero-support-badge.reveal-on-scroll,
 .has-intro .hero-badge.reveal-on-scroll {
   opacity: 0;
-  transform: translate3d(0, 34px, 0);
+  transform: translate3d(0, 28px, 0);
 }
 
 .intro-revealing .hero-logo-stamp.reveal-on-scroll,
@@ -350,7 +360,7 @@ p {
   opacity: 1;
   transform: translate3d(0, 0, 0);
   transition:
-    transform 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 850ms cubic-bezier(0.22, 1, 0.36, 1),
     opacity 700ms ease;
 }
 
@@ -1211,8 +1221,9 @@ p {
   .intro-panel {
     display: none !important;
   }
-  .has-intro main,
-  .intro-revealing main,
+  .has-intro .page-shell,
+  .intro-revealing .page-shell,
+  .intro-done .page-shell,
   .has-intro .hero-logo-stamp,
   .has-intro .hero-eyebrow,
   .has-intro .hero-title,
