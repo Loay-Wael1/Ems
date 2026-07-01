@@ -1,129 +1,55 @@
 ---
+const whatsappUrl = 'https://wa.me/201124799978';
+const impactBadges = ['20 Min Session', 'Coach Guided', 'Two Alexandria Studios', 'EMS Technology'];
 ---
-<section class="hero-section" id="hero" aria-labelledby="hero-title">
-  <!-- Background Image Layer (Optimized for above-the-fold loading) -->
-  <picture class="hero-bg">
-    <source srcset="/hero.webp" type="image/webp" />
-    <img 
-      src="/hero.webp" 
-      alt="" 
-      aria-hidden="true" 
-      width="1920" 
-      height="1080" 
-      loading="eager" 
-      fetchpriority="high" 
-      decoding="async" 
-    />
-  </picture>
 
-  <!-- Responsive readability gradient overlay -->
-  <div class="hero-overlay" aria-hidden="true"></div>
+<section class="hero-section" aria-labelledby="hero-title">
+  <div class="hero-media" aria-hidden="true">
+    <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="/hero-poster.webp">
+      <source src="/hero-video.mp4" type="video/mp4" />
+    </video>
+    <div class="hero-video-overlay"></div>
+    <div class="hero-glow hero-glow-cyan"></div>
+    <div class="hero-glow hero-glow-pink"></div>
+  </div>
 
-  <!-- Content wrap (forces alignment to right) -->
-  <div class="container hero-content-wrap">
-    <div class="hero-content">
-      <!-- Clean untouched logo stamp above copy -->
-      <div class="hero-logo-stamp reveal-on-scroll">
-        <img src="/logo-transparent.png" alt="شعار Easy Fit" width="48" height="48" />
-      </div>
-
-      <p class="hero-eyebrow reveal-on-scroll reveal-delay-1">Alexandria’s 1st EMS Studio</p>
-      
-      <h1 id="hero-title" class="hero-title reveal-on-scroll reveal-delay-2">
-        <span>مش محتاج تتمرن أكتر.</span>
-        <span>محتاج تتمرن صح.</span>
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow hero-eyebrow reveal-on-scroll">Alexandria's 1st EMS Studio</p>
+      <h1 id="hero-title" class="hero-title reveal-on-scroll reveal-delay-1">
+        Train smarter. <span>Transform faster.</span>
       </h1>
-      
-      <p class="hero-description reveal-on-scroll reveal-delay-3">
-        مش كل الناس عندها وقت للجيم كل يوم، ومش كل جسم محتاج نفس نوع التمرين. 
-        في Easy Fit، جلسة EMS بتتظبط حسب هدفك — خسارة دهون، شد جسم، زيادة عضلات، أو رجوع محسوب للتمرين.
+      <p class="hero-description reveal-on-scroll reveal-delay-2">
+        20-minute EMS sessions designed to activate deep muscle fibers, save time, and help you
+        build a stronger, leaner body with coach-guided intensity.
       </p>
 
-      <!-- Support claim badge -->
-      <div class="hero-support-badge en reveal-on-scroll reveal-delay-4">20 Min EMS = 2 Hours in Gym</div>
+      <div class="hero-actions reveal-on-scroll reveal-delay-3">
+        <a class="btn btn-primary btn-large" href={whatsappUrl} target="_blank" rel="noreferrer">
+          Book Your Trial Session
+        </a>
+        <a class="btn btn-ghost btn-large" href="#results">See Transformations</a>
+      </div>
 
-      <div class="hero-actions reveal-on-scroll reveal-delay-5">
-        <a class="btn btn-primary" href="https://wa.me/201097710544" target="_blank" rel="noopener noreferrer">
-          احجز جلستك التجريبية
-        </a>
-        <a class="btn btn-secondary" href="#testimonials">
-          شوف الناس قالت إيه
-        </a>
+      <ul class="hero-badges reveal-on-scroll reveal-delay-4" aria-label="Easy Fit highlights">
+        {impactBadges.map((badge) => <li>{badge}</li>)}
+      </ul>
+    </div>
+
+    <div class="hero-visual reveal-on-scroll reveal-delay-3" aria-label="20 minute full-body EMS workout">
+      <div class="pulse-card">
+        <div class="pulse-card-top">
+          <span>EMS ACTIVE</span>
+          <span class="live-dot">LIVE</span>
+        </div>
+        <div class="timer-orb">
+          <span class="timer-value">20</span>
+          <span class="timer-unit">min</span>
+        </div>
+        <p>Full-body EMS workout</p>
+        <div class="pulse-line" aria-hidden="true"></div>
+        <span class="micro-copy">Deep activation. Less wasted time.</span>
       </div>
     </div>
   </div>
 </section>
-
-<!-- Proof Claim Band -->
-<section class="claim-band" aria-label="ميزات ستوديو Easy Fit">
-  <div class="container claim-grid">
-    <div class="claim-item reveal-on-scroll">
-      <div class="claim-title">أول EMS Studio في إسكندرية</div>
-      <div class="claim-desc">أول ستوديو متخصص بمعدات معتمدة</div>
-    </div>
-    <div class="claim-item reveal-on-scroll reveal-delay-1">
-      <div class="claim-title">مدربين وخبراء تغذية</div>
-      <div class="claim-desc">متابعة مخصصة ومستمرة لتحقيق أهدافك</div>
-    </div>
-    <div class="claim-item reveal-on-scroll reveal-delay-2">
-      <div class="claim-title">فرعين: سموحة وجناكليس</div>
-      <div class="claim-desc">اختر الفرع الأقرب وابدأ التمرين بسهولة</div>
-    </div>
-  </div>
-</section>
-
-<style>
-  .hero-eyebrow {
-    color: var(--muted);
-    font-family: var(--font-en);
-    font-weight: 600;
-    font-size: 0.88rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 24px;
-  }
-
-  .hero-title {
-    font-size: clamp(2.6rem, 5vw, 4rem);
-    line-height: 1.25;
-    margin-bottom: 28px;
-    font-weight: 700;
-    color: var(--ink);
-  }
-
-  .hero-title span {
-    display: block;
-  }
-
-  .hero-description {
-    font-size: 1.12rem;
-    line-height: 1.85;
-    margin-bottom: 40px;
-    color: var(--muted);
-    max-width: 620px;
-  }
-
-  .hero-support-badge {
-    display: inline-block;
-    font-family: var(--font-en);
-    font-size: 0.82rem;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    margin-bottom: 28px;
-    text-transform: uppercase;
-    background: rgba(255, 255, 255, 0.82);
-    border: 1px solid rgba(20, 184, 166, 0.26);
-    color: #0e1d35;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 6px 14px;
-    border-radius: 50px;
-    box-shadow: 0 2px 10px rgba(6, 14, 29, 0.03);
-  }
-
-  .hero-actions {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-</style>

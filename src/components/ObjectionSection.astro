@@ -1,50 +1,47 @@
 ---
+const proofCards = [
+  {
+    title: 'Deep muscle activation',
+    text: 'EMS adds controlled impulses while you move, helping more muscle groups join the session with focused effort.'
+  },
+  {
+    title: 'Coach-controlled intensity',
+    text: 'Your coach adjusts the intensity zone by zone, so the session feels personal instead of random.'
+  },
+  {
+    title: 'Full-body session in less time',
+    text: 'The workout is short, structured, and designed to get the whole body working without wasting time.'
+  },
+  {
+    title: 'Built around your goal',
+    text: 'Fat loss support, toning, strength, or returning to training. The plan changes with your body.'
+  }
+];
 ---
-<section class="section-padding objection-section" id="objection">
-  <div class="container asym-grid-2">
-    <!-- Proof points (Left on desktop / Right in RTL) -->
-    <div class="proof-points">
-      <div class="proof-point-card reveal-on-scroll">
-        <div class="point-content">
-          <h3 class="point-title">عضلاتك بتشتغل بعمق</h3>
-          <p class="point-text">
-            النبضات بتوصل لأنسجة وألياف عضلية عميقة، وبتساعد في تنشيط مجموعة كبيرة من عضلات الجسم في نفس الجلسة.
-          </p>
-        </div>
-        <span class="point-number">01</span>
-      </div>
 
-      <div class="proof-point-card reveal-on-scroll reveal-delay-1">
-        <div class="point-content">
-          <h3 class="point-title">الجلسة قصيرة بس مركزة</h3>
-          <p class="point-text">
-            ٢٠ دقيقة من التمارين الموجهة مع الكوتش بتختصر وقتك وتديك نفس المجهود البدني لجلسة طويلة.
-          </p>
-        </div>
-        <span class="point-number">02</span>
-      </div>
-
-      <div class="proof-point-card reveal-on-scroll reveal-delay-2">
-        <div class="point-content">
-          <h3 class="point-title">الفرق بيبان مع الاستمرار</h3>
-          <p class="point-text">
-            النتيجة بتيجي مع الالتزام، التغذية المظبوطة، والمتابعة الأسبوعية لشدة التدريب مع الكوتش.
-          </p>
-        </div>
-        <span class="point-number">03</span>
-      </div>
+<section class="section-padding proof-section" id="why-ems" aria-labelledby="proof-title">
+  <div class="container split-layout">
+    <div class="section-head sticky-head reveal-on-scroll">
+      <p class="eyebrow">WHY EMS WORKS</p>
+      <h2 id="proof-title" class="section-title">
+        Why EMS feels different from a regular workout.
+      </h2>
+      <p class="section-intro">
+        It is not about doing more exercises. It is about making every minute more targeted,
+        more guided, and more connected to your goal.
+      </p>
     </div>
 
-    <!-- Main objection copy -->
-    <div class="objection-copy">
-      <p class="section-eyebrow reveal-on-scroll">التجربة الحقيقية</p>
-      <h2 class="section-title reveal-on-scroll reveal-delay-1">
-        أكتر سؤال بنسمعه:<br />
-        هو EMS فعلًا بيجيب نتيجة؟
-      </h2>
-      <p class="section-intro-text reveal-on-scroll reveal-delay-2">
-        إحنا ممكن نجاوب… بس الأفضل تسمع من ناس جرّبت. النتيجة مش وعد بيتقال على الشاشة. النتيجة تجربة، التزام، وتمرين محسوب.
-      </p>
+    <div class="proof-grid">
+      {
+        proofCards.map((card, index) => (
+          <article class="proof-card reveal-on-scroll" style={`--card-index:${index}`}>
+            <span class="card-number">{String(index + 1).padStart(2, '0')}</span>
+            <h3>{card.title}</h3>
+            <p>{card.text}</p>
+          </article>
+        ))
+      }
     </div>
   </div>
 </section>

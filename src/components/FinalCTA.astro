@@ -1,33 +1,40 @@
 ---
+const whatsappUrl = 'https://wa.me/201124799978';
+const telUrl = 'tel:+201124799978';
+const instagramUrl = 'https://instagram.com/ems.easyfit.alexandria?igsh=MWV1NDlkcG1wc3dnYw==';
+const facebookUrl = 'https://www.facebook.com/ems.easyfit.alexandria/?ref=NONE_xav_ig_profile_page_web#';
 ---
-<!-- Final Conversion Banner -->
-<section class="section-padding final-cta-section" id="booking">
-  <div class="container">
-    <div class="final-cta-shell reveal-on-scroll">
-      <h2 class="final-cta-title">جرّبها مرة… واحكم بنفسك.</h2>
-      <p class="final-cta-desc">
-        ابدأ بجلسة تجريبية شخصية مع كوتش خاص، واسأله عن أنسب طريقة تمرين وتغذية لجسمك وهدفك الحالي.
-      </p>
-      <a class="btn btn-primary btn-lg" href="https://wa.me/201097710544" target="_blank" rel="noopener noreferrer">
-        احجز جلستك على واتساب
-      </a>
+
+<section class="final-cta-section" aria-labelledby="final-cta-title">
+  <div class="container final-cta-shell reveal-on-scroll">
+    <p class="eyebrow">READY WHEN YOU ARE</p>
+    <h2 id="final-cta-title">Ready to try EMS?</h2>
+    <p>
+      Book your trial session and let the coach guide you through the right plan for your body.
+    </p>
+    <div class="final-actions">
+      <a class="btn btn-primary btn-large" href={whatsappUrl} target="_blank" rel="noreferrer">WhatsApp</a>
+      <a class="btn btn-ghost btn-large" href={telUrl}>Call Now</a>
+      <a class="btn btn-ghost btn-large" href={instagramUrl} target="_blank" rel="noreferrer">Instagram</a>
     </div>
   </div>
 </section>
 
-<!-- Footer -->
 <footer class="site-footer">
   <div class="container footer-container">
     <div class="footer-brand">
-      <span>© 2026 Easy Fit Alexandria</span>
+      <img src="/logo-transparent.png" alt="" width="42" height="42" loading="lazy" />
+      <div>
+        <strong>Easy Fit Alexandria</strong>
+        <span>Alexandria's 1st EMS Studio</span>
+      </div>
     </div>
-    
-    <ul class="footer-contact">
-      <li>
-        <a href="https://wa.me/201097710544" target="_blank" rel="noopener noreferrer">
-          WhatsApp: 01097710544
-        </a>
-      </li>
+
+    <ul class="footer-links" aria-label="Contact links">
+      <li><a href="tel:+201124799978">011 24799978</a></li>
+      <li><a href={whatsappUrl} target="_blank" rel="noreferrer">WhatsApp</a></li>
+      <li><a href={instagramUrl} target="_blank" rel="noreferrer">Instagram</a></li>
+      <li><a href={facebookUrl} target="_blank" rel="noreferrer">Facebook</a></li>
     </ul>
   </div>
 </footer>

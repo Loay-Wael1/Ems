@@ -1,23 +1,34 @@
 ---
+const whatsappUrl = 'https://wa.me/201124799978';
+const points = ['Focused session', 'Coach guidance', 'Measured intensity', 'Clear goal'];
 ---
-<section class="section-padding twenty-minutes-section" id="difference">
-  <div class="container asym-grid-2">
-    <!-- Visual side: Minimal typography timer -->
-    <div class="timer-editorial reveal-on-scroll">
-      <span class="timer-tag">Session Duration</span>
-      <div class="timer-display">20:00</div>
-      <span class="timer-sub">جلسة تمرين كاملة ومركزة</span>
+
+<section class="section-padding twenty-section" aria-labelledby="twenty-title">
+  <div class="container twenty-grid">
+    <div class="twenty-visual reveal-on-scroll">
+      <div class="neon-ring" aria-hidden="true"></div>
+      <div class="timer-display">
+        <span>20:00</span>
+        <small>full-body activation</small>
+      </div>
     </div>
 
-    <!-- Copy side -->
-    <div class="objection-copy">
-      <p class="section-eyebrow reveal-on-scroll reveal-delay-1">إدارة الوقت</p>
-      <h2 class="section-title reveal-on-scroll reveal-delay-2">٢٠ دقيقة مش وقت قليل… لو التمرين محسوب.</h2>
-      <p class="section-intro-text reveal-on-scroll reveal-delay-3">
-        الفكرة مش إنك تفضل وقت أطول في الجيم وتكرر حركات عشوائية. الفكرة إن الجلسة تبقى مركزة، العضلات شغالة بالكامل، والكوتش متابع كل حركة وكل مستوى شدة.
-        <br /><br />
-        عشان كده EMS مناسب للناس اللي عايزة تتمرن بذكاء ومن غير ما تضيع وقتها.
+    <div class="twenty-copy reveal-on-scroll reveal-delay-1">
+      <p class="eyebrow">THE 20-MINUTE DIFFERENCE</p>
+      <h2 id="twenty-title" class="section-title">Less wasted time. More focused training.</h2>
+      <p class="section-intro">
+        A short session can still feel intense when the workout, EMS suit, and coaching are all
+        calibrated around your body. The result is a smarter routine you can actually stay consistent with.
       </p>
+
+      <div class="claim-pill">20 Min EMS = 2 Hours in Gym</div>
+      <ul class="mini-points" aria-label="Session features">
+        {points.map((point) => <li>{point}</li>)}
+      </ul>
+
+      <a class="btn btn-primary" href={whatsappUrl} target="_blank" rel="noreferrer">
+        Book the 20-Min Trial
+      </a>
     </div>
   </div>
 </section>

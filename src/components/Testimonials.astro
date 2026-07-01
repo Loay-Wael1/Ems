@@ -1,155 +1,213 @@
 ---
+import reviewOne from '../../clint review/Screenshot 2026-07-02 010221.png';
+import reviewTwo from '../../clint review/Screenshot 2026-07-02 010228.png';
+import reviewThree from '../../clint review/Screenshot 2026-07-02 010235.png';
+import reviewFour from '../../clint review/Screenshot 2026-07-02 010240.png';
+import reviewFive from '../../clint review/Screenshot 2026-07-02 010246.png';
+import reviewSix from '../../clint review/Screenshot 2026-07-02 010252.png';
+import reviewSeven from '../../clint review/Screenshot 2026-07-02 010257.png';
+import reviewEight from '../../clint review/Screenshot 2026-07-02 010317.png';
+import reviewNine from '../../clint review/Screenshot 2026-07-02 010324.png';
+import reviewTen from '../../clint review/Screenshot 2026-07-02 010333.png';
+import reviewEleven from '../../clint review/Screenshot 2026-07-02 010356.png';
+
+const whatsappUrl = 'https://wa.me/201124799978';
+
+const reviews = [
+  reviewOne,
+  reviewTwo,
+  reviewThree,
+  reviewFour,
+  reviewFive,
+  reviewSix,
+  reviewSeven,
+  reviewEight,
+  reviewNine,
+  reviewTen,
+  reviewEleven
+].map((image, index) => ({
+  image,
+  title: `Client review ${index + 1}`
+}));
+
+const reelVideos = [
+  { src: '/feedback/1.mp4', poster: '/posters/feedback-1.jpg', title: 'Easy Fit Experience' },
+  { src: '/feedback/2.mp4', poster: '/posters/feedback-2.jpg', title: 'Real Client Feedback' },
+  { src: '/feedback/3.mp4', poster: '/posters/feedback-3.jpg', title: 'EMS Session Review' }
+];
 ---
-<section class="section-padding testimonials-section" id="testimonials">
+
+<section class="section-padding reviews-section" id="testimonials" aria-labelledby="reviews-title">
   <div class="container">
-    <div class="section-head">
-      <p class="section-eyebrow reveal-on-scroll">آراء العملاء</p>
-      <h2 class="section-title reveal-on-scroll reveal-delay-1">اسمعها من الناس اللي جرّبت.</h2>
-      <p class="section-intro-text reveal-on-scroll reveal-delay-2">
-        إحنا ممكن نتكلم عن EMS كتير… بس كلام العملاء بعد التجربة هو اللي يفرق.
+    <div class="section-head center reveal-on-scroll">
+      <p class="eyebrow">CLIENT REVIEWS</p>
+      <h2 id="reviews-title" class="section-title">Real people. Real feedback.</h2>
+      <p class="section-intro">
+        See what Easy Fit clients shared after trying EMS sessions in Alexandria.
       </p>
     </div>
+  </div>
 
-    <!-- Testimonials Video Grid -->
-    <div class="video-grid" aria-label="آراء وتجارب عملاء إيزي فيت">
-      
-      <!-- Video 1 -->
-      <button class="video-card reveal-on-scroll" type="button" data-video="/feedback/1.mp4" data-title="تجربة عميل" aria-label="تشغيل فيديو تجربة عميل">
-        <div class="video-thumbnail-container">
-          <img src="/posters/feedback-1.jpg" class="video-poster-img" alt="تجربة عميل" loading="lazy" width="360" height="640" />
-          <div class="video-overlay">
-            <span class="video-play-btn">
-              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            </span>
-          </div>
-        </div>
-        <div class="video-card-info">
-          <h3 class="video-card-title">تجربة عميل</h3>
-          <span class="video-card-subtitle en">Feedback · 0:22</span>
-        </div>
-      </button>
-
-      <!-- Video 2 -->
-      <button class="video-card reveal-on-scroll reveal-delay-1" type="button" data-video="/feedback/2.mp4" data-title="بعد أول جلسة" aria-label="تشغيل فيديو بعد أول جلسة">
-        <div class="video-thumbnail-container">
-          <img src="/posters/feedback-2.jpg" class="video-poster-img" alt="بعد أول جلسة تمرين" loading="lazy" width="360" height="640" />
-          <div class="video-overlay">
-            <span class="video-play-btn">
-              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            </span>
-          </div>
-        </div>
-        <div class="video-card-info">
-          <h3 class="video-card-title">بعد أول جلسة</h3>
-          <span class="video-card-subtitle en">Feedback · 0:26</span>
-        </div>
-      </button>
-
-      <!-- Video 3 -->
-      <button class="video-card reveal-on-scroll reveal-delay-2" type="button" data-video="/feedback/3.mp4" data-title="إحساس التمرين" aria-label="تشغيل فيديو إحساس التمرين">
-        <div class="video-thumbnail-container">
-          <img src="/posters/feedback-3.jpg" class="video-poster-img" alt="إحساس التمرين العضلي" loading="lazy" width="360" height="640" />
-          <div class="video-overlay">
-            <span class="video-play-btn">
-              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            </span>
-          </div>
-        </div>
-        <div class="video-card-info">
-          <h3 class="video-card-title">إحساس التمرين</h3>
-          <span class="video-card-subtitle en">Feedback · 0:32</span>
-        </div>
-      </button>
-      
+  <div class="review-marquee reveal-on-scroll" aria-label="Client review screenshots">
+    <div class="review-marquee-track">
+      {
+        [...reviews, ...reviews].map((review, index) => (
+          <button
+            class="review-card"
+            type="button"
+            data-review-card
+            data-full={review.image.src}
+            data-title={review.title}
+            aria-label={`Open ${review.title}`}
+          >
+            <img
+              src={review.image.src}
+              width={review.image.width}
+              height={review.image.height}
+              alt={`${review.title} from Easy Fit Alexandria client`}
+              loading="lazy"
+              decoding="async"
+            />
+            <span>Tap to zoom</span>
+          </button>
+        ))
+      }
     </div>
   </div>
+
+  <div class="container review-cta-row reveal-on-scroll">
+    <p>Want to feel the difference yourself?</p>
+    <a class="btn btn-primary" href={whatsappUrl} target="_blank" rel="noreferrer">Book on WhatsApp</a>
+  </div>
+
+  <div class="container mini-reels reveal-on-scroll">
+    <div class="mini-reels-head">
+      <span>VIDEO FEEDBACK</span>
+      <p>Short client moments, opened only when you choose to play.</p>
+    </div>
+    <div class="mini-video-grid">
+      {
+        reelVideos.map((video, index) => (
+          <button
+            class="mini-video-card"
+            type="button"
+            data-video-card
+            data-src={video.src}
+            data-title={video.title}
+            aria-label={`Play ${video.title}`}
+          >
+            <img
+              src={video.poster}
+              width="720"
+              height="1280"
+              alt={`${video.title} poster`}
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="play-badge" aria-hidden="true">Play</span>
+            <strong>{video.title}</strong>
+          </button>
+        ))
+      }
+    </div>
+  </div>
+
+  <dialog class="review-modal" aria-label="Client review preview">
+    <div class="review-modal-card">
+      <button class="modal-close-button" type="button" data-review-close aria-label="Close review preview">
+        Close
+      </button>
+      <img id="review-modal-image" src="" alt="" />
+    </div>
+  </dialog>
+
+  <dialog class="video-modal" aria-label="Client feedback video">
+    <div class="video-modal-card">
+      <div class="modal-topbar">
+        <p id="video-modal-title">Client feedback</p>
+        <button class="modal-close-button" type="button" data-video-close aria-label="Close video">Close</button>
+      </div>
+      <video id="modal-video" class="modal-video" controls playsinline preload="metadata"></video>
+    </div>
+  </dialog>
 </section>
 
-<!-- Accessible Video Modal Dialog -->
-<dialog class="video-modal" id="videoModal" aria-label="مشاهدة فيديو تجارب العملاء">
-  <div class="modal-content-shell">
-    <div class="modal-header-top">
-      <button class="modal-close-button" type="button" aria-label="إغلاق الفيديو">×</button>
-      <span class="modal-title-text" id="modalTitle">Easy Fit Alexandria</span>
-    </div>
-    <div class="modal-player-container">
-      <video 
-        class="modal-video-tag" 
-        id="modalVideo" 
-        controls 
-        playsinline 
-        preload="metadata"
-      ></video>
-    </div>
-  </div>
-</dialog>
-
 <script>
-  const modal = document.getElementById('videoModal') as HTMLDialogElement | null;
-  const modalVideo = document.getElementById('modalVideo') as HTMLVideoElement | null;
-  const modalTitle = document.getElementById('modalTitle');
-  const closeButton = modal?.querySelector('.modal-close-button');
-  let lastFocusedElement: HTMLElement | null = null;
+  (() => {
+    const body = document.body;
 
-  const resetVideo = () => {
-    if (modalVideo) {
+    const reviewModal = document.querySelector('.review-modal');
+    const reviewImage = document.querySelector('#review-modal-image');
+    const reviewClose = document.querySelector('[data-review-close]');
+    let lastReviewTrigger = null;
+
+    const closeReview = () => {
+      if (!reviewModal || !reviewModal.open) return;
+      reviewModal.close();
+      body.classList.remove('modal-open');
+      if (reviewImage) {
+        reviewImage.removeAttribute('src');
+        reviewImage.removeAttribute('alt');
+      }
+      lastReviewTrigger?.focus();
+    };
+
+    document.querySelectorAll('[data-review-card]').forEach((card) => {
+      card.addEventListener('click', () => {
+        lastReviewTrigger = card;
+        if (!reviewModal || !reviewImage) return;
+        reviewImage.src = card.dataset.full || '';
+        reviewImage.alt = `${card.dataset.title || 'Client review'} from Easy Fit Alexandria`;
+        reviewModal.showModal();
+        body.classList.add('modal-open');
+        reviewClose?.focus();
+      });
+    });
+
+    reviewClose?.addEventListener('click', closeReview);
+    reviewModal?.addEventListener('click', (event) => {
+      if (event.target === reviewModal) closeReview();
+    });
+    reviewModal?.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      closeReview();
+    });
+
+    const videoModal = document.querySelector('.video-modal');
+    const modalVideo = document.querySelector('#modal-video');
+    const videoTitle = document.querySelector('#video-modal-title');
+    const videoClose = document.querySelector('[data-video-close]');
+    let lastVideoTrigger = null;
+
+    const closeVideo = () => {
+      if (!videoModal || !videoModal.open || !modalVideo) return;
       modalVideo.pause();
-      modalVideo.currentTime = 0;
       modalVideo.removeAttribute('src');
       modalVideo.load();
-    }
-  };
+      videoModal.close();
+      body.classList.remove('modal-open');
+      lastVideoTrigger?.focus();
+    };
 
-  const closeModal = () => {
-    if (modal?.open) {
-      modal.close();
-    }
-  };
-
-  document.querySelectorAll('.video-card').forEach((card) => {
-    card.addEventListener('click', () => {
-      if (!modal || !modalVideo || !modalTitle) return;
-
-      const videoSrc = card.getAttribute('data-video');
-      const title = card.getAttribute('data-title') || 'Easy Fit Alexandria';
-
-      if (!videoSrc) return;
-
-      lastFocusedElement = document.activeElement as HTMLElement;
-      resetVideo();
-
-      modalTitle.textContent = title;
-      modalVideo.src = videoSrc;
-      modalVideo.setAttribute('aria-label', title);
-      
-      modal.showModal();
-      document.body.classList.add('modal-open');
-      
-      if (closeButton instanceof HTMLElement) {
-        closeButton.focus();
-      }
+    document.querySelectorAll('[data-video-card]').forEach((card) => {
+      card.addEventListener('click', () => {
+        lastVideoTrigger = card;
+        if (!videoModal || !modalVideo || !videoTitle) return;
+        videoTitle.textContent = card.dataset.title || 'Client feedback';
+        modalVideo.src = card.dataset.src || '';
+        videoModal.showModal();
+        body.classList.add('modal-open');
+        modalVideo.play().catch(() => {});
+      });
     });
-  });
 
-  closeButton?.addEventListener('click', closeModal);
-
-  modal?.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      closeModal();
-    }
-  });
-
-  modal?.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closeModal();
-    }
-  });
-
-  modal?.addEventListener('close', () => {
-    resetVideo();
-    document.body.classList.remove('modal-open');
-    if (lastFocusedElement) {
-      lastFocusedElement.focus();
-    }
-  });
+    videoClose?.addEventListener('click', closeVideo);
+    videoModal?.addEventListener('click', (event) => {
+      if (event.target === videoModal) closeVideo();
+    });
+    videoModal?.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      closeVideo();
+    });
+  })();
 </script>

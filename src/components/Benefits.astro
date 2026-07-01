@@ -1,71 +1,57 @@
 ---
+const benefits = [
+  {
+    title: 'Fat loss support',
+    text: 'Structured sessions that support better consistency, body composition goals, and a more active routine.'
+  },
+  {
+    title: 'Body toning',
+    text: 'Focused work for shape, firmness, and a stronger look with guided full-body activation.'
+  },
+  {
+    title: 'Muscle activation',
+    text: 'EMS helps your body recruit muscle groups while your coach keeps the movement controlled.'
+  },
+  {
+    title: 'Busy schedule',
+    text: 'A premium 20-minute format built for people who need training to fit real life.'
+  },
+  {
+    title: 'Return to training',
+    text: 'A measured way to restart movement with professional guidance and smart intensity control.'
+  },
+  {
+    title: 'Personal coaching',
+    text: 'Every session is adjusted to your goal, your comfort, and the way your body responds.'
+  }
+];
 ---
-<section class="section-padding benefits-section" id="goals">
+
+<section class="section-padding benefits-section" id="benefits" aria-labelledby="benefits-title">
   <div class="container">
-    <div class="section-head">
-      <p class="section-eyebrow reveal-on-scroll">أهداف التمرين</p>
-      <h2 class="section-title reveal-on-scroll reveal-delay-1">مين يقدر يستفيد؟</h2>
-      <p class="section-intro-text reveal-on-scroll reveal-delay-2">
-        تمارين EMS بتتكيف مع طبيعة جسمك، وبتتظبط مستويات الشدة مع الكوتش بناءً على هدفك الشخصي ويومك.
+    <div class="section-head center reveal-on-scroll">
+      <p class="eyebrow">GOALS</p>
+      <h2 id="benefits-title" class="section-title">Choose your goal. We tune the session.</h2>
+      <p class="section-intro">
+        Easy Fit sessions are built for transformation, not generic training. Your coach adjusts the plan
+        around what you want your body to do next.
       </p>
     </div>
 
-    <!-- Human Cards -->
     <div class="benefits-grid">
-      <!-- Card 1 -->
-      <div class="benefit-card reveal-on-scroll">
-        <div class="benefit-card-top">
-          <span class="benefit-tag">خسارة دهون</span>
-          <h3 class="benefit-title">لو هدفك خسارة دهون</h3>
-        </div>
-        <p class="benefit-desc">
-          جلسات مركزة تساعدك تشتغل على شكل الجسم مع الاستمرار والمتابعة.
-        </p>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="benefit-card reveal-on-scroll reveal-delay-1">
-        <div class="benefit-card-top">
-          <span class="benefit-tag">شد القوام</span>
-          <h3 class="benefit-title">لو عايز تشد جسمك</h3>
-        </div>
-        <p class="benefit-desc">
-          تنشيط عضلي أعمق يساعد الجسم يبقى أقوى ومشدود أكتر مع الوقت.
-        </p>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="benefit-card reveal-on-scroll reveal-delay-2">
-        <div class="benefit-card-top">
-          <span class="benefit-tag">تمرين تدريجي</span>
-          <h3 class="benefit-title">لو راجع من إصابة قديمة أو انقطاع</h3>
-        </div>
-        <p class="benefit-desc">
-          التمرين بيكون تدريجي ومتابَع، والشدة بتتظبط حسب جسمك بدل ما ترجع بضغط عشوائي على المفاصل.
-        </p>
-      </div>
-
-      <!-- Card 4 -->
-      <div class="benefit-card reveal-on-scroll reveal-delay-3">
-        <div class="benefit-card-top">
-          <span class="benefit-tag">تنظيم وقتك</span>
-          <h3 class="benefit-title">لو وقتك قليل</h3>
-        </div>
-        <p class="benefit-desc">
-          جلسة قصيرة تناسب يومك من غير ما تحتاج تقضي ساعات في الجيم.
-        </p>
-      </div>
-
-      <!-- Card 5 -->
-      <div class="benefit-card reveal-on-scroll reveal-delay-4">
-        <div class="benefit-card-top">
-          <span class="benefit-tag">متابعة مخصصة</span>
-          <h3 class="benefit-title">لو محتاج متابعة</h3>
-        </div>
-        <p class="benefit-desc">
-          كوتش وخطة مناسبة لهدفك، ومعاها دعم تغذية يساعدك تكمل.
-        </p>
-      </div>
+      {
+        benefits.map((benefit, index) => (
+          <article class="benefit-card reveal-on-scroll" style={`--card-index:${index}`}>
+            <span class="benefit-index">{String(index + 1).padStart(2, '0')}</span>
+            <h3>{benefit.title}</h3>
+            <p>{benefit.text}</p>
+          </article>
+        ))
+      }
     </div>
+
+    <p class="fine-note center-note reveal-on-scroll">
+      For medical conditions or recent injuries, consult your doctor before starting EMS training.
+    </p>
   </div>
 </section>

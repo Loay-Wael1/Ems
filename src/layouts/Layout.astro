@@ -6,66 +6,70 @@ interface Props {
   description?: string;
 }
 
-const { 
-  title = "Easy Fit Alexandria | Alexandria's 1st EMS Studio", 
-  description = "تمارين EMS في إسكندرية لخسارة الدهون، شد الجسم، زيادة الكتلة العضلية، ورجوع تدريجي ومتابع للتمرين تحت إشراف مدربين وخبراء تغذية." 
+const {
+  title = "Easy Fit Alexandria | Alexandria's 1st EMS Studio",
+  description = 'Premium EMS fitness training in Alexandria. 20-minute coach-guided EMS sessions for body transformation, fat loss support, toning, strength, and smarter training.'
 } = Astro.props;
+
+const instagramUrl = 'https://instagram.com/ems.easyfit.alexandria?igsh=MWV1NDlkcG1wc3dnYw==';
+const facebookUrl = 'https://www.facebook.com/ems.easyfit.alexandria/?ref=NONE_xav_ig_profile_page_web#';
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'HealthAndBeautyBusiness',
+  name: 'Easy Fit Alexandria',
+  description: "Alexandria's 1st EMS Studio for 20-minute coach-guided EMS fitness sessions.",
+  image: '/hero-poster.webp',
+  logo: '/logo-transparent.png',
+  telephone: '+201124799978',
+  priceRange: '$$',
+  address: [
+    {
+      '@type': 'PostalAddress',
+      addressLocality: 'Alexandria',
+      addressCountry: 'EG',
+      streetAddress: "Smouha: Delta Life Administrative Towers, Madinet El Mar'a Hospital Street, behind Motager Mall"
+    },
+    {
+      '@type': 'PostalAddress',
+      addressLocality: 'Alexandria',
+      addressCountry: 'EG',
+      streetAddress: 'Ganaklis: El Zeraeyeen Towers, Abu Qir Street, in front of El Sallab'
+    }
+  ],
+  sameAs: [instagramUrl, facebookUrl]
+};
 ---
 
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#050a14" />
-    
-    <!-- SEO Title & Description -->
+    <meta name="theme-color" content="#05030A" />
+
     <title>{title}</title>
     <meta name="description" content={description} />
-    
-    <!-- Open Graph Metadata -->
+    <link rel="canonical" href={Astro.url.href} />
+
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/logo.jpg" />
+    <meta property="og:image" content="/hero-poster.webp" />
+    <meta property="og:site_name" content="Easy Fit Alexandria" />
     <meta name="twitter:card" content="summary_large_image" />
-    
-    <!-- Preload critical images -->
+
     <link rel="preload" href="/logo-transparent.png" as="image" />
-    <link rel="preload" href="/hero.webp" as="image" type="image/webp" fetchpriority="high" />
-    
-    <!-- Fonts Preconnect & Load -->
+    <link rel="preload" href="/hero-poster.webp" as="image" type="image/webp" fetchpriority="high" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    
-    <!-- JSON-LD Structured Data for Local Business -->
-    <script type="application/ld+json" is:inline>
-      {
-        "@context": "https://schema.org",
-        "@type": "HealthAndBeautyBusiness",
-        "name": "Easy Fit Alexandria",
-        "image": "/logo.jpg",
-        "telephone": "+201097710544",
-        "priceRange": "$$",
-        "address": [
-          {
-            "@type": "PostalAddress",
-            "addressLocality": "Alexandria",
-            "addressCountry": "EG",
-            "streetAddress": "Smouha: أبراج دلتا لايف الإداري، شارع مستشفى المدينة للمرأة - خلف مول متاجر"
-          },
-          {
-            "@type": "PostalAddress",
-            "addressLocality": "Alexandria",
-            "addressCountry": "EG",
-            "streetAddress": "Ganaklis: أبراج الزراعيين، شارع أبو قير - أمام السلاب"
-          }
-        ]
-      }
-    </script>
-    
-    <!-- Pre-render theme/intro script to prevent Flash of Unwanted Content (FOUC) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
     <script is:inline>
       (() => {
         const params = new URLSearchParams(window.location.search);
@@ -75,25 +79,21 @@ const {
         if (resetIntro) {
           try {
             sessionStorage.removeItem('easyfitIntroSeen');
-          } catch (e) {
-            // sessionStorage unavailable; continue gracefully.
+          } catch (error) {
+            /* sessionStorage can be unavailable in strict privacy modes. */
           }
         }
 
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         let introSeen = false;
+
         try {
           introSeen = sessionStorage.getItem('easyfitIntroSeen') === 'true';
-        } catch (e) {
-          // Privacy mode might block sessionStorage. Fail gracefully.
-          introSeen = true; 
+        } catch (error) {
+          introSeen = true;
         }
 
-        if (reducedMotion) {
-          document.documentElement.classList.add('intro-done');
-        } else if (forceIntro) {
-          document.documentElement.classList.add('has-intro');
-        } else if (introSeen) {
+        if (reducedMotion || (!forceIntro && introSeen)) {
           document.documentElement.classList.add('intro-done');
         } else {
           document.documentElement.classList.add('has-intro');
@@ -102,8 +102,7 @@ const {
     </script>
   </head>
   <body>
-    <a class="skip-link" href="#main-content">تخطي إلى المحتوى الأساسي</a>
-    
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <slot />
   </body>
 </html>

@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import IntroReveal from '../components/IntroReveal.astro';
 import Hero from '../components/Hero.astro';
+import BeforeAfter from '../components/BeforeAfter.astro';
 import ObjectionSection from '../components/ObjectionSection.astro';
 import WhatIsEMS from '../components/WhatIsEMS.astro';
 import TwentyMinutes from '../components/TwentyMinutes.astro';
@@ -14,36 +15,20 @@ import FinalCTA from '../components/FinalCTA.astro';
 ---
 
 <Layout>
-  <!-- Full Screen Intro Reveal Activation -->
   <IntroReveal />
 
   <div class="page-shell">
-    <!-- Sticky Navigation Header -->
     <Header />
 
-    <!-- Main Story-Driven Content -->
     <main id="main-content">
       <Hero />
-      <hr class="dotted-divider" aria-hidden="true" />
-
+      <BeforeAfter />
       <ObjectionSection />
-      <hr class="dotted-divider" aria-hidden="true" />
-
       <WhatIsEMS />
-      <hr class="dotted-divider" aria-hidden="true" />
-
       <TwentyMinutes />
-      <hr class="dotted-divider" aria-hidden="true" />
-
       <Benefits />
-      <hr class="dotted-divider" aria-hidden="true" />
-
       <SessionSteps />
-      <hr class="dotted-divider" aria-hidden="true" />
-
       <Testimonials />
-      <hr class="dotted-divider" aria-hidden="true" />
-
       <Locations />
       <FinalCTA />
     </main>
@@ -53,11 +38,10 @@ import FinalCTA from '../components/FinalCTA.astro';
 <script>
   const initScrollReveal = () => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const revealItems = document.querySelectorAll('.reveal-on-scroll');
+
     if (reducedMotion) {
-      // Force all to be visible immediately in case CSS media query hasn't applied
-      document.querySelectorAll('.reveal-on-scroll').forEach((el) => {
-        el.classList.add('is-visible');
-      });
+      revealItems.forEach((el) => el.classList.add('is-visible'));
       return;
     }
 
@@ -70,20 +54,14 @@ import FinalCTA from '../components/FinalCTA.astro';
           }
         });
       },
-      {
-        rootMargin: '0px 0px -12% 0px',
-        threshold: 0.12
-      }
+      { rootMargin: '0px 0px -12% 0px', threshold: 0.12 }
     );
 
-    document.querySelectorAll('.reveal-on-scroll').forEach((el) => {
-      observer.observe(el);
-    });
+    revealItems.forEach((el) => observer.observe(el));
   };
 
-  // Run on DOM ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initScrollReveal);
+    document.addEventListener('DOMContentLoaded', initScrollReveal, { once: true });
   } else {
     initScrollReveal();
   }

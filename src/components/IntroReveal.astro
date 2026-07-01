@@ -1,52 +1,45 @@
----
----
-<div class="intro-panel" id="pageReveal" aria-hidden="true">
+<div class="intro-panel" aria-hidden="true">
   <div class="intro-content">
     <div class="intro-logo-frame">
-      <!-- Clean, subtle dotted wave surrounding the logo (static, no loops) -->
-      <svg class="intro-pulse-wave" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="100" cy="100" r="85" stroke="rgba(6, 14, 29, 0.06)" stroke-width="1" stroke-dasharray="3 5" />
-        <circle cx="100" cy="100" r="65" stroke="rgba(6, 14, 29, 0.04)" stroke-width="1.5" />
+      <svg class="intro-orbit" viewBox="0 0 320 320" role="img" aria-label="">
+        <circle cx="160" cy="160" r="118" pathLength="1" />
+        <circle cx="160" cy="160" r="86" pathLength="1" />
+        <path d="M26 162 C74 94, 116 230, 160 160 S246 94, 294 162" pathLength="1" />
       </svg>
-      <!-- Original logo clean and untouched -->
-      <img src="/logo-transparent.png" class="intro-logo" alt="Easy Fit Logo" width="220" height="220" />
+      <span class="intro-signal" aria-hidden="true"></span>
+      <img class="intro-logo" src="/logo-transparent.png" alt="" width="220" height="220" />
     </div>
-    
-    <!-- Subtitles under the logo -->
-    <div class="intro-subtitle">Alexandria’s 1st EMS Studio</div>
-    <div class="intro-arabic">تمرين أذكى في وقت أقل</div>
+    <p class="intro-eyebrow">Alexandria's 1st EMS Studio</p>
+    <p class="intro-title">Train smarter in less time</p>
   </div>
 </div>
 
 <script>
-  const root = document.documentElement;
-  const revealPanel = document.getElementById('pageReveal');
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  (() => {
+    const html = document.documentElement;
+    const panel = document.querySelector('.intro-panel');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const markIntroSeen = () => {
-    try {
-      sessionStorage.setItem('easyfitIntroSeen', 'true');
-    } catch (e) {
-      // Privacy modes
+    if (!panel || !html.classList.contains('has-intro') || reducedMotion) {
+      panel?.remove();
+      html.classList.add('intro-done');
+      html.classList.remove('has-intro');
+      return;
     }
-  };
 
-  if (root.classList.contains('has-intro') && !reducedMotion && revealPanel) {
-    // Hold the logo long enough to read, then trigger the paired panel/page reveal.
-    setTimeout(() => {
-      root.classList.add('intro-revealing');
-      
-      setTimeout(() => {
-        markIntroSeen();
-        root.classList.remove('has-intro', 'intro-revealing');
-        root.classList.add('intro-done');
-        revealPanel.remove();
-      }, 1650);
-    }, 950);
-  } else {
-    if (revealPanel) {
-      revealPanel.remove();
-    }
-    root.classList.add('intro-done');
-  }
+    window.setTimeout(() => {
+      html.classList.add('intro-revealing');
+    }, 620);
+
+    window.setTimeout(() => {
+      try {
+        sessionStorage.setItem('easyfitIntroSeen', 'true');
+      } catch (error) {
+        /* Keep the reveal non-blocking if storage is unavailable. */
+      }
+      html.classList.remove('has-intro', 'intro-revealing');
+      html.classList.add('intro-done');
+      panel.remove();
+    }, 1680);
+  })();
 </script>

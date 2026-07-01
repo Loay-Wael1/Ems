@@ -1,0 +1,58 @@
+---
+import resultOne from '../../b&a/Screenshot 2026-07-02 010055.png';
+import resultTwo from '../../b&a/Screenshot 2026-07-02 010107.png';
+import resultThree from '../../b&a/Screenshot 2026-07-02 010119.png';
+import resultFour from '../../b&a/Screenshot 2026-07-02 010125.png';
+import resultFive from '../../b&a/Screenshot 2026-07-02 010142.png';
+
+const transformations = [
+  { image: resultOne, tag: 'Fat Loss Journey', title: 'Focused consistency' },
+  { image: resultTwo, tag: 'Body Toning', title: 'Shape & confidence' },
+  { image: resultThree, tag: 'EMS Progress', title: 'Coach-guided change' },
+  { image: resultFour, tag: 'Strength & Shape', title: 'Stronger silhouette' },
+  { image: resultFive, tag: 'Body Toning', title: 'Visible progress' }
+];
+---
+
+<section class="section-padding before-after-section" id="results" aria-labelledby="results-title">
+  <div class="container">
+    <div class="section-head center reveal-on-scroll">
+      <p class="eyebrow">TRANSFORMATIONS</p>
+      <h2 id="results-title" class="section-title">Before &amp; After progress that speaks.</h2>
+      <p class="section-intro">
+        EMS works best when the session, coaching, nutrition, and consistency all come together.
+      </p>
+    </div>
+
+    <div class="transformation-track" aria-label="Client transformation examples">
+      {
+        transformations.map((item, index) => (
+          <article class="transformation-card reveal-on-scroll" style={`--card-index:${index}`}>
+            <div class="transformation-image-wrap">
+              <img
+                src={item.image.src}
+                width={item.image.width}
+                height={item.image.height}
+                alt={`${item.tag} before and after progress at Easy Fit Alexandria`}
+                loading={index === 0 ? 'eager' : 'lazy'}
+                decoding="async"
+              />
+              <div class="compare-labels" aria-hidden="true">
+                <span>BEFORE</span>
+                <span>AFTER</span>
+              </div>
+            </div>
+            <div class="transformation-meta">
+              <span class="chip">{item.tag}</span>
+              <h3>{item.title}</h3>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <p class="results-disclaimer reveal-on-scroll">
+      Results vary depending on consistency, nutrition, and individual goals.
+    </p>
+  </div>
+</section>

@@ -1,44 +1,47 @@
 ---
+const whatsappUrl = 'https://wa.me/201124799978';
+const telUrl = 'tel:+201124799978';
+const instagramUrl = 'https://instagram.com/ems.easyfit.alexandria?igsh=MWV1NDlkcG1wc3dnYw==';
+const facebookUrl = 'https://www.facebook.com/ems.easyfit.alexandria/?ref=NONE_xav_ig_profile_page_web#';
+
+const studios = [
+  {
+    name: 'Smouha',
+    address: "Delta Life Administrative Towers, Madinet El Mar'a Hospital Street, behind Motager Mall."
+  },
+  {
+    name: 'Ganaklis',
+    address: 'El Zeraeyeen Towers, Abu Qir Street, in front of El Sallab.'
+  }
+];
 ---
-<section class="section-padding locations-section" id="locations">
+
+<section class="section-padding locations-section" id="locations" aria-labelledby="locations-title">
   <div class="container">
-    <div class="section-head">
-      <p class="section-eyebrow reveal-on-scroll">Our Studios</p>
-      <h2 class="section-title reveal-on-scroll reveal-delay-1">اختار الفرع الأقرب ليك.</h2>
-      <p class="section-intro-text reveal-on-scroll reveal-delay-2">
-        موجودين في موقعين حيويين في الإسكندرية عشان تبدأ تمرينك بسهولة ومن غير مشاوير طويلة.
+    <div class="section-head center reveal-on-scroll">
+      <p class="eyebrow">STUDIOS</p>
+      <h2 id="locations-title" class="section-title">Two Alexandria studios. One focused EMS experience.</h2>
+      <p class="section-intro">
+        Choose the branch that works for your day and message us to book your trial session.
       </p>
     </div>
 
-    <!-- Location Cards Grid -->
     <div class="location-grid">
-      <!-- Smouha Branch -->
-      <article class="location-card reveal-on-scroll">
-        <div class="location-card-top">
-          <span class="location-tag">SMOUHA</span>
-          <h3 class="location-name">سموحة</h3>
-          <p class="location-address">
-            أبراج دلتا لايف الإداري، شارع مستشفى المدينة للمرأة - خلف مول متاجر.
-          </p>
-        </div>
-        <a class="btn btn-primary location-cta-btn" href="https://wa.me/201097710544" target="_blank" rel="noopener noreferrer">
-          احجز في فرع سموحة
-        </a>
-      </article>
-
-      <!-- Ganaklis Branch -->
-      <article class="location-card reveal-on-scroll reveal-delay-1">
-        <div class="location-card-top">
-          <span class="location-tag">GANAKLIS</span>
-          <h3 class="location-name">جناكليس</h3>
-          <p class="location-address">
-            أبراج الزراعيين، شارع أبو قير - أمام السلاب.
-          </p>
-        </div>
-        <a class="btn btn-primary location-cta-btn" href="https://wa.me/201097710544" target="_blank" rel="noopener noreferrer">
-          احجز في فرع جناكليس
-        </a>
-      </article>
+      {
+        studios.map((studio, index) => (
+          <article class="location-card reveal-on-scroll" style={`--card-index:${index}`}>
+            <span class="location-label">Easy Fit Studio</span>
+            <h3>{studio.name}</h3>
+            <p>{studio.address}</p>
+            <div class="location-actions">
+              <a class="btn btn-primary" href={whatsappUrl} target="_blank" rel="noreferrer">WhatsApp</a>
+              <a class="btn btn-ghost" href={telUrl}>Call</a>
+              <a class="btn btn-link" href={instagramUrl} target="_blank" rel="noreferrer">Instagram</a>
+              <a class="btn btn-link" href={facebookUrl} target="_blank" rel="noreferrer">Facebook</a>
+            </div>
+          </article>
+        ))
+      }
     </div>
   </div>
 </section>
