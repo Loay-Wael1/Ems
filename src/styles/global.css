@@ -813,6 +813,24 @@ p {
   box-shadow: 0 0 0 5px rgba(16, 191, 211, 0.1);
 }
 
+.ems-time-copy {
+  max-width: 42rem;
+  padding: 0.95rem 1rem;
+  border: 1px solid rgba(16, 191, 211, 0.14);
+  border-radius: 18px;
+  background: rgba(16, 191, 211, 0.07);
+  color: var(--muted);
+}
+
+.ems-time-copy strong {
+  color: var(--navy);
+}
+
+.ems-cta {
+  width: fit-content;
+  margin-top: 0.25rem;
+}
+
 .ems-media-card {
   width: min(100%, 350px);
   justify-self: center;
@@ -840,104 +858,6 @@ p {
   font-size: 0.86rem;
   font-weight: 850;
   text-align: center;
-}
-
-.twenty-section {
-  overflow: hidden;
-  background:
-    linear-gradient(180deg, var(--ink), #05030a),
-    linear-gradient(90deg, rgba(255, 46, 147, 0.08), transparent 38%, rgba(0, 229, 255, 0.08));
-}
-
-.twenty-grid {
-  display: grid;
-  gap: 2rem;
-  align-items: center;
-}
-
-.twenty-visual {
-  position: relative;
-  min-height: 315px;
-  display: grid;
-  place-items: center;
-  border-radius: var(--radius-xl);
-  border: 1px solid rgba(16, 191, 211, 0.18);
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(238, 248, 250, 0.9)),
-    radial-gradient(circle at 50% 34%, rgba(16, 191, 211, 0.14), transparent 12rem),
-    rgba(255, 255, 255, 0.88);
-  box-shadow: 0 24px 70px rgba(17, 26, 58, 0.08);
-}
-
-.count-ring {
-  position: absolute;
-  width: min(66vw, 245px);
-  aspect-ratio: 1;
-  border-radius: 999px;
-  border: 1px solid rgba(16, 191, 211, 0.22);
-  background:
-    radial-gradient(circle, rgba(255, 255, 255, 0.92) 56%, transparent 57%),
-    conic-gradient(from 225deg, rgba(16, 191, 211, 0.82), rgba(55, 200, 162, 0.72), rgba(16, 191, 211, 0.14), rgba(16, 191, 211, 0.82));
-  box-shadow: inset 0 0 0 13px rgba(255, 255, 255, 0.7), 0 22px 55px rgba(16, 191, 211, 0.16);
-}
-
-.timer-display {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  justify-items: center;
-  gap: 0.42rem;
-  text-align: center;
-}
-
-.timer-display span {
-  font-family: var(--font-display);
-  font-size: clamp(5rem, 22vw, 7.4rem);
-  font-weight: 900;
-  line-height: 0.82;
-  color: var(--navy);
-}
-
-.timer-display small {
-  color: #087f94;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-}
-
-.timer-display p {
-  color: var(--navy);
-  font-weight: 900;
-}
-
-.timer-display em {
-  max-width: 15rem;
-  color: var(--muted);
-  font-size: 0.86rem;
-  font-style: normal;
-}
-
-.twenty-copy {
-  display: grid;
-  gap: 1.15rem;
-}
-
-.mini-points {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.65rem;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-.mini-points li {
-  padding: 0.75rem;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.055);
-  color: var(--muted);
-  font-weight: 800;
 }
 
 .benefits-section {
@@ -1353,8 +1273,7 @@ p {
 .process-step h3,
 .location-card h3,
 .final-cta-shell h2,
-.footer-brand strong,
-.timer-display span {
+.footer-brand strong {
   color: var(--navy);
 }
 
@@ -1451,8 +1370,7 @@ p {
   color: #4f5f70;
 }
 
-.hero-badges li,
-.mini-points li {
+.hero-badges li {
   border-color: rgba(17, 26, 58, 0.1);
   background: rgba(255, 255, 255, 0.78);
   color: #425166;
@@ -1461,7 +1379,6 @@ p {
 
 .hero-reel-card,
 .ems-media-card,
-.twenty-visual,
 .proof-card,
 .benefit-card,
 .process-step,
@@ -1474,15 +1391,13 @@ p {
 }
 
 .hero-reel-top,
-.ems-media-card p,
-.timer-display small {
+.ems-media-card p {
   color: var(--muted);
 }
 
 .before-after-section,
 .proof-section,
 .ems-section,
-.twenty-section,
 .benefits-section,
 .process-section,
 .reviews-section,
@@ -1695,8 +1610,7 @@ p {
 
   .split-layout,
   .split-layout.reverse,
-  .ems-explainer-grid,
-  .twenty-grid {
+  .ems-explainer-grid {
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
     align-items: center;
   }
@@ -1894,8 +1808,7 @@ html[data-theme="dark"] .benefit-card h3,
 html[data-theme="dark"] .process-step h3,
 html[data-theme="dark"] .location-card h3,
 html[data-theme="dark"] .final-cta-shell h2,
-html[data-theme="dark"] .footer-brand strong,
-html[data-theme="dark"] .timer-display span {
+html[data-theme="dark"] .footer-brand strong {
   color: #f8fafc;
 }
 
@@ -2043,8 +1956,7 @@ html[data-theme="dark"] .hero-description {
   color: rgba(248, 250, 252, 0.82);
 }
 
-html[data-theme="dark"] .hero-badges li,
-html[data-theme="dark"] .mini-points li {
+html[data-theme="dark"] .hero-badges li {
   border-color: rgba(248, 250, 252, 0.14);
   background: rgba(255, 255, 255, 0.08);
   color: rgba(248, 250, 252, 0.82);
@@ -2053,7 +1965,6 @@ html[data-theme="dark"] .mini-points li {
 
 html[data-theme="dark"] .hero-reel-card,
 html[data-theme="dark"] .ems-media-card,
-html[data-theme="dark"] .twenty-visual,
 html[data-theme="dark"] .proof-card,
 html[data-theme="dark"] .benefit-card,
 html[data-theme="dark"] .process-step,
@@ -2087,21 +1998,13 @@ html[data-theme="dark"] .chip {
 }
 
 html[data-theme="dark"] .hero-reel-top,
-html[data-theme="dark"] .ems-media-card p,
-html[data-theme="dark"] .timer-display small,
-html[data-theme="dark"] .timer-display em {
+html[data-theme="dark"] .ems-media-card p {
   color: rgba(248, 250, 252, 0.54);
-}
-
-html[data-theme="dark"] .timer-display p,
-html[data-theme="dark"] .timer-display span {
-  color: #f8fafc;
 }
 
 html[data-theme="dark"] .before-after-section,
 html[data-theme="dark"] .proof-section,
 html[data-theme="dark"] .ems-section,
-html[data-theme="dark"] .twenty-section,
 html[data-theme="dark"] .benefits-section,
 html[data-theme="dark"] .process-section,
 html[data-theme="dark"] .reviews-section,

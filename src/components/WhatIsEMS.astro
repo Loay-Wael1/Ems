@@ -1,5 +1,6 @@
 ---
-const emsPoints = ['Coach-controlled intensity', 'Full-body muscle activation', 'Built around your goal'];
+const whatsappUrl = 'https://wa.me/201124799978';
+const emsPoints = ['Coach-controlled intensity', 'Full-body muscle activation', 'Built for busy schedules'];
 const explainerVideo = '/videos/ems-explainer.mp4';
 const explainerPoster = '/videos/ems-explainer-poster.webp';
 ---
@@ -7,11 +8,15 @@ const explainerPoster = '/videos/ems-explainer-poster.webp';
 <section class="section-padding ems-section" aria-labelledby="ems-title">
   <div class="container ems-explainer-grid">
     <div class="section-head ems-copy-panel reveal-on-scroll">
-      <h2 id="ems-title" class="section-title">Electrical muscle stimulation, made simple.</h2>
+      <h2 id="ems-title" class="section-title">EMS training, made simple.</h2>
       <p class="section-intro">
-        EMS uses safe, low-frequency impulses through a specialized suit while you perform guided
-        movements. The coach controls the intensity and keeps the session aligned with your body,
-        fitness level, and goal.
+        Electrical muscle stimulation uses safe, low-frequency impulses through a specialized suit
+        while you perform guided movements. Your coach controls the intensity, guides every move,
+        and keeps the session aligned with your body, fitness level, and goal.
+      </p>
+      <p class="ems-time-copy">
+        In just <strong>20 focused minutes</strong>, EMS helps you train smarter — with full-body
+        activation and coach-guided intensity.
       </p>
 
       <ul class="ems-points" aria-label="EMS training principles">
@@ -19,6 +24,10 @@ const explainerPoster = '/videos/ems-explainer-poster.webp';
       </ul>
 
       <p class="fine-note">EMS is a training method — not a shortcut or a medical promise.</p>
+
+      <a class="btn btn-primary ems-cta" href={whatsappUrl} target="_blank" rel="noreferrer">
+        Book the 20-Min Trial
+      </a>
     </div>
 
     <div class="ems-media-card reveal-on-scroll reveal-delay-1" aria-label="EMS training visual explanation">
@@ -31,7 +40,7 @@ const explainerPoster = '/videos/ems-explainer-poster.webp';
         playsinline
         preload="metadata"
       ></video>
-      <p>EMS visual explanation</p>
+      <p>Coach-guided EMS in a focused 20-minute session</p>
     </div>
   </div>
 </section>
