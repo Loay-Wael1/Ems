@@ -97,6 +97,8 @@ const reviews = [
     let animationFrame = 0;
     let resumeTimer = 0;
     let virtualScrollLeft = 1;
+    let lastFrameTime = 0;
+    const autoSpeed = 24;
 
     const getLoopWidth = () => {
       if (!track) return 0;
@@ -112,9 +114,13 @@ const reviews = [
       marquee.scrollLeft = virtualScrollLeft;
     };
 
-    const autoMove = () => {
+    const autoMove = (timestamp = 0) => {
+      if (!lastFrameTime) lastFrameTime = timestamp;
+      const deltaSeconds = Math.min((timestamp - lastFrameTime) / 1000, 0.08);
+      lastFrameTime = timestamp;
+
       if (marquee && !reducedMotion.matches && !isPaused && !isDragging) {
-        virtualScrollLeft += 0.42;
+        virtualScrollLeft += autoSpeed * deltaSeconds;
         marquee.scrollLeft = virtualScrollLeft;
         normalizeScroll();
       }

@@ -1,8 +1,12 @@
 ---
+import smouhaImage from '../../سموحة.png';
+import ganaklisImage from '../../چناكليس.jpg';
+
 const studios = [
   {
     name: 'Smouha',
     address: 'Delta Life Administrative Towers, behind Motager Mall, first floor, Studio 7B.',
+    image: smouhaImage,
     mobile: '01124799978',
     landline: '034238908',
     whatsapp: 'https://wa.me/201124799978',
@@ -13,6 +17,7 @@ const studios = [
   {
     name: 'Ganaklis',
     address: 'El Zeraeyeen Towers, ground floor, Abu Qir Street, in front of El Sallab.',
+    image: ganaklisImage,
     mobile: '01121112737',
     landline: '035708750',
     whatsapp: 'https://wa.me/201121112737',
@@ -37,18 +42,36 @@ const studios = [
       {
         studios.map((studio, index) => (
           <article class="location-card reveal-on-scroll" style={`--card-index:${index}`}>
-            <span class="location-label">Easy Fit Studio</span>
-            <h3>{studio.name}</h3>
-            <p>{studio.address}</p>
-            <ul class="location-phones" aria-label={`${studio.name} contact numbers`}>
-              <li>Mobile: <a href={studio.mobileCall}>{studio.mobile}</a></li>
-              <li>Landline: <a href={studio.landlineCall}>{studio.landline}</a></li>
-            </ul>
-            <div class="location-actions">
-              <a class="btn btn-primary" href={studio.whatsapp} target="_blank" rel="noreferrer">WhatsApp</a>
-              <a class="btn btn-ghost" href={studio.mobileCall}>Call Mobile</a>
-              <a class="btn btn-ghost" href={studio.landlineCall}>Call Landline</a>
-              <a class="btn btn-link" href={studio.map} target="_blank" rel="noreferrer">View on Map</a>
+            <div class="location-image-wrap">
+              <img
+                src={studio.image.src}
+                width={studio.image.width}
+                height={studio.image.height}
+                alt={`${studio.name} Easy Fit Alexandria studio visual`}
+                loading="lazy"
+                decoding="async"
+              />
+              <span class="location-label">Easy Fit Studio</span>
+            </div>
+            <div class="location-content">
+              <h3>{studio.name}</h3>
+              <p>{studio.address}</p>
+              <ul class="location-phones" aria-label={`${studio.name} contact numbers`}>
+                <li>
+                  <span>Mobile</span>
+                  <a href={studio.mobileCall}>{studio.mobile}</a>
+                </li>
+                <li>
+                  <span>Landline</span>
+                  <a href={studio.landlineCall}>{studio.landline}</a>
+                </li>
+              </ul>
+              <div class="location-actions">
+                <a class="btn btn-primary" href={studio.whatsapp} target="_blank" rel="noreferrer">WhatsApp</a>
+                <a class="btn btn-ghost" href={studio.mobileCall}>Call Mobile</a>
+                <a class="btn btn-ghost" href={studio.landlineCall}>Call Landline</a>
+                <a class="btn btn-link" href={studio.map} target="_blank" rel="noreferrer">View on Map</a>
+              </div>
             </div>
           </article>
         ))
