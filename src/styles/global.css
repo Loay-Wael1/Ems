@@ -1789,6 +1789,25 @@ p {
 }
 
 @media (max-width: 759px) {
+  .hero-copy {
+    max-width: calc(100vw - 32px);
+  }
+
+  .hero-badges {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(100%, calc(100vw - 32px));
+  }
+
+  .hero-badges li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    padding-inline: 0.54rem;
+    text-align: center;
+  }
+
   .hero-media {
     background:
       linear-gradient(90deg, rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.18)),
