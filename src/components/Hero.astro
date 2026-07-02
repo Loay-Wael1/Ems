@@ -1,6 +1,7 @@
 ---
 const whatsappUrl = 'https://wa.me/201124799978';
-const heroVideoUrl = '/الفيديو اللي هيتحط في الخلفيه عند الفون وهيتحط في الويب بطريقه بروفيشنال.mp4';
+const heroVideoUrl = '/videos/ems-experience.mp4';
+const heroVideoPoster = '/videos/ems-experience-poster.webp';
 const impactBadges = ['20 Min Session', 'Coach Guided', 'Two Alexandria Studios', 'EMS Technology'];
 ---
 
@@ -14,7 +15,7 @@ const impactBadges = ['20 Min Session', 'Coach Guided', 'Two Alexandria Studios'
       loop
       playsinline
       preload="metadata"
-      poster="/hero-desktop.png"
+      poster={heroVideoPoster}
     ></video>
     <div class="hero-static-overlay"></div>
     <div class="hero-glow hero-glow-cyan"></div>
@@ -57,7 +58,7 @@ const impactBadges = ['20 Min Session', 'Coach Guided', 'Two Alexandria Studios'
           loop
           playsinline
           preload="metadata"
-          poster="/hero-desktop.png"
+          poster={heroVideoPoster}
           aria-label="Easy Fit EMS training preview"
         ></video>
         <p>See how EMS activates your muscles</p>
