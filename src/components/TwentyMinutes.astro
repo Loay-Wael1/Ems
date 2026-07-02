@@ -1,6 +1,6 @@
 ---
 const whatsappUrl = 'https://wa.me/201124799978';
-const points = ['Focused session', 'Coach guidance', 'Measured intensity', 'Clear goal'];
+const points = ['Full-body activation', 'Coach-guided intensity', 'Built for busy schedules'];
 ---
 
 <section class="section-padding twenty-section" aria-labelledby="twenty-title">
@@ -16,14 +16,12 @@ const points = ['Focused session', 'Coach guidance', 'Measured intensity', 'Clea
     </div>
 
     <div class="twenty-copy reveal-on-scroll reveal-delay-1">
-      <p class="eyebrow">THE 20-MINUTE DIFFERENCE</p>
-      <h2 id="twenty-title" class="section-title">Less wasted time. More focused training.</h2>
+      <h2 id="twenty-title" class="section-title">20 minutes. Fully focused.</h2>
       <p class="section-intro">
-        A short session can still feel intense when the workout, EMS suit, and coaching are all
-        calibrated around your body. The result is a smarter routine you can actually stay consistent with.
+        EMS helps you train with more focus in less time, while your coach controls intensity
+        and guides every movement.
       </p>
 
-      <div class="claim-pill">20 Min EMS = 2 Hours in Gym</div>
       <ul class="mini-points" aria-label="Session features">
         {points.map((point) => <li>{point}</li>)}
       </ul>
@@ -49,14 +47,14 @@ const points = ['Focused session', 'Coach guidance', 'Measured intensity', 'Clea
       number.textContent = String(Math.round(value));
     };
 
+    if (reducedMotion) {
+      setValue(target);
+      return;
+    }
+
     const animate = () => {
       if (hasRun) return;
       hasRun = true;
-
-      if (reducedMotion) {
-        setValue(target);
-        return;
-      }
 
       const duration = 1100;
       const start = performance.now();

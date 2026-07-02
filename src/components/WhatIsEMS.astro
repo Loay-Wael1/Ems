@@ -1,17 +1,37 @@
+---
+const emsPoints = ['Coach-controlled intensity', 'Full-body muscle activation', 'Built around your goal'];
+const explainerVideo = '/videos/ems-explainer.mp4';
+const explainerPoster = '/videos/ems-explainer-poster.webp';
+---
+
 <section class="section-padding ems-section" aria-labelledby="ems-title">
-  <div class="container ems-copy-panel">
-    <div class="section-head reveal-on-scroll">
-      <p class="eyebrow">WHAT IS EMS?</p>
+  <div class="container ems-explainer-grid">
+    <div class="section-head ems-copy-panel reveal-on-scroll">
       <h2 id="ems-title" class="section-title">Electrical muscle stimulation, made simple.</h2>
       <p class="section-intro">
         EMS uses safe, low-frequency impulses through a specialized suit while you perform guided
         movements. The coach controls the intensity and keeps the session aligned with your body,
         fitness level, and goal.
       </p>
-      <p class="fine-note">
-        EMS is a training method, not a shortcut or a medical promise. It works best with coaching,
-        consistency, recovery, and smart nutrition.
-      </p>
+
+      <ul class="ems-points" aria-label="EMS training principles">
+        {emsPoints.map((point) => <li>{point}</li>)}
+      </ul>
+
+      <p class="fine-note">EMS is a training method — not a shortcut or a medical promise.</p>
+    </div>
+
+    <div class="ems-media-card reveal-on-scroll reveal-delay-1" aria-label="EMS training visual explanation">
+      <video
+        src={explainerVideo}
+        poster={explainerPoster}
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+      ></video>
+      <p>EMS visual explanation</p>
     </div>
   </div>
 </section>
