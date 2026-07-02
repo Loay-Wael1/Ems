@@ -1,10 +1,21 @@
 ---
 const whatsappUrl = 'https://wa.me/201124799978';
+const heroVideoUrl = '/الفيديو اللي هيتحط في الخلفيه عند الفون وهيتحط في الويب بطريقه بروفيشنال.mp4';
 const impactBadges = ['20 Min Session', 'Coach Guided', 'Two Alexandria Studios', 'EMS Technology'];
 ---
 
 <section class="hero-section" aria-labelledby="hero-title">
   <div class="hero-media" aria-hidden="true">
+    <video
+      class="hero-bg-video"
+      src={heroVideoUrl}
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      poster="/hero-desktop.png"
+    ></video>
     <div class="hero-static-overlay"></div>
     <div class="hero-glow hero-glow-cyan"></div>
     <div class="hero-glow hero-glow-pink"></div>
@@ -33,19 +44,23 @@ const impactBadges = ['20 Min Session', 'Coach Guided', 'Two Alexandria Studios'
       </ul>
     </div>
 
-    <div class="hero-visual reveal-on-scroll reveal-delay-3" aria-label="20 minute full-body EMS workout">
-      <div class="pulse-card">
-        <div class="pulse-card-top">
-          <span>EMS SESSION</span>
-          <span class="live-dot">20 MIN</span>
+    <div class="hero-visual reveal-on-scroll reveal-delay-3" aria-label="Easy Fit EMS experience preview">
+      <div class="hero-reel-card">
+        <div class="hero-reel-top">
+          <span>EMS Experience</span>
         </div>
-        <div class="timer-orb">
-          <span class="timer-value">20</span>
-          <span class="timer-unit">min</span>
-        </div>
-        <p>Full-body EMS workout</p>
-        <div class="pulse-line" aria-hidden="true"></div>
-        <span class="micro-copy">Deep activation. Less wasted time.</span>
+        <video
+          class="hero-reel-video"
+          src={heroVideoUrl}
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          poster="/hero-desktop.png"
+          aria-label="Easy Fit EMS training preview"
+        ></video>
+        <p>See how EMS activates your muscles</p>
       </div>
     </div>
   </div>

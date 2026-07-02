@@ -5,11 +5,13 @@ const points = ['Focused session', 'Coach guidance', 'Measured intensity', 'Clea
 
 <section class="section-padding twenty-section" aria-labelledby="twenty-title">
   <div class="container twenty-grid">
-    <div class="twenty-visual reveal-on-scroll">
-      <div class="neon-ring" aria-hidden="true"></div>
+    <div class="twenty-visual reveal-on-scroll" data-count-section>
+      <div class="count-ring" aria-hidden="true"></div>
       <div class="timer-display">
-        <span>20:00</span>
-        <small>full-body activation</small>
+        <span class="count-number" data-count-to="20">0</span>
+        <small>minutes</small>
+        <p>Full-body activation</p>
+        <em>One focused coach-guided EMS session</em>
       </div>
     </div>
 
@@ -32,3 +34,63 @@ const points = ['Focused session', 'Coach guidance', 'Measured intensity', 'Clea
     </div>
   </div>
 </section>
+
+<script>
+  (() => {
+    const section = document.querySelector('[data-count-section]');
+    const number = section?.querySelector('[data-count-to]');
+    if (!section || !number) return;
+
+    const target = Number(number.getAttribute('data-count-to')) || 20;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let hasRun = false;
+
+    const setValue = (value) => {
+      number.textContent = String(Math.round(value));
+    };
+
+    const animate = () => {
+      if (hasRun) return;
+      hasRun = true;
+
+      if (reducedMotion) {
+        setValue(target);
+        return;
+      }
+
+      const duration = 1100;
+      const start = performance.now();
+
+      const tick = (now) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        setValue(target * eased);
+
+        if (progress < 1) {
+          requestAnimationFrame(tick);
+        } else {
+          setValue(target);
+        }
+      };
+
+      requestAnimationFrame(tick);
+    };
+
+    if (!('IntersectionObserver' in window)) {
+      animate();
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          animate();
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.45 }
+    );
+
+    observer.observe(section);
+  })();
+</script>
