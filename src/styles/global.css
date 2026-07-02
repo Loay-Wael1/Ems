@@ -1079,13 +1079,10 @@ p {
   align-content: start;
   gap: 0;
   padding: 0;
-  overflow: hidden;
-  border: 1px solid rgba(248, 250, 252, 0.14);
   border-radius: 26px;
   background:
     linear-gradient(145deg, rgba(255, 255, 255, 0.095), rgba(255, 255, 255, 0.035)),
     rgba(255, 255, 255, 0.045);
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.24);
 }
 
 .location-card::before {
@@ -1095,7 +1092,6 @@ p {
 
 .location-card h3 {
   font-size: 1.8rem;
-  color: var(--white);
 }
 
 .location-image-wrap {
@@ -1110,7 +1106,7 @@ p {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(5, 3, 10, 0.02), rgba(5, 3, 10, 0.54));
+  background: linear-gradient(180deg, rgba(5, 3, 10, 0.02), rgba(5, 3, 10, 0.64));
   pointer-events: none;
 }
 
@@ -1144,7 +1140,6 @@ p {
   gap: 1rem;
   padding: 1.15rem;
   background: transparent;
-  border-radius: 0 0 26px 26px;
 }
 
 .location-actions {
@@ -1423,8 +1418,7 @@ p {
 .ems-section,
 .benefits-section,
 .process-section,
-.reviews-section,
-.locations-section {
+.reviews-section {
   background:
     radial-gradient(circle at 88% 12%, rgba(16, 191, 211, 0.09), transparent 22rem),
     linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
@@ -1475,10 +1469,6 @@ p {
 .review-modal-card {
   background: rgba(255, 255, 255, 0.96);
   border-color: rgba(17, 26, 58, 0.12);
-}
-
-.location-actions .btn-link {
-  color: #087f94;
 }
 
 .final-cta-section {
@@ -1912,13 +1902,11 @@ html[data-theme="dark"] .btn-ghost:hover {
   background: rgba(0, 229, 255, 0.1);
 }
 
-html[data-theme="dark"] .btn-link,
-html[data-theme="dark"] .location-actions .btn-link {
+html[data-theme="dark"] .btn-link {
   color: #00e5ff;
 }
 
-html[data-theme="dark"] .btn-link:hover,
-html[data-theme="dark"] .location-actions .btn-link:hover {
+html[data-theme="dark"] .btn-link:hover {
   color: #b6ff00;
 }
 
@@ -2035,8 +2023,7 @@ html[data-theme="dark"] .proof-section,
 html[data-theme="dark"] .ems-section,
 html[data-theme="dark"] .benefits-section,
 html[data-theme="dark"] .process-section,
-html[data-theme="dark"] .reviews-section,
-html[data-theme="dark"] .locations-section {
+html[data-theme="dark"] .reviews-section {
   background:
     linear-gradient(180deg, #090b16, #05030a),
     linear-gradient(90deg, rgba(0, 229, 255, 0.08), transparent 48%, rgba(255, 46, 147, 0.08));
@@ -2067,8 +2054,7 @@ html[data-theme="dark"] .chip {
   backdrop-filter: blur(18px);
 }
 
-html[data-theme="dark"] .transformation-image-wrap,
-html[data-theme="dark"] .location-image-wrap {
+html[data-theme="dark"] .transformation-image-wrap {
   background: rgba(255, 255, 255, 0.04);
 }
 
@@ -2079,10 +2065,6 @@ html[data-theme="dark"] .swipe-hint {
 html[data-theme="dark"] .review-modal-card {
   background: rgba(255, 255, 255, 0.96);
   border-color: transparent;
-}
-
-html[data-theme="dark"] .location-image-wrap::after {
-  background: linear-gradient(180deg, rgba(5, 3, 10, 0.02), rgba(5, 3, 10, 0.54));
 }
 
 html[data-theme="dark"] .final-cta-section {
