@@ -1080,10 +1080,12 @@ p {
   gap: 0;
   padding: 0;
   overflow: hidden;
-  border: 1px solid rgba(17, 26, 58, 0.1);
+  border: 1px solid rgba(248, 250, 252, 0.14);
   border-radius: 26px;
-  background: #ffffff !important;
-  box-shadow: 0 18px 46px rgba(17, 26, 58, 0.08);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.095), rgba(255, 255, 255, 0.035)),
+    rgba(255, 255, 255, 0.045);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.24);
 }
 
 .location-card::before {
@@ -1093,6 +1095,7 @@ p {
 
 .location-card h3 {
   font-size: 1.8rem;
+  color: var(--white);
 }
 
 .location-image-wrap {
@@ -1107,7 +1110,7 @@ p {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(17, 26, 58, 0.12));
+  background: linear-gradient(180deg, rgba(5, 3, 10, 0.02), rgba(5, 3, 10, 0.54));
   pointer-events: none;
 }
 
@@ -1140,7 +1143,7 @@ p {
   display: grid;
   gap: 1rem;
   padding: 1.15rem;
-  background: #ffffff !important;
+  background: transparent;
   border-radius: 0 0 26px 26px;
 }
 
@@ -1294,7 +1297,6 @@ p {
 .proof-card h3,
 .benefit-card h3,
 .process-step h3,
-.location-card h3,
 .final-cta-shell h2,
 .footer-brand strong {
   color: var(--navy);
@@ -1405,7 +1407,6 @@ p {
 .proof-card,
 .benefit-card,
 .process-step,
-.location-card,
 .transformation-card,
 .review-card {
   border-color: rgba(17, 26, 58, 0.1);
@@ -1445,7 +1446,6 @@ p {
 .proof-card p,
 .benefit-card p,
 .process-step p,
-.location-card p,
 .ems-points li,
 .section-intro,
 .fine-note,
@@ -1475,14 +1475,6 @@ p {
 .review-modal-card {
   background: rgba(255, 255, 255, 0.96);
   border-color: rgba(17, 26, 58, 0.12);
-}
-
-.location-image-wrap::after {
-  background: linear-gradient(180deg, rgba(17, 26, 58, 0), rgba(17, 26, 58, 0.18));
-}
-
-.location-content {
-  background: #ffffff;
 }
 
 .location-actions .btn-link {
@@ -1693,10 +1685,6 @@ p {
 
   .location-card::before {
     display: none;
-  }
-
-  .location-card {
-    background: #ffffff;
   }
 }
 
@@ -2094,35 +2082,7 @@ html[data-theme="dark"] .review-modal-card {
 }
 
 html[data-theme="dark"] .location-image-wrap::after {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(17, 26, 58, 0.14));
-}
-
-html[data-theme="dark"] .location-content {
-  background: #ffffff !important;
-}
-
-html[data-theme="dark"] .location-card {
-  background: #ffffff !important;
-  border-color: rgba(17, 26, 58, 0.1);
-  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.18);
-}
-
-html[data-theme="dark"] .location-card h3 {
-  color: var(--navy);
-}
-
-html[data-theme="dark"] .location-card p {
-  color: var(--muted);
-}
-
-html[data-theme="dark"] .location-actions .btn-ghost {
-  border-color: rgba(17, 26, 58, 0.12);
-  background: #ffffff;
-  color: var(--navy);
-}
-
-html[data-theme="dark"] .location-actions .btn-link {
-  color: #087f94;
+  background: linear-gradient(180deg, rgba(5, 3, 10, 0.02), rgba(5, 3, 10, 0.54));
 }
 
 html[data-theme="dark"] .final-cta-section {
