@@ -1,17 +1,24 @@
 ---
-const whatsappUrl = 'https://wa.me/201124799978';
-const telUrl = 'tel:+201124799978';
-const instagramUrl = 'https://instagram.com/ems.easyfit.alexandria?igsh=MWV1NDlkcG1wc3dnYw==';
-const facebookUrl = 'https://www.facebook.com/ems.easyfit.alexandria/?ref=NONE_xav_ig_profile_page_web#';
-
 const studios = [
   {
     name: 'Smouha',
-    address: "Delta Life Administrative Towers, Madinet El Mar'a Hospital Street, behind Motager Mall."
+    address: 'Delta Life Administrative Towers, behind Motager Mall, first floor, Studio 7B.',
+    mobile: '01124799978',
+    landline: '034238908',
+    whatsapp: 'https://wa.me/201124799978',
+    mobileCall: 'tel:+201124799978',
+    landlineCall: 'tel:034238908',
+    map: 'https://maps.app.goo.gl/FvXUjLWDzwrzMSg99?g_st=ic'
   },
   {
     name: 'Ganaklis',
-    address: 'El Zeraeyeen Towers, Abu Qir Street, in front of El Sallab.'
+    address: 'El Zeraeyeen Towers, ground floor, Abu Qir Street, in front of El Sallab.',
+    mobile: '01121112737',
+    landline: '035708750',
+    whatsapp: 'https://wa.me/201121112737',
+    mobileCall: 'tel:+201121112737',
+    landlineCall: 'tel:035708750',
+    map: 'https://maps.app.goo.gl/v9XFmCjmfcxYoo6g7?g_st=ic'
   }
 ];
 ---
@@ -33,11 +40,15 @@ const studios = [
             <span class="location-label">Easy Fit Studio</span>
             <h3>{studio.name}</h3>
             <p>{studio.address}</p>
+            <ul class="location-phones" aria-label={`${studio.name} contact numbers`}>
+              <li>Mobile: <a href={studio.mobileCall}>{studio.mobile}</a></li>
+              <li>Landline: <a href={studio.landlineCall}>{studio.landline}</a></li>
+            </ul>
             <div class="location-actions">
-              <a class="btn btn-primary" href={whatsappUrl} target="_blank" rel="noreferrer">WhatsApp</a>
-              <a class="btn btn-ghost" href={telUrl}>Call</a>
-              <a class="btn btn-link" href={instagramUrl} target="_blank" rel="noreferrer">Instagram</a>
-              <a class="btn btn-link" href={facebookUrl} target="_blank" rel="noreferrer">Facebook</a>
+              <a class="btn btn-primary" href={studio.whatsapp} target="_blank" rel="noreferrer">WhatsApp</a>
+              <a class="btn btn-ghost" href={studio.mobileCall}>Call Mobile</a>
+              <a class="btn btn-ghost" href={studio.landlineCall}>Call Landline</a>
+              <a class="btn btn-link" href={studio.map} target="_blank" rel="noreferrer">View on Map</a>
             </div>
           </article>
         ))

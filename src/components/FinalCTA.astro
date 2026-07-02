@@ -1,8 +1,11 @@
 ---
-const whatsappUrl = 'https://wa.me/201124799978';
-const telUrl = 'tel:+201124799978';
+const smouhaWhatsapp = 'https://wa.me/201124799978';
+const smouhaTel = 'tel:+201124799978';
+const ganaklisWhatsapp = 'https://wa.me/201121112737';
 const instagramUrl = 'https://instagram.com/ems.easyfit.alexandria?igsh=MWV1NDlkcG1wc3dnYw==';
 const facebookUrl = 'https://www.facebook.com/ems.easyfit.alexandria/?ref=NONE_xav_ig_profile_page_web#';
+const smouhaMap = 'https://maps.app.goo.gl/FvXUjLWDzwrzMSg99?g_st=ic';
+const ganaklisMap = 'https://maps.app.goo.gl/v9XFmCjmfcxYoo6g7?g_st=ic';
 ---
 
 <section class="final-cta-section" aria-labelledby="final-cta-title">
@@ -13,9 +16,9 @@ const facebookUrl = 'https://www.facebook.com/ems.easyfit.alexandria/?ref=NONE_x
       Book your trial session and let the coach guide you through the right plan for your body.
     </p>
     <div class="final-actions">
-      <a class="btn btn-primary btn-large" href={whatsappUrl} target="_blank" rel="noreferrer">WhatsApp</a>
-      <a class="btn btn-ghost btn-large" href={telUrl}>Call Now</a>
-      <a class="btn btn-ghost btn-large" href={instagramUrl} target="_blank" rel="noreferrer">Instagram</a>
+      <a class="btn btn-primary btn-large" href={smouhaWhatsapp} target="_blank" rel="noreferrer">WhatsApp Smouha</a>
+      <a class="btn btn-ghost btn-large" href={ganaklisWhatsapp} target="_blank" rel="noreferrer">WhatsApp Ganaklis</a>
+      <a class="btn btn-ghost btn-large" href={smouhaTel}>Call Smouha</a>
     </div>
   </div>
 </section>
@@ -30,9 +33,23 @@ const facebookUrl = 'https://www.facebook.com/ems.easyfit.alexandria/?ref=NONE_x
       </div>
     </div>
 
-    <ul class="footer-links" aria-label="Contact links">
-      <li><a href="tel:+201124799978">011 24799978</a></li>
-      <li><a href={whatsappUrl} target="_blank" rel="noreferrer">WhatsApp</a></li>
+    <div class="footer-branches">
+      <div>
+        <strong>Smouha</strong>
+        <a href="tel:+201124799978">01124799978</a>
+        <a href="tel:034238908">034238908</a>
+        <a href={smouhaMap} target="_blank" rel="noreferrer">Map</a>
+      </div>
+      <div>
+        <strong>Ganaklis</strong>
+        <a href="tel:+201121112737">01121112737</a>
+        <a href="tel:035708750">035708750</a>
+        <a href={ganaklisMap} target="_blank" rel="noreferrer">Map</a>
+      </div>
+    </div>
+
+    <ul class="footer-links" aria-label="Social and booking links">
+      <li><a href={smouhaWhatsapp} target="_blank" rel="noreferrer">WhatsApp</a></li>
       <li><a href={instagramUrl} target="_blank" rel="noreferrer">Instagram</a></li>
       <li><a href={facebookUrl} target="_blank" rel="noreferrer">Facebook</a></li>
     </ul>

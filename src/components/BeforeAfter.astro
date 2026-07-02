@@ -18,9 +18,9 @@ const transformations = [
   <div class="container">
     <div class="section-head center reveal-on-scroll">
       <p class="eyebrow">TRANSFORMATIONS</p>
-      <h2 id="results-title" class="section-title">Before &amp; After progress that speaks.</h2>
+      <h2 id="results-title" class="section-title">Progress that speaks for itself.</h2>
       <p class="section-intro">
-        EMS works best when the session, coaching, nutrition, and consistency all come together.
+        Real client progress from focused EMS sessions, coaching, nutrition, and consistency.
       </p>
     </div>
 
@@ -37,10 +37,6 @@ const transformations = [
                 loading={index === 0 ? 'eager' : 'lazy'}
                 decoding="async"
               />
-              <div class="compare-labels" aria-hidden="true">
-                <span>BEFORE</span>
-                <span>AFTER</span>
-              </div>
             </div>
             <div class="transformation-meta">
               <span class="chip">{item.tag}</span>
@@ -50,6 +46,8 @@ const transformations = [
         ))
       }
     </div>
+
+    <p class="swipe-hint reveal-on-scroll">Swipe to see more results</p>
 
     <p class="results-disclaimer reveal-on-scroll">
       Results vary depending on consistency, nutrition, and individual goals.

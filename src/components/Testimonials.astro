@@ -29,12 +29,6 @@ const reviews = [
   image,
   title: `Client review ${index + 1}`
 }));
-
-const reelVideos = [
-  { src: '/feedback/1.mp4', poster: '/posters/feedback-1.jpg', title: 'Easy Fit Experience' },
-  { src: '/feedback/2.mp4', poster: '/posters/feedback-2.jpg', title: 'Real Client Feedback' },
-  { src: '/feedback/3.mp4', poster: '/posters/feedback-3.jpg', title: 'EMS Session Review' }
-];
 ---
 
 <section class="section-padding reviews-section" id="testimonials" aria-labelledby="reviews-title">
@@ -48,10 +42,10 @@ const reelVideos = [
     </div>
   </div>
 
-  <div class="review-marquee reveal-on-scroll" aria-label="Client review screenshots">
+  <div class="review-marquee reveal-on-scroll" data-review-marquee aria-label="Client review screenshots">
     <div class="review-marquee-track">
       {
-        [...reviews, ...reviews].map((review, index) => (
+        [...reviews, ...reviews].map((review) => (
           <button
             class="review-card"
             type="button"
@@ -68,7 +62,6 @@ const reelVideos = [
               loading="lazy"
               decoding="async"
             />
-            <span>Tap to zoom</span>
           </button>
         ))
       }
@@ -80,38 +73,6 @@ const reelVideos = [
     <a class="btn btn-primary" href={whatsappUrl} target="_blank" rel="noreferrer">Book on WhatsApp</a>
   </div>
 
-  <div class="container mini-reels reveal-on-scroll">
-    <div class="mini-reels-head">
-      <span>VIDEO FEEDBACK</span>
-      <p>Short client moments, opened only when you choose to play.</p>
-    </div>
-    <div class="mini-video-grid">
-      {
-        reelVideos.map((video, index) => (
-          <button
-            class="mini-video-card"
-            type="button"
-            data-video-card
-            data-src={video.src}
-            data-title={video.title}
-            aria-label={`Play ${video.title}`}
-          >
-            <img
-              src={video.poster}
-              width="720"
-              height="1280"
-              alt={`${video.title} poster`}
-              loading="lazy"
-              decoding="async"
-            />
-            <span class="play-badge" aria-hidden="true">Play</span>
-            <strong>{video.title}</strong>
-          </button>
-        ))
-      }
-    </div>
-  </div>
-
   <dialog class="review-modal" aria-label="Client review preview">
     <div class="review-modal-card">
       <button class="modal-close-button" type="button" data-review-close aria-label="Close review preview">
@@ -120,21 +81,106 @@ const reelVideos = [
       <img id="review-modal-image" src="" alt="" />
     </div>
   </dialog>
-
-  <dialog class="video-modal" aria-label="Client feedback video">
-    <div class="video-modal-card">
-      <div class="modal-topbar">
-        <p id="video-modal-title">Client feedback</p>
-        <button class="modal-close-button" type="button" data-video-close aria-label="Close video">Close</button>
-      </div>
-      <video id="modal-video" class="modal-video" controls playsinline preload="metadata"></video>
-    </div>
-  </dialog>
 </section>
 
 <script>
   (() => {
     const body = document.body;
+    const marquee = document.querySelector('[data-review-marquee]');
+    const track = marquee?.querySelector('.review-marquee-track');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    let isDragging = false;
+    let isPaused = false;
+    let startX = 0;
+    let startScrollLeft = 0;
+    let animationFrame = 0;
+    let resumeTimer = 0;
+    let virtualScrollLeft = 1;
+
+    const getLoopWidth = () => {
+      if (!track) return 0;
+      return track.scrollWidth / 2;
+    };
+
+    const normalizeScroll = () => {
+      if (!marquee) return;
+      const loopWidth = getLoopWidth();
+      if (!loopWidth) return;
+      if (virtualScrollLeft >= loopWidth) virtualScrollLeft -= loopWidth;
+      if (virtualScrollLeft <= 0) virtualScrollLeft += loopWidth;
+      marquee.scrollLeft = virtualScrollLeft;
+    };
+
+    const autoMove = () => {
+      if (marquee && !reducedMotion.matches && !isPaused && !isDragging) {
+        virtualScrollLeft += 0.42;
+        marquee.scrollLeft = virtualScrollLeft;
+        normalizeScroll();
+      }
+      animationFrame = requestAnimationFrame(autoMove);
+    };
+
+    const pause = () => {
+      isPaused = true;
+      window.clearTimeout(resumeTimer);
+    };
+
+    const resume = () => {
+      window.clearTimeout(resumeTimer);
+      resumeTimer = window.setTimeout(() => {
+        isPaused = false;
+      }, 700);
+    };
+
+    if (marquee && track) {
+      marquee.scrollLeft = 1;
+      virtualScrollLeft = marquee.scrollLeft;
+      animationFrame = requestAnimationFrame(autoMove);
+
+      marquee.addEventListener('mouseenter', pause);
+      marquee.addEventListener('mouseleave', resume);
+      marquee.addEventListener('focusin', pause);
+      marquee.addEventListener('focusout', resume);
+
+      marquee.addEventListener('pointerdown', (event) => {
+        isDragging = true;
+        pause();
+        startX = event.clientX;
+        startScrollLeft = marquee.scrollLeft;
+        marquee.classList.add('is-dragging');
+        marquee.setPointerCapture?.(event.pointerId);
+      });
+
+      marquee.addEventListener('pointermove', (event) => {
+        if (!isDragging) return;
+        event.preventDefault();
+        const delta = event.clientX - startX;
+        marquee.scrollLeft = startScrollLeft - delta;
+        virtualScrollLeft = marquee.scrollLeft;
+        normalizeScroll();
+      });
+
+      const endDrag = (event) => {
+        if (!isDragging) return;
+        isDragging = false;
+        marquee.classList.remove('is-dragging');
+        marquee.releasePointerCapture?.(event.pointerId);
+        resume();
+      };
+
+      marquee.addEventListener('pointerup', endDrag);
+      marquee.addEventListener('pointercancel', endDrag);
+      marquee.addEventListener('scroll', () => {
+        if (isDragging) virtualScrollLeft = marquee.scrollLeft;
+      }, { passive: true });
+    }
+
+    reducedMotion.addEventListener?.('change', () => {
+      if (marquee) marquee.scrollLeft = 0;
+    });
+
+    window.addEventListener('beforeunload', () => cancelAnimationFrame(animationFrame), { once: true });
 
     const reviewModal = document.querySelector('.review-modal');
     const reviewImage = document.querySelector('#review-modal-image');
@@ -150,12 +196,14 @@ const reelVideos = [
         reviewImage.removeAttribute('alt');
       }
       lastReviewTrigger?.focus();
+      resume();
     };
 
     document.querySelectorAll('[data-review-card]').forEach((card) => {
       card.addEventListener('click', () => {
         lastReviewTrigger = card;
         if (!reviewModal || !reviewImage) return;
+        pause();
         reviewImage.src = card.dataset.full || '';
         reviewImage.alt = `${card.dataset.title || 'Client review'} from Easy Fit Alexandria`;
         reviewModal.showModal();
@@ -171,43 +219,6 @@ const reelVideos = [
     reviewModal?.addEventListener('cancel', (event) => {
       event.preventDefault();
       closeReview();
-    });
-
-    const videoModal = document.querySelector('.video-modal');
-    const modalVideo = document.querySelector('#modal-video');
-    const videoTitle = document.querySelector('#video-modal-title');
-    const videoClose = document.querySelector('[data-video-close]');
-    let lastVideoTrigger = null;
-
-    const closeVideo = () => {
-      if (!videoModal || !videoModal.open || !modalVideo) return;
-      modalVideo.pause();
-      modalVideo.removeAttribute('src');
-      modalVideo.load();
-      videoModal.close();
-      body.classList.remove('modal-open');
-      lastVideoTrigger?.focus();
-    };
-
-    document.querySelectorAll('[data-video-card]').forEach((card) => {
-      card.addEventListener('click', () => {
-        lastVideoTrigger = card;
-        if (!videoModal || !modalVideo || !videoTitle) return;
-        videoTitle.textContent = card.dataset.title || 'Client feedback';
-        modalVideo.src = card.dataset.src || '';
-        videoModal.showModal();
-        body.classList.add('modal-open');
-        modalVideo.play().catch(() => {});
-      });
-    });
-
-    videoClose?.addEventListener('click', closeVideo);
-    videoModal?.addEventListener('click', (event) => {
-      if (event.target === videoModal) closeVideo();
-    });
-    videoModal?.addEventListener('cancel', (event) => {
-      event.preventDefault();
-      closeVideo();
     });
   })();
 </script>
