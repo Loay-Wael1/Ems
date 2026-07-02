@@ -1,11 +1,11 @@
 ---
 const whatsappUrl = 'https://wa.me/201124799978';
-const emsPoints = ['Coach guided', 'Full-body activation', 'Built for busy schedules'];
 const explainerVideo = '/videos/ems-explainer.mp4';
 const explainerPoster = '/videos/ems-explainer-poster.webp';
+const emsPoints = ['Coach guided', 'Full-body activation', 'Built for busy schedules'];
 ---
 
-<section class="section-padding ems-section" aria-labelledby="ems-title">
+<section class="section-padding ems-section" id="what-is-ems" aria-labelledby="ems-title">
   <div class="container ems-explainer-grid">
     <div class="ems-media-card reveal-on-scroll" aria-label="EMS training visual explanation">
       <video
@@ -17,10 +17,13 @@ const explainerPoster = '/videos/ems-explainer-poster.webp';
         playsinline
         preload="metadata"
       ></video>
-      <p>EMS technology in a focused coach-guided session</p>
+      <div class="ems-media-caption">
+        <span>20-minute EMS session</span>
+        <strong>Coach-guided activation</strong>
+      </div>
     </div>
 
-    <div class="section-head ems-copy-panel reveal-on-scroll reveal-delay-1">
+    <div class="ems-copy-panel reveal-on-scroll reveal-delay-1">
       <h2 id="ems-title" class="section-title">EMS in 20 minutes.</h2>
       <p class="section-intro">
         A focused coach-guided session using EMS technology to activate your muscles while you move.
