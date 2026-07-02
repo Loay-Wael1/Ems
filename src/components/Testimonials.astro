@@ -75,7 +75,7 @@ const reviews = [
   <dialog class="review-modal" aria-label="Client review preview">
     <div class="review-modal-card">
       <button class="modal-close-button" type="button" data-review-close aria-label="Close review preview">
-        Close
+        ×
       </button>
       <img id="review-modal-image" src="" alt="" />
     </div>
@@ -140,7 +140,7 @@ const reviews = [
         if (!isDragging) return;
         event.preventDefault();
         const delta = event.clientX - startX;
-        if (Math.abs(delta) > 4) didDrag = true;
+        if (Math.abs(delta) > 5) didDrag = true;
         marquee.scrollLeft = startScrollLeft - delta;
         normalizeScroll();
       });

@@ -1,36 +1,13 @@
 ---
 const whatsappUrl = 'https://wa.me/201124799978';
-const emsPoints = ['Coach-controlled intensity', 'Full-body muscle activation', 'Built for busy schedules'];
+const emsPoints = ['Coach guided', 'Full-body activation', 'Built for busy schedules'];
 const explainerVideo = '/videos/ems-explainer.mp4';
 const explainerPoster = '/videos/ems-explainer-poster.webp';
 ---
 
 <section class="section-padding ems-section" aria-labelledby="ems-title">
   <div class="container ems-explainer-grid">
-    <div class="section-head ems-copy-panel reveal-on-scroll">
-      <h2 id="ems-title" class="section-title">EMS training, made simple.</h2>
-      <p class="section-intro">
-        Electrical muscle stimulation uses safe, low-frequency impulses through a specialized suit
-        while you perform guided movements. Your coach controls the intensity, guides every move,
-        and keeps the session aligned with your body, fitness level, and goal.
-      </p>
-      <p class="ems-time-copy">
-        In just <strong>20 focused minutes</strong>, EMS helps you train smarter — with full-body
-        activation and coach-guided intensity.
-      </p>
-
-      <ul class="ems-points" aria-label="EMS training principles">
-        {emsPoints.map((point) => <li>{point}</li>)}
-      </ul>
-
-      <p class="fine-note">EMS is a training method — not a shortcut or a medical promise.</p>
-
-      <a class="btn btn-primary ems-cta" href={whatsappUrl} target="_blank" rel="noreferrer">
-        Book the 20-Min Trial
-      </a>
-    </div>
-
-    <div class="ems-media-card reveal-on-scroll reveal-delay-1" aria-label="EMS training visual explanation">
+    <div class="ems-media-card reveal-on-scroll" aria-label="EMS training visual explanation">
       <video
         src={explainerVideo}
         poster={explainerPoster}
@@ -40,7 +17,24 @@ const explainerPoster = '/videos/ems-explainer-poster.webp';
         playsinline
         preload="metadata"
       ></video>
-      <p>Coach-guided EMS in a focused 20-minute session</p>
+      <p>EMS technology in a focused coach-guided session</p>
+    </div>
+
+    <div class="section-head ems-copy-panel reveal-on-scroll reveal-delay-1">
+      <h2 id="ems-title" class="section-title">EMS in 20 minutes.</h2>
+      <p class="section-intro">
+        A focused coach-guided session using EMS technology to activate your muscles while you move.
+      </p>
+
+      <ul class="ems-points" aria-label="EMS session benefits">
+        {emsPoints.map((point) => <li>{point}</li>)}
+      </ul>
+
+      <p class="fine-note">EMS is training — not a shortcut.</p>
+
+      <a class="btn btn-primary ems-cta" href={whatsappUrl} target="_blank" rel="noreferrer">
+        Book the 20-Min Trial
+      </a>
     </div>
   </div>
 </section>
