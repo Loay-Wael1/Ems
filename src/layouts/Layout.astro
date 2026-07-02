@@ -45,7 +45,7 @@ const structuredData = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#05030A" />
+    <meta name="theme-color" content="#F8FAFC" />
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -60,6 +60,23 @@ const structuredData = {
 
     <link rel="preload" href="/logo-transparent.png" as="image" />
     <link rel="preload" href="/hero-poster.webp" as="image" type="image/webp" fetchpriority="high" />
+
+    <script is:inline>
+      (() => {
+        let theme = 'light';
+        try {
+          theme = localStorage.getItem('easyfitTheme') === 'dark' ? 'dark' : 'light';
+        } catch (error) {
+          theme = 'light';
+        }
+
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+        document
+          .querySelector('meta[name="theme-color"]')
+          ?.setAttribute('content', theme === 'dark' ? '#05030A' : '#F8FAFC');
+      })();
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

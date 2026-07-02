@@ -29,6 +29,10 @@ const navItems = [
     <div class="header-actions">
       <a class="social-link" href={instagramUrl} target="_blank" rel="noreferrer">IG</a>
       <a class="social-link" href={facebookUrl} target="_blank" rel="noreferrer">FB</a>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode" aria-pressed="false">
+        <span class="theme-toggle-dot" aria-hidden="true"></span>
+        <span class="theme-toggle-text">Dark</span>
+      </button>
       <a class="btn btn-primary nav-cta" href={whatsappUrl} target="_blank" rel="noreferrer">
         <span class="cta-full">Book on WhatsApp</span>
         <span class="cta-short" aria-hidden="true">Book</span>
@@ -36,3 +40,49 @@ const navItems = [
     </div>
   </div>
 </header>
+
+<script>
+  (() => {
+    const html = document.documentElement;
+    const buttons = document.querySelectorAll('[data-theme-toggle]');
+
+    const setTheme = (theme, shouldStore = true) => {
+      html.dataset.theme = theme;
+      html.style.colorScheme = theme;
+      document
+        .querySelector('meta[name="theme-color"]')
+        ?.setAttribute('content', theme === 'dark' ? '#05030A' : '#F8FAFC');
+
+      buttons.forEach((button) => {
+        const text = button.querySelector('.theme-toggle-text');
+        const isDark = theme === 'dark';
+        button.setAttribute('aria-pressed', String(isDark));
+        button.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+        if (text) text.textContent = isDark ? 'Light' : 'Dark';
+      });
+
+      if (shouldStore) {
+        try {
+          localStorage.setItem('easyfitTheme', theme);
+        } catch (error) {
+          /* Theme still works for the current page if storage is unavailable. */
+        }
+      }
+    };
+
+    const currentTheme = html.dataset.theme === 'dark' ? 'dark' : 'light';
+    setTheme(currentTheme, false);
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        setTheme(html.dataset.theme === 'dark' ? 'light' : 'dark');
+      });
+    });
+
+    window.addEventListener('storage', (event) => {
+      if (event.key === 'easyfitTheme') {
+        setTheme(event.newValue === 'dark' ? 'dark' : 'light', false);
+      }
+    });
+  })();
+</script>
