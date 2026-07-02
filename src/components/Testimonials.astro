@@ -86,130 +86,136 @@ const reviews = [
   (() => {
     const marquee = document.querySelector('[data-review-marquee]');
     const track = marquee?.querySelector('.review-marquee-track');
+    const modal = document.querySelector('.review-modal');
+    const modalImage = document.querySelector('#review-modal-image');
+    const closeButton = document.querySelector('[data-review-close]');
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    if (!marquee || !track || !modal || !modalImage) return;
+
+    let raf = null;
+    let lastTime = 0;
     let isDragging = false;
+    let hasMoved = false;
+    let suppressClick = false;
     let isModalOpen = false;
     let startX = 0;
     let startScrollLeft = 0;
-    let didDrag = false;
-    let suppressClick = false;
-    let animationFrame = 0;
-    let lastFrameTime = 0;
-    const autoSpeed = 34;
-
-    const getLoopWidth = () => {
-      if (!track) return 0;
-      return track.scrollWidth / 2;
-    };
-
-    const normalizeScroll = () => {
-      if (!marquee) return;
-      if (reducedMotion.matches) return;
-      const loopWidth = getLoopWidth();
-      if (!loopWidth) return;
-      if (marquee.scrollLeft >= loopWidth) marquee.scrollLeft -= loopWidth;
-      if (marquee.scrollLeft <= 0) marquee.scrollLeft += loopWidth;
-    };
-
-    const autoMove = (timestamp = 0) => {
-      if (!lastFrameTime) lastFrameTime = timestamp;
-      const deltaSeconds = Math.min((timestamp - lastFrameTime) / 1000, 0.08);
-      lastFrameTime = timestamp;
-
-      if (marquee && !reducedMotion.matches && !isDragging && !isModalOpen) {
-        marquee.scrollLeft += autoSpeed * deltaSeconds;
-        normalizeScroll();
-      }
-      animationFrame = requestAnimationFrame(autoMove);
-    };
-
-    if (marquee && track) {
-      marquee.scrollLeft = 1;
-      animationFrame = requestAnimationFrame(autoMove);
-
-      marquee.addEventListener('pointerdown', (event) => {
-        isDragging = true;
-        didDrag = false;
-        startX = event.clientX;
-        startScrollLeft = marquee.scrollLeft;
-        marquee.classList.add('is-dragging');
-        marquee.setPointerCapture?.(event.pointerId);
-      });
-
-      marquee.addEventListener('pointermove', (event) => {
-        if (!isDragging) return;
-        event.preventDefault();
-        const delta = event.clientX - startX;
-        if (Math.abs(delta) > 5) didDrag = true;
-        marquee.scrollLeft = startScrollLeft - delta;
-        normalizeScroll();
-      });
-
-      const endDrag = (event) => {
-        if (!isDragging) return;
-        isDragging = false;
-        marquee.classList.remove('is-dragging');
-        marquee.releasePointerCapture?.(event.pointerId);
-        if (didDrag) {
-          suppressClick = true;
-          window.setTimeout(() => {
-            didDrag = false;
-            suppressClick = false;
-          }, 180);
-        }
-      };
-
-      marquee.addEventListener('pointerup', endDrag);
-      marquee.addEventListener('pointercancel', endDrag);
-      marquee.addEventListener('pointerleave', endDrag);
-      marquee.addEventListener('scroll', normalizeScroll, { passive: true });
-    }
-
-    reducedMotion.addEventListener?.('change', () => {
-      if (marquee) marquee.scrollLeft = 0;
-    });
-
-    window.addEventListener('beforeunload', () => cancelAnimationFrame(animationFrame), { once: true });
-
-    const reviewModal = document.querySelector('.review-modal');
-    const reviewImage = document.querySelector('#review-modal-image');
-    const reviewClose = document.querySelector('[data-review-close]');
     let lastReviewTrigger = null;
+    const speed = 65;
 
-    const closeReview = () => {
-      if (!reviewModal || !reviewModal.open) return;
-      reviewModal.close();
-      isModalOpen = false;
-      if (reviewImage) {
-        reviewImage.removeAttribute('src');
-        reviewImage.removeAttribute('alt');
+    const loopWidth = () => track.scrollWidth / 2;
+
+    const normalize = () => {
+      const half = loopWidth();
+      if (!half) return;
+      if (marquee.scrollLeft >= half) marquee.scrollLeft -= half;
+      if (marquee.scrollLeft < 1) marquee.scrollLeft += half;
+    };
+
+    const animate = (time = 0) => {
+      if (!lastTime) lastTime = time;
+      const delta = Math.min((time - lastTime) / 1000, 0.08);
+      lastTime = time;
+
+      if (!isDragging && !isModalOpen && !reducedMotion.matches) {
+        marquee.scrollLeft += speed * delta;
+        normalize();
       }
+
+      raf = requestAnimationFrame(animate);
+    };
+
+    const closeModal = () => {
+      if (!modal.open) return;
+      modal.close();
+      isModalOpen = false;
+      modalImage.removeAttribute('src');
+      modalImage.removeAttribute('alt');
       lastReviewTrigger?.focus();
     };
 
-    document.querySelectorAll('[data-review-card]').forEach((card) => {
-      card.addEventListener('click', (event) => {
-        if (suppressClick) {
-          event.preventDefault();
-          return;
-        }
-        lastReviewTrigger = card;
-        if (!reviewModal || !reviewImage) return;
-        isModalOpen = true;
-        reviewImage.src = card.dataset.full || '';
-        reviewImage.alt = `${card.dataset.title || 'Client review'} from Easy Fit Alexandria`;
-        reviewModal.showModal();
-        reviewClose?.focus();
-      });
+    const openModal = (card) => {
+      lastReviewTrigger = card;
+      isModalOpen = true;
+      modalImage.src = card.dataset.full || '';
+      modalImage.alt = `${card.dataset.title || 'Client review'} from Easy Fit Alexandria`;
+      modal.showModal();
+      closeButton?.focus();
+    };
+
+    const endDrag = (event) => {
+      if (!isDragging) return;
+      isDragging = false;
+      marquee.classList.remove('is-dragging');
+      marquee.releasePointerCapture?.(event.pointerId);
+
+      if (hasMoved) {
+        suppressClick = true;
+        window.setTimeout(() => {
+          suppressClick = false;
+          hasMoved = false;
+        }, 150);
+      }
+    };
+
+    marquee.scrollLeft = 1;
+    raf = requestAnimationFrame(animate);
+
+    marquee.addEventListener('pointerdown', (event) => {
+      isDragging = true;
+      hasMoved = false;
+      startX = event.clientX;
+      startScrollLeft = marquee.scrollLeft;
+      marquee.classList.add('is-dragging');
+      marquee.setPointerCapture?.(event.pointerId);
     });
 
-    reviewClose?.addEventListener('click', closeReview);
-    reviewModal?.addEventListener('click', (event) => {
-      if (event.target === reviewModal) closeReview();
-    });
-    reviewModal?.addEventListener('cancel', (event) => {
+    marquee.addEventListener('pointermove', (event) => {
+      if (!isDragging) return;
+      const delta = event.clientX - startX;
+      if (Math.abs(delta) > 5) hasMoved = true;
+      if (!hasMoved) return;
       event.preventDefault();
-      closeReview();
+      marquee.scrollLeft = startScrollLeft - delta;
+      normalize();
     });
+
+    marquee.addEventListener('pointerup', endDrag);
+    marquee.addEventListener('pointercancel', endDrag);
+    marquee.addEventListener('pointerleave', endDrag);
+    marquee.addEventListener('scroll', normalize, { passive: true });
+
+    document.addEventListener('click', (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const card = target.closest('[data-review-card]');
+      if (!card) return;
+
+      if (suppressClick) {
+        event.preventDefault();
+        return;
+      }
+
+      openModal(card);
+    });
+
+    reducedMotion.addEventListener?.('change', () => {
+      marquee.scrollLeft = reducedMotion.matches ? 0 : 1;
+      lastTime = 0;
+    });
+
+    closeButton?.addEventListener('click', closeModal);
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) closeModal();
+    });
+    modal.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      closeModal();
+    });
+
+    window.addEventListener('beforeunload', () => {
+      if (raf) cancelAnimationFrame(raf);
+    }, { once: true });
   })();
 </script>
