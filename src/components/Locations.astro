@@ -7,8 +7,6 @@ const studios = [
     name: 'Smouha',
     address: 'Delta Life Administrative Towers, behind Motager Mall, first floor, Studio 7B.',
     image: smouhaImage,
-    mobile: '01124799978',
-    landline: '034238908',
     whatsapp: 'https://wa.me/201124799978',
     mobileCall: 'tel:+201124799978',
     landlineCall: 'tel:034238908',
@@ -18,8 +16,6 @@ const studios = [
     name: 'Ganaklis',
     address: 'El Zeraeyeen Towers, ground floor, Abu Qir Street, in front of El Sallab.',
     image: ganaklisImage,
-    mobile: '01121112737',
-    landline: '035708750',
     whatsapp: 'https://wa.me/201121112737',
     mobileCall: 'tel:+201121112737',
     landlineCall: 'tel:035708750',
@@ -51,21 +47,10 @@ const studios = [
                 loading="lazy"
                 decoding="async"
               />
-              <span class="location-label">Easy Fit Studio</span>
             </div>
             <div class="location-content">
               <h3>{studio.name}</h3>
               <p>{studio.address}</p>
-              <ul class="location-phones" aria-label={`${studio.name} contact numbers`}>
-                <li>
-                  <span>Mobile</span>
-                  <a href={studio.mobileCall}>{studio.mobile}</a>
-                </li>
-                <li>
-                  <span>Landline</span>
-                  <a href={studio.landlineCall}>{studio.landline}</a>
-                </li>
-              </ul>
               <div class="location-actions">
                 <a class="btn btn-primary" href={studio.whatsapp} target="_blank" rel="noreferrer">WhatsApp</a>
                 <a class="btn btn-ghost" href={studio.mobileCall}>Call Mobile</a>
