@@ -30,8 +30,16 @@ const navItems = [
       <a class="social-link" href={instagramUrl} target="_blank" rel="noreferrer">IG</a>
       <a class="social-link" href={facebookUrl} target="_blank" rel="noreferrer">FB</a>
       <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode" aria-pressed="false">
-        <span class="theme-toggle-dot" aria-hidden="true"></span>
-        <span class="theme-toggle-text">Dark</span>
+        <span class="theme-toggle-icon" aria-hidden="true">
+          <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" focusable="false">
+            <path d="M20.5 14.7A8.4 8.4 0 0 1 9.3 3.5a8.6 8.6 0 1 0 11.2 11.2Z" />
+          </svg>
+          <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" focusable="false">
+            <circle cx="12" cy="12" r="4.2" />
+            <path d="M12 2.6v2.2M12 19.2v2.2M4.8 4.8l1.6 1.6M17.6 17.6l1.6 1.6M2.6 12h2.2M19.2 12h2.2M4.8 19.2l1.6-1.6M17.6 6.4l1.6-1.6" />
+          </svg>
+        </span>
+        <span class="theme-toggle-text">Night</span>
       </button>
       <a class="btn btn-primary nav-cta" href={whatsappUrl} target="_blank" rel="noreferrer">
         <span class="cta-full">Book on WhatsApp</span>
@@ -58,7 +66,7 @@ const navItems = [
         const isDark = theme === 'dark';
         button.setAttribute('aria-pressed', String(isDark));
         button.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
-        if (text) text.textContent = isDark ? 'Light' : 'Dark';
+        if (text) text.textContent = isDark ? 'Light' : 'Night';
       });
 
       if (shouldStore) {

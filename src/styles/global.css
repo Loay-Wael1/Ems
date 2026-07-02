@@ -327,8 +327,8 @@ p {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.45rem;
-  padding: 0.55rem 0.75rem;
+  gap: 0.48rem;
+  padding: 0.5rem 0.76rem 0.5rem 0.58rem;
   border: 1px solid rgba(17, 26, 58, 0.12);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.78);
@@ -345,12 +345,37 @@ p {
   border-color: rgba(16, 191, 211, 0.35);
 }
 
-.theme-toggle-dot {
-  width: 0.55rem;
-  height: 0.55rem;
+.theme-toggle-icon {
+  position: relative;
+  width: 1.7rem;
+  height: 1.7rem;
+  display: grid;
+  place-items: center;
   border-radius: 999px;
-  background: var(--cyan);
-  box-shadow: 0 0 0 4px rgba(16, 191, 211, 0.1);
+  background: linear-gradient(135deg, rgba(17, 26, 58, 0.08), rgba(16, 191, 211, 0.13));
+  box-shadow: inset 0 0 0 1px rgba(17, 26, 58, 0.08);
+}
+
+.theme-icon {
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.theme-icon-moon {
+  fill: currentColor;
+  stroke-width: 0;
+}
+
+.theme-icon-sun {
+  opacity: 0;
+  transform: rotate(-30deg) scale(0.72);
 }
 
 .cta-full {
@@ -502,12 +527,15 @@ p {
   z-index: 1;
   display: grid;
   gap: 2rem;
+  min-width: 0;
 }
 
 .hero-copy {
   display: grid;
   gap: 1.1rem;
   align-content: end;
+  width: 100%;
+  min-width: 0;
   max-width: 720px;
 }
 
@@ -527,9 +555,12 @@ p {
 }
 
 .hero-description {
-  max-width: 38rem;
+  width: 100%;
+  max-width: min(20.5rem, calc(100vw - 32px));
   font-size: 1.05rem;
   color: rgba(248, 250, 252, 0.82);
+  overflow-wrap: break-word;
+  text-wrap: pretty;
 }
 
 .hero-actions {
@@ -544,6 +575,7 @@ p {
   display: flex;
   flex-wrap: wrap;
   gap: 0.55rem;
+  max-width: 100%;
   padding: 0;
   margin: 0.7rem 0 0;
   list-style: none;
@@ -1483,20 +1515,20 @@ p {
 
 .hero-media {
   background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.93), rgba(255, 255, 255, 0.7) 42%, rgba(255, 255, 255, 0.82)),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.36) 48%, rgba(255, 255, 255, 0.54)),
     url("/hero-poster.webp") center / cover no-repeat;
 }
 
 .hero-media::before {
   background:
-    linear-gradient(135deg, rgba(16, 191, 211, 0.12), transparent 38%),
-    linear-gradient(315deg, rgba(55, 200, 162, 0.12), transparent 42%);
+    linear-gradient(135deg, rgba(16, 191, 211, 0.08), transparent 38%),
+    linear-gradient(315deg, rgba(55, 200, 162, 0.08), transparent 42%);
 }
 
 .hero-static-overlay {
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(248, 250, 252, 0.72) 82%, #f8fafc),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0.78));
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(248, 250, 252, 0.46) 82%, #f8fafc),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.74), rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.4));
 }
 
 .hero-glow {
@@ -1750,6 +1782,7 @@ p {
   }
 
   .hero-description {
+    max-width: 38rem;
     font-size: 1.12rem;
   }
 
@@ -1971,9 +2004,19 @@ html[data-theme="dark"] .theme-toggle {
   box-shadow: none;
 }
 
-html[data-theme="dark"] .theme-toggle-dot {
-  background: #b6ff00;
-  box-shadow: 0 0 0 4px rgba(182, 255, 0, 0.12);
+html[data-theme="dark"] .theme-toggle-icon {
+  background: linear-gradient(135deg, rgba(182, 255, 0, 0.16), rgba(0, 229, 255, 0.12));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+html[data-theme="dark"] .theme-icon-moon {
+  opacity: 0;
+  transform: rotate(30deg) scale(0.72);
+}
+
+html[data-theme="dark"] .theme-icon-sun {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
 }
 
 html[data-theme="dark"] .btn {
@@ -2039,7 +2082,7 @@ html[data-theme="dark"] .hero-section {
 
 html[data-theme="dark"] .hero-media {
   background:
-    linear-gradient(90deg, rgba(5, 3, 10, 0.96), rgba(5, 3, 10, 0.72) 48%, rgba(5, 3, 10, 0.9)),
+    linear-gradient(90deg, rgba(5, 3, 10, 0.86), rgba(5, 3, 10, 0.52) 48%, rgba(5, 3, 10, 0.78)),
     url("/hero-poster.webp") center / cover no-repeat;
 }
 
@@ -2051,8 +2094,8 @@ html[data-theme="dark"] .hero-media::before {
 
 html[data-theme="dark"] .hero-static-overlay {
   background:
-    linear-gradient(180deg, rgba(5, 3, 10, 0.18), rgba(5, 3, 10, 0.72) 78%, #05030a),
-    linear-gradient(90deg, rgba(5, 3, 10, 0.82), rgba(5, 3, 10, 0.3), rgba(5, 3, 10, 0.68));
+    linear-gradient(180deg, rgba(5, 3, 10, 0.12), rgba(5, 3, 10, 0.58) 78%, #05030a),
+    linear-gradient(90deg, rgba(5, 3, 10, 0.74), rgba(5, 3, 10, 0.2), rgba(5, 3, 10, 0.56));
 }
 
 html[data-theme="dark"] .hero-glow {
