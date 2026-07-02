@@ -44,38 +44,44 @@ const reviews = [
   <div class="review-marquee reveal-on-scroll" data-review-marquee aria-label="Client review screenshots">
     <div class="review-marquee-track">
       {
-        [...reviews, ...reviews].map((review) => (
-          <button
-            class="review-card"
-            type="button"
-            data-review-card
-            data-full={review.image.src}
-            data-title={review.title}
-            aria-label={`Open ${review.title}`}
-          >
-            <img
-              src={review.image.src}
-              width={review.image.width}
-              height={review.image.height}
-              alt={`${review.title} from Easy Fit Alexandria client`}
-              loading="lazy"
-              decoding="async"
-            />
-          </button>
-        ))
+        [...reviews, ...reviews].map((review, index) => {
+          const isDuplicate = index >= reviews.length;
+
+          return (
+            <button
+              class="review-card"
+              type="button"
+              data-review-card
+              data-full={review.image.src}
+              data-title={review.title}
+              aria-label={`Open ${review.title}`}
+              aria-hidden={isDuplicate ? 'true' : undefined}
+              tabindex={isDuplicate ? -1 : undefined}
+            >
+              <img
+                src={review.image.src}
+                width={review.image.width}
+                height={review.image.height}
+                alt={`${review.title} from Easy Fit Alexandria client`}
+                loading="lazy"
+                decoding="async"
+              />
+            </button>
+          );
+        })
       }
     </div>
   </div>
 
   <div class="container review-cta-row reveal-on-scroll">
     <p>Want to feel the difference yourself?</p>
-    <a class="btn btn-primary" href={whatsappUrl} target="_blank" rel="noreferrer">Book on WhatsApp</a>
+    <a class="btn btn-primary" href={whatsappUrl} target="_blank" rel="noopener noreferrer">Book on WhatsApp</a>
   </div>
 
-  <dialog class="review-modal" aria-label="Client review preview">
+  <dialog class="review-modal" aria-label="Client review preview" aria-modal="true">
     <div class="review-modal-card">
       <button class="modal-close-button" type="button" data-review-close aria-label="Close review preview">
-        ×
+        &times;
       </button>
       <img id="review-modal-image" src="" alt="" />
     </div>
@@ -102,6 +108,8 @@ const reviews = [
     let startX = 0;
     let startScrollLeft = 0;
     let lastReviewTrigger = null;
+    let isPageVisible = !document.hidden;
+    let isKeyboardFocused = false;
     const speed = 65;
 
     const loopWidth = () => track.scrollWidth / 2;
@@ -118,7 +126,7 @@ const reviews = [
       const delta = Math.min((time - lastTime) / 1000, 0.08);
       lastTime = time;
 
-      if (!isDragging && !isModalOpen && !reducedMotion.matches) {
+      if (isPageVisible && !isDragging && !isModalOpen && !isKeyboardFocused && !reducedMotion.matches) {
         marquee.scrollLeft += speed * delta;
         normalize();
       }
@@ -128,19 +136,29 @@ const reviews = [
 
     const closeModal = () => {
       if (!modal.open) return;
-      modal.close();
+      if (typeof modal.close === 'function') {
+        modal.close();
+      } else {
+        modal.removeAttribute('open');
+      }
       isModalOpen = false;
       modalImage.removeAttribute('src');
       modalImage.removeAttribute('alt');
-      lastReviewTrigger?.focus();
+      if (lastReviewTrigger?.getAttribute?.('aria-hidden') !== 'true') {
+        lastReviewTrigger?.focus?.();
+      }
     };
 
     const openModal = (card) => {
       lastReviewTrigger = card;
       isModalOpen = true;
-      modalImage.src = card.dataset.full || '';
-      modalImage.alt = `${card.dataset.title || 'Client review'} from Easy Fit Alexandria`;
-      modal.showModal();
+      modalImage.src = card.getAttribute('data-full') || '';
+      modalImage.alt = `${card.getAttribute('data-title') || 'Client review'} from Easy Fit Alexandria`;
+      if (typeof modal.showModal === 'function') {
+        modal.showModal();
+      } else {
+        modal.setAttribute('open', '');
+      }
       closeButton?.focus();
     };
 
@@ -148,7 +166,9 @@ const reviews = [
       if (!isDragging) return;
       isDragging = false;
       marquee.classList.remove('is-dragging');
-      marquee.releasePointerCapture?.(event.pointerId);
+      if (marquee.hasPointerCapture?.(event.pointerId)) {
+        marquee.releasePointerCapture(event.pointerId);
+      }
 
       if (hasMoved) {
         suppressClick = true;
@@ -163,6 +183,7 @@ const reviews = [
     raf = requestAnimationFrame(animate);
 
     marquee.addEventListener('pointerdown', (event) => {
+      if (event.pointerType === 'mouse' && event.button !== 0) return;
       isDragging = true;
       hasMoved = false;
       startX = event.clientX;
@@ -185,8 +206,16 @@ const reviews = [
     marquee.addEventListener('pointercancel', endDrag);
     marquee.addEventListener('pointerleave', endDrag);
     marquee.addEventListener('scroll', normalize, { passive: true });
+    marquee.addEventListener('focusin', () => {
+      isKeyboardFocused = true;
+      lastTime = 0;
+    });
+    marquee.addEventListener('focusout', () => {
+      isKeyboardFocused = false;
+      lastTime = 0;
+    });
 
-    document.addEventListener('click', (event) => {
+    marquee.addEventListener('click', (event) => {
       const target = event.target;
       if (!(target instanceof Element)) return;
       const card = target.closest('[data-review-card]');
@@ -202,6 +231,11 @@ const reviews = [
 
     reducedMotion.addEventListener?.('change', () => {
       marquee.scrollLeft = reducedMotion.matches ? 0 : 1;
+      lastTime = 0;
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      isPageVisible = !document.hidden;
       lastTime = 0;
     });
 

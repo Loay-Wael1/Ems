@@ -712,8 +712,7 @@ p {
 }
 
 .proof-card,
-.benefit-card,
-.process-step {
+.benefit-card {
   position: relative;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -733,8 +732,7 @@ p {
 }
 
 .proof-card::before,
-.benefit-card::before,
-.process-step::before {
+.benefit-card::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -745,7 +743,6 @@ p {
 
 .card-number,
 .benefit-index,
-.step-number,
 .location-label {
   position: relative;
   color: var(--cyan);
@@ -755,7 +752,6 @@ p {
 
 .proof-card h3,
 .benefit-card h3,
-.process-step h3,
 .location-card h3 {
   position: relative;
   font-size: 1.26rem;
@@ -763,7 +759,6 @@ p {
 
 .proof-card p,
 .benefit-card p,
-.process-step p,
 .location-card p {
   position: relative;
   color: var(--muted);
@@ -900,26 +895,6 @@ p {
 
 .benefit-card:nth-child(3n) {
   border-color: rgba(182, 255, 0, 0.2);
-}
-
-.process-section {
-  background:
-    linear-gradient(180deg, #070713, #090b16),
-    linear-gradient(90deg, rgba(124, 58, 237, 0.1), transparent);
-}
-
-.process-timeline {
-  display: grid;
-  gap: 0.9rem;
-  margin-top: 2rem;
-}
-
-.process-step {
-  min-height: 210px;
-  display: grid;
-  align-content: space-between;
-  gap: 1rem;
-  padding: 1.15rem;
 }
 
 .reviews-section {
@@ -1292,7 +1267,6 @@ p {
 .section-title,
 .proof-card h3,
 .benefit-card h3,
-.process-step h3,
 .final-cta-shell h2,
 .footer-brand strong {
   color: var(--navy);
@@ -1402,7 +1376,6 @@ p {
 .ems-media-card,
 .proof-card,
 .benefit-card,
-.process-step,
 .transformation-card,
 .review-card {
   border-color: rgba(17, 26, 58, 0.1);
@@ -1418,7 +1391,6 @@ p {
 .proof-section,
 .ems-section,
 .benefits-section,
-.process-section,
 .reviews-section {
   background:
     radial-gradient(circle at 88% 12%, rgba(16, 191, 211, 0.09), transparent 22rem),
@@ -1426,21 +1398,18 @@ p {
 }
 
 .proof-card::before,
-.benefit-card::before,
-.process-step::before {
+.benefit-card::before {
   opacity: 0.55;
   background: linear-gradient(135deg, rgba(16, 191, 211, 0.08), transparent 48%, rgba(55, 200, 162, 0.08));
 }
 
 .card-number,
-.benefit-index,
-.step-number {
+.benefit-index {
   color: #0d8fa5;
 }
 
 .proof-card p,
 .benefit-card p,
-.process-step p,
 .ems-points li,
 .section-intro,
 .fine-note,
@@ -1648,17 +1617,12 @@ p {
 
   .proof-grid,
   .benefits-grid,
-  .process-timeline,
   .location-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .benefits-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .process-timeline {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .review-card {
@@ -1829,7 +1793,6 @@ html[data-theme="dark"] .section-title,
 html[data-theme="dark"] .hero-title,
 html[data-theme="dark"] .proof-card h3,
 html[data-theme="dark"] .benefit-card h3,
-html[data-theme="dark"] .process-step h3,
 html[data-theme="dark"] .final-cta-shell h2,
 html[data-theme="dark"] .footer-brand strong {
   color: #f8fafc;
@@ -1843,7 +1806,6 @@ html[data-theme="dark"] .fine-note,
 html[data-theme="dark"] .results-disclaimer,
 html[data-theme="dark"] .proof-card p,
 html[data-theme="dark"] .benefit-card p,
-html[data-theme="dark"] .process-step p,
 html[data-theme="dark"] .footer-brand span,
 html[data-theme="dark"] .footer-links a,
 html[data-theme="dark"] .footer-copy {
@@ -1987,7 +1949,6 @@ html[data-theme="dark"] .hero-reel-card,
 html[data-theme="dark"] .ems-media-card,
 html[data-theme="dark"] .proof-card,
 html[data-theme="dark"] .benefit-card,
-html[data-theme="dark"] .process-step,
 html[data-theme="dark"] .transformation-card,
 html[data-theme="dark"] .review-card {
   border-color: rgba(248, 250, 252, 0.14);
@@ -2023,7 +1984,6 @@ html[data-theme="dark"] .before-after-section,
 html[data-theme="dark"] .proof-section,
 html[data-theme="dark"] .ems-section,
 html[data-theme="dark"] .benefits-section,
-html[data-theme="dark"] .process-section,
 html[data-theme="dark"] .reviews-section {
   background:
     linear-gradient(180deg, #090b16, #05030a),
@@ -2078,15 +2038,13 @@ html[data-theme="dark"] .before-after-section {
 }
 
 html[data-theme="dark"] .proof-card::before,
-html[data-theme="dark"] .benefit-card::before,
-html[data-theme="dark"] .process-step::before {
+html[data-theme="dark"] .benefit-card::before {
   opacity: 0.38;
   background: linear-gradient(135deg, rgba(0, 229, 255, 0.2), transparent 42%, rgba(255, 46, 147, 0.18));
 }
 
 html[data-theme="dark"] .card-number,
-html[data-theme="dark"] .benefit-index,
-html[data-theme="dark"] .step-number {
+html[data-theme="dark"] .benefit-index {
   color: #00e5ff;
 }
 
