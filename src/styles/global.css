@@ -1207,7 +1207,7 @@ p {
 .footer-brand span,
 .footer-links a,
 .footer-copy {
-  color: var(--dim);
+  color: var(--muted);
   font-size: 0.88rem;
 }
 
