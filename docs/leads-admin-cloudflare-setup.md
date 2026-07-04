@@ -41,8 +41,10 @@ Do not commit real values.
 Run this locally and paste the output into `ADMIN_PASSWORD_HASH`:
 
 ```bash
-node -e "const crypto=require('crypto'); const password=process.argv[1]; const salt=crypto.randomBytes(16); const iterations=210000; crypto.pbkdf2(password,salt,iterations,32,'sha256',(err,key)=>{if(err)throw err; const b64=v=>v.toString('base64').replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''); console.log('pbkdf2:'+iterations+':'+b64(salt)+':'+b64(key))})" "YOUR_ADMIN_PASSWORD"
+node -e "const crypto=require('crypto'); const password=process.argv[1]; const salt=crypto.randomBytes(16); const iterations=100000; crypto.pbkdf2(password,salt,iterations,32,'sha256',(err,key)=>{if(err)throw err; const b64=v=>v.toString('base64').replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''); console.log('pbkdf2:'+iterations+':'+b64(salt)+':'+b64(key))})" "YOUR_ADMIN_PASSWORD"
 ```
+
+**Important:** `ADMIN_PASSWORD_HASH` must use exactly `pbkdf2:100000:...`. Do not use iterations above 100,000 as they are not supported on the Cloudflare Pages runtime.
 
 Generate strong secrets:
 
