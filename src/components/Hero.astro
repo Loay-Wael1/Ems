@@ -52,7 +52,7 @@ const impactBadges = ['20 Min Session', 'Coach Guided', 'Two Alexandria Studios'
         </div>
         <video
           class="hero-reel-video"
-          src={heroReelVideoUrl}
+          data-src={heroReelVideoUrl}
           autoplay
           muted
           loop
@@ -76,6 +76,12 @@ const impactBadges = ['20 Min Session', 'Coach Guided', 'Two Alexandria Studios'
 
       const video = document.querySelector('.hero-reel-video');
       if (!(video instanceof HTMLVideoElement)) return;
+
+      const videoSrc = video.dataset.src;
+      if (videoSrc && !video.currentSrc) {
+        video.src = videoSrc;
+        video.load();
+      }
 
       video.muted = true;
       video.defaultMuted = true;

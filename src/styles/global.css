@@ -438,7 +438,7 @@ p {
   overflow: hidden;
   background:
     linear-gradient(90deg, rgba(5, 3, 10, 0.88), rgba(5, 3, 10, 0.58) 48%, rgba(5, 3, 10, 0.72)),
-    url("/hero-desktop.png") center / cover no-repeat;
+    url("/hero-desktop.webp") center / cover no-repeat;
 }
 
 .hero-media::before {
@@ -1334,7 +1334,7 @@ p {
 .hero-media {
   background:
     linear-gradient(90deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.28) 48%, rgba(255, 255, 255, 0.22)),
-    url("/hero-desktop.png") center / cover no-repeat;
+    url("/hero-desktop.webp") center / cover no-repeat;
 }
 
 .hero-media::before {
@@ -1696,7 +1696,7 @@ p {
   .hero-media {
     background:
       linear-gradient(90deg, rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.18)),
-      url("/hero-desktop.png") center / cover no-repeat;
+      url("/hero-desktop.webp") center / cover no-repeat;
   }
 
   .hero-bg-video {
@@ -1889,7 +1889,7 @@ html[data-theme="dark"] .hero-section {
 html[data-theme="dark"] .hero-media {
   background:
     linear-gradient(90deg, rgba(5, 3, 10, 0.86), rgba(5, 3, 10, 0.52) 48%, rgba(5, 3, 10, 0.78)),
-    url("/hero-desktop.png") center / cover no-repeat;
+    url("/hero-desktop.webp") center / cover no-repeat;
 }
 
 html[data-theme="dark"] .hero-media::before {
@@ -1920,7 +1920,7 @@ html[data-theme="dark"] .hero-glow-pink {
   html[data-theme="dark"] .hero-media {
     background:
       linear-gradient(90deg, rgba(5, 3, 10, 0.74), rgba(5, 3, 10, 0.24)),
-      url("/hero-desktop.png") center / cover no-repeat;
+      url("/hero-desktop.webp") center / cover no-repeat;
   }
 
   html[data-theme="dark"] .hero-static-overlay {

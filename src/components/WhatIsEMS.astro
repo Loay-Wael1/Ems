@@ -10,13 +10,13 @@ const emsPoints = ['Coach guided', 'Full-body activation', 'Built for busy sched
     <div class="ems-demo-shell">
       <div class="ems-media-card reveal-on-scroll">
         <video
-          src={explainerVideo}
+          data-src={explainerVideo}
           poster={explainerPoster}
           autoplay
           muted
           loop
           playsinline
-          preload="metadata"
+          preload="none"
         ></video>
       </div>
 
@@ -39,3 +39,39 @@ const emsPoints = ['Coach guided', 'Full-body activation', 'Built for busy sched
     </div>
   </div>
 </section>
+
+<script>
+  (() => {
+    const video = document.querySelector('.ems-media-card video');
+    if (!(video instanceof HTMLVideoElement)) return;
+
+    const loadVideo = () => {
+      const videoSrc = video.dataset.src;
+      if (videoSrc && !video.currentSrc) {
+        video.src = videoSrc;
+        video.load();
+      }
+
+      const attempt = video.play();
+      if (attempt && typeof attempt.catch === 'function') {
+        attempt.catch(() => {});
+      }
+    };
+
+    if (!('IntersectionObserver' in window)) {
+      loadVideo();
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        loadVideo();
+        observer.disconnect();
+      },
+      { rootMargin: '500px 0px' }
+    );
+
+    observer.observe(video);
+  })();
+</script>
