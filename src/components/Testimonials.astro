@@ -109,8 +109,9 @@ const reviews = [
     let startScrollLeft = 0;
     let lastReviewTrigger = null;
     let isPageVisible = !document.hidden;
-    let isKeyboardFocused = false;
+    let openedByKeyboard = false;
     const speed = 65;
+    const dragThreshold = 8;
 
     const loopWidth = () => track.scrollWidth / 2;
 
@@ -126,7 +127,7 @@ const reviews = [
       const delta = Math.min((time - lastTime) / 1000, 0.08);
       lastTime = time;
 
-      if (isPageVisible && !isDragging && !isModalOpen && !isKeyboardFocused && !reducedMotion.matches) {
+      if (isPageVisible && !isDragging && !isModalOpen && !reducedMotion.matches) {
         marquee.scrollLeft += speed * delta;
         normalize();
       }
@@ -142,15 +143,23 @@ const reviews = [
         modal.removeAttribute('open');
       }
       isModalOpen = false;
+      isDragging = false;
+      hasMoved = false;
+      suppressClick = false;
+      lastTime = 0;
       modalImage.removeAttribute('src');
       modalImage.removeAttribute('alt');
-      if (lastReviewTrigger?.getAttribute?.('aria-hidden') !== 'true') {
+      marquee.classList.remove('is-dragging');
+
+      if (openedByKeyboard && lastReviewTrigger?.getAttribute?.('aria-hidden') !== 'true') {
         lastReviewTrigger?.focus?.();
       }
+      openedByKeyboard = false;
     };
 
-    const openModal = (card) => {
+    const openModal = (card, byKeyboard = false) => {
       lastReviewTrigger = card;
+      openedByKeyboard = byKeyboard;
       isModalOpen = true;
       modalImage.src = card.getAttribute('data-full') || '';
       modalImage.alt = `${card.getAttribute('data-title') || 'Client review'} from Easy Fit Alexandria`;
@@ -175,8 +184,13 @@ const reviews = [
         window.setTimeout(() => {
           suppressClick = false;
           hasMoved = false;
-        }, 150);
+          lastTime = 0;
+        }, 120);
+      } else {
+        hasMoved = false;
       }
+
+      lastTime = 0;
     };
 
     marquee.scrollLeft = 1;
@@ -195,7 +209,7 @@ const reviews = [
     marquee.addEventListener('pointermove', (event) => {
       if (!isDragging) return;
       const delta = event.clientX - startX;
-      if (Math.abs(delta) > 5) hasMoved = true;
+      if (Math.abs(delta) > dragThreshold) hasMoved = true;
       if (!hasMoved) return;
       event.preventDefault();
       marquee.scrollLeft = startScrollLeft - delta;
@@ -206,14 +220,6 @@ const reviews = [
     marquee.addEventListener('pointercancel', endDrag);
     marquee.addEventListener('pointerleave', endDrag);
     marquee.addEventListener('scroll', normalize, { passive: true });
-    marquee.addEventListener('focusin', () => {
-      isKeyboardFocused = true;
-      lastTime = 0;
-    });
-    marquee.addEventListener('focusout', () => {
-      isKeyboardFocused = false;
-      lastTime = 0;
-    });
 
     marquee.addEventListener('click', (event) => {
       const target = event.target;
@@ -227,6 +233,18 @@ const reviews = [
       }
 
       openModal(card);
+    });
+
+    marquee.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const card = target.closest('[data-review-card]');
+      if (!card) return;
+
+      event.preventDefault();
+      openModal(card, true);
     });
 
     reducedMotion.addEventListener?.('change', () => {

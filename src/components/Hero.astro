@@ -1,6 +1,7 @@
 ---
 const whatsappUrl = 'https://wa.me/201124799978';
 const heroVideoUrl = '/videos/ems-experience.mp4';
+const heroReelVideoUrl = '/videos/ems-experience-reel.mp4';
 const heroVideoPoster = '/videos/ems-experience-poster.webp';
 const impactBadges = ['20 Min Session', 'Coach Guided', 'Two Alexandria Studios', 'EMS Technology'];
 ---
@@ -51,12 +52,12 @@ const impactBadges = ['20 Min Session', 'Coach Guided', 'Two Alexandria Studios'
         </div>
         <video
           class="hero-reel-video"
-          src={heroVideoUrl}
+          src={heroReelVideoUrl}
           autoplay
           muted
           loop
           playsinline
-          preload="metadata"
+          preload="auto"
           poster={heroVideoPoster}
           aria-label="Easy Fit EMS training preview"
         ></video>
@@ -65,3 +66,47 @@ const impactBadges = ['20 Min Session', 'Coach Guided', 'Two Alexandria Studios'
     </div>
   </div>
 </section>
+
+<script>
+  (() => {
+    const desktopMedia = window.matchMedia('(min-width: 760px)');
+
+    const playHeroReel = () => {
+      if (!desktopMedia.matches) return;
+
+      const video = document.querySelector('.hero-reel-video');
+      if (!(video instanceof HTMLVideoElement)) return;
+
+      video.muted = true;
+      video.defaultMuted = true;
+      video.playsInline = true;
+
+      const attempt = video.play();
+      if (attempt && typeof attempt.catch === 'function') {
+        attempt.catch(() => {});
+      }
+    };
+
+    const run = () => {
+      playHeroReel();
+      window.setTimeout(playHeroReel, 150);
+      window.setTimeout(playHeroReel, 500);
+      window.setTimeout(playHeroReel, 1000);
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', run, { once: true });
+    } else {
+      run();
+    }
+
+    window.addEventListener('pageshow', playHeroReel);
+
+    ['pointerdown', 'keydown'].forEach((eventName) => {
+      window.addEventListener(eventName, playHeroReel, {
+        once: true,
+        passive: true
+      });
+    });
+  })();
+</script>

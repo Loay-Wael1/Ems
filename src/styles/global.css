@@ -909,6 +909,8 @@ p {
   overflow-x: auto;
   overflow-y: hidden;
   overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
   cursor: grab;
   user-select: none;
   scrollbar-width: none;
