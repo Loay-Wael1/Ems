@@ -38,32 +38,42 @@ const reviews = [
       <p class="section-intro">
         See what Easy Fit clients shared after trying EMS sessions in Alexandria.
       </p>
+      <div class="review-controls" aria-label="Review carousel controls">
+        <button class="review-nav" type="button" data-review-prev aria-label="Show previous reviews" aria-controls="review-marquee">
+          <span aria-hidden="true">&lsaquo;</span>
+        </button>
+        <button class="review-nav" type="button" data-review-next aria-label="Show next reviews" aria-controls="review-marquee">
+          <span aria-hidden="true">&rsaquo;</span>
+        </button>
+      </div>
     </div>
   </div>
 
-  <div class="review-marquee reveal-on-scroll" data-review-marquee aria-label="Client review screenshots">
-    <div class="review-marquee-track">
-      {
-        reviews.map((review) => (
-          <button
-            class="review-card"
-            type="button"
-            data-review-card
-            data-full={review.image.src}
-            data-title={review.title}
-            aria-label={`Open ${review.title}`}
-          >
-            <img
-              src={review.image.src}
-              width={review.image.width}
-              height={review.image.height}
-              alt={`${review.title} from Easy Fit Alexandria client`}
-              loading="lazy"
-              decoding="async"
-            />
-          </button>
-        ))
-      }
+  <div class="review-carousel-shell reveal-on-scroll">
+    <div id="review-marquee" class="review-marquee" data-review-marquee aria-label="Client review screenshots">
+      <div class="review-marquee-track">
+        {
+          reviews.map((review) => (
+            <button
+              class="review-card"
+              type="button"
+              data-review-card
+              data-full={review.image.src}
+              data-title={review.title}
+              aria-label={`Open ${review.title}`}
+            >
+              <img
+                src={review.image.src}
+                width={review.image.width}
+                height={review.image.height}
+                alt={`${review.title} from Easy Fit Alexandria client`}
+                loading="lazy"
+                decoding="async"
+              />
+            </button>
+          ))
+        }
+      </div>
     </div>
   </div>
 
@@ -88,6 +98,9 @@ const reviews = [
     const modal = document.querySelector('.review-modal');
     const modalImage = document.querySelector('#review-modal-image');
     const closeButton = document.querySelector('[data-review-close]');
+    const previousButton = document.querySelector('[data-review-prev]');
+    const nextButton = document.querySelector('[data-review-next]');
+    const finePointer = window.matchMedia('(pointer: fine)');
 
     if (!marquee || !modal || !modalImage) return;
 
@@ -99,6 +112,26 @@ const reviews = [
     let lastReviewTrigger = null;
     let openedByKeyboard = false;
     const dragThreshold = 8;
+    const suppressClickDelay = 180;
+
+    const maxScrollLeft = () => Math.max(0, marquee.scrollWidth - marquee.clientWidth);
+
+    const updateControls = () => {
+      const max = maxScrollLeft();
+      const atStart = marquee.scrollLeft <= 2;
+      const atEnd = marquee.scrollLeft >= max - 2;
+
+      if (previousButton instanceof HTMLButtonElement) previousButton.disabled = atStart;
+      if (nextButton instanceof HTMLButtonElement) nextButton.disabled = atEnd || max <= 0;
+    };
+
+    const scrollReviews = (direction) => {
+      const card = marquee.querySelector('[data-review-card]');
+      const cardWidth = card instanceof HTMLElement ? card.offsetWidth : 0;
+      const amount = Math.max(cardWidth + 16, marquee.clientWidth * 0.72);
+      marquee.scrollBy({ left: direction * amount, behavior: 'smooth' });
+      window.setTimeout(updateControls, 260);
+    };
 
     const closeModal = () => {
       if (!modal.open) return;
@@ -146,10 +179,11 @@ const reviews = [
         window.setTimeout(() => {
           suppressClick = false;
           hasMoved = false;
-        }, 120);
+        }, suppressClickDelay);
       } else {
         hasMoved = false;
       }
+      updateControls();
     };
 
     marquee.addEventListener('pointerdown', (event) => {
@@ -171,11 +205,35 @@ const reviews = [
       if (!hasMoved) return;
       event.preventDefault();
       marquee.scrollLeft = startScrollLeft - delta;
+      updateControls();
     });
 
     marquee.addEventListener('pointerup', endDrag);
     marquee.addEventListener('pointercancel', endDrag);
     marquee.addEventListener('pointerleave', endDrag);
+    marquee.addEventListener('scroll', updateControls, { passive: true });
+
+    previousButton?.addEventListener('click', () => scrollReviews(-1));
+    nextButton?.addEventListener('click', () => scrollReviews(1));
+
+    marquee.addEventListener(
+      'wheel',
+      (event) => {
+        if (!finePointer.matches) return;
+        const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+        if (!delta) return;
+
+        const max = maxScrollLeft();
+        const atStart = marquee.scrollLeft <= 0;
+        const atEnd = marquee.scrollLeft >= max - 1;
+        if ((delta < 0 && atStart) || (delta > 0 && atEnd)) return;
+
+        event.preventDefault();
+        marquee.scrollLeft += delta;
+        updateControls();
+      },
+      { passive: false }
+    );
 
     marquee.addEventListener('click', (event) => {
       const target = event.target;
@@ -211,5 +269,7 @@ const reviews = [
       event.preventDefault();
       closeModal();
     });
+
+    updateControls();
   })();
 </script>
