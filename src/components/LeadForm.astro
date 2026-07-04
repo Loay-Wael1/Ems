@@ -4,20 +4,20 @@ const renderedAt = Date.now();
 
 <div class="lead-shell">
   <div class="section-head lead-copy">
-    <span class="lead-eyebrow">BOOK YOUR FIRST EMS TRIAL</span>
-    <h2 id="final-cta-title" class="section-title">Start with a guided EMS session.</h2>
+    <span class="lead-eyebrow">BOOK YOUR EMS TRIAL</span>
+    <h2 id="final-cta-title" class="section-title">Try EMS with Easy Fit Alexandria</h2>
     <p class="section-intro">
-      Tell us your preferred branch and our Alexandria team will contact you to confirm the best time for your trial.
+      Choose your preferred branch and leave your details. Our team will contact you to confirm your trial session.
     </p>
     <ul class="lead-trust-list" aria-label="Trial session highlights">
-      <li>20-minute EMS session</li>
-      <li>Coach-guided experience</li>
+      <li>Coach-guided session</li>
       <li>Smouha &amp; Ganaklis branches</li>
+      <li>Fast confirmation</li>
     </ul>
   </div>
 
   <div class="lead-form-card">
-    <h3>Request your trial</h3>
+    <h3>Book your trial</h3>
     <form class="lead-form" data-lead-form novalidate>
       <input type="text" name="company" tabindex="-1" autocomplete="off" class="lead-honeypot" aria-hidden="true" />
       <input type="hidden" name="renderedAt" value={renderedAt} />
@@ -44,7 +44,7 @@ const renderedAt = Date.now();
       <div class="form-field">
         <label for="lead-branch">Preferred branch</label>
         <select id="lead-branch" name="branch" required>
-          <option value="">Select your branch</option>
+          <option value="">Choose a branch</option>
           <option value="smouha">Smouha</option>
           <option value="ganaklis">Ganaklis</option>
         </select>
@@ -54,8 +54,8 @@ const renderedAt = Date.now();
         We will only use your details to contact you about your EMS trial.
       </p>
 
-      <button class="btn btn-primary btn-large lead-submit" type="submit" data-submit-label="Request my trial session" data-loading-label="Sending request...">
-        Request my trial session
+      <button class="btn btn-primary btn-large lead-submit" type="submit" data-submit-label="Send booking request" data-loading-label="Sending...">
+        Send booking request
       </button>
 
       <p class="lead-status" data-lead-status aria-live="polite"></p>
@@ -70,7 +70,7 @@ const renderedAt = Date.now();
 
     const status = form.querySelector('[data-lead-status]');
     const submitButton = form.querySelector('.lead-submit');
-    const successMessage = 'Your request is in. Easy Fit Alexandria will contact you shortly.';
+    const successMessage = 'Your request has been received. We will contact you shortly.';
     const errorMessage = 'Something went wrong. Please try again or message us on WhatsApp.';
 
     const setStatus = (message, type = '') => {
@@ -86,7 +86,7 @@ const renderedAt = Date.now();
       if (!(submitButton instanceof HTMLButtonElement)) return;
 
       submitButton.disabled = true;
-      submitButton.textContent = submitButton.getAttribute('data-loading-label') || 'Sending request...';
+      submitButton.textContent = submitButton.getAttribute('data-loading-label') || 'Sending...';
       setStatus('', '');
 
       const data = new FormData(form);
@@ -125,7 +125,7 @@ const renderedAt = Date.now();
         setStatus(errorMessage, 'error');
       } finally {
         submitButton.disabled = false;
-        submitButton.textContent = submitButton.getAttribute('data-submit-label') || 'Request my trial session';
+        submitButton.textContent = submitButton.getAttribute('data-submit-label') || 'Send booking request';
       }
     });
   })();

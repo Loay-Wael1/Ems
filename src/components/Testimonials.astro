@@ -38,14 +38,6 @@ const reviews = [
       <p class="section-intro">
         See what Easy Fit clients shared after trying EMS sessions in Alexandria.
       </p>
-      <div class="review-controls" aria-label="Review carousel controls">
-        <button class="review-nav" type="button" data-review-prev aria-label="Show previous reviews" aria-controls="review-marquee">
-          <span aria-hidden="true">&lsaquo;</span>
-        </button>
-        <button class="review-nav" type="button" data-review-next aria-label="Show next reviews" aria-controls="review-marquee">
-          <span aria-hidden="true">&rsaquo;</span>
-        </button>
-      </div>
     </div>
   </div>
 
@@ -74,6 +66,17 @@ const reviews = [
           ))
         }
       </div>
+    </div>
+  </div>
+
+  <div class="container review-controls-bar reveal-on-scroll">
+    <div class="review-controls" aria-label="Review carousel controls">
+      <button class="review-nav" type="button" data-review-prev aria-label="Show previous reviews" aria-controls="review-marquee">
+        <span aria-hidden="true">&lsaquo;</span>
+      </button>
+      <button class="review-nav" type="button" data-review-next aria-label="Show next reviews" aria-controls="review-marquee">
+        <span aria-hidden="true">&rsaquo;</span>
+      </button>
     </div>
   </div>
 
@@ -216,24 +219,7 @@ const reviews = [
     previousButton?.addEventListener('click', () => scrollReviews(-1));
     nextButton?.addEventListener('click', () => scrollReviews(1));
 
-    marquee.addEventListener(
-      'wheel',
-      (event) => {
-        if (!finePointer.matches) return;
-        const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
-        if (!delta) return;
-
-        const max = maxScrollLeft();
-        const atStart = marquee.scrollLeft <= 0;
-        const atEnd = marquee.scrollLeft >= max - 1;
-        if ((delta < 0 && atStart) || (delta > 0 && atEnd)) return;
-
-        event.preventDefault();
-        marquee.scrollLeft += delta;
-        updateControls();
-      },
-      { passive: false }
-    );
+    /* Wheel-to-horizontal removed: let the browser handle scroll naturally. */
 
     marquee.addEventListener('click', (event) => {
       const target = event.target;

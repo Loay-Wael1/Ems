@@ -907,7 +907,12 @@ p {
 .review-controls {
   display: none;
   gap: 0.65rem;
-  margin-top: 0.2rem;
+}
+
+.review-controls-bar {
+  display: none;
+  justify-content: center;
+  margin-top: 1.2rem;
 }
 
 .review-nav {
@@ -1239,10 +1244,10 @@ p {
   align-items: center;
   gap: 0.45rem;
   padding: 0.38rem 0.68rem;
-  border: 1px solid rgba(0, 229, 255, 0.24);
+  border: 1px solid rgba(16, 191, 211, 0.24);
   border-radius: 999px;
-  background: rgba(0, 229, 255, 0.08);
-  color: #00e5ff;
+  background: rgba(16, 191, 211, 0.08);
+  color: #0d8fa5;
   font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.08em;
@@ -1260,7 +1265,7 @@ p {
   display: flex;
   align-items: center;
   gap: 0.65rem;
-  color: rgba(248, 250, 252, 0.82);
+  color: var(--muted);
   font-weight: 800;
 }
 
@@ -1270,65 +1275,23 @@ p {
   height: 0.58rem;
   flex: 0 0 auto;
   border-radius: 999px;
-  background: linear-gradient(135deg, #00e5ff, #37c8a2);
-  box-shadow: 0 0 0 5px rgba(0, 229, 255, 0.08);
+  background: linear-gradient(135deg, #12c3d7, #4bd0ae);
+  box-shadow: 0 0 0 5px rgba(16, 191, 211, 0.08);
 }
 
 .lead-form-card {
   display: grid;
   gap: 1rem;
   padding: clamp(1rem, 3vw, 1.25rem);
-  border: 1px solid rgba(248, 250, 252, 0.14);
+  border: 1px solid rgba(17, 26, 58, 0.1);
   border-radius: 26px;
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.045)),
-    rgba(255, 255, 255, 0.055);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.24);
+  background: #ffffff;
+  box-shadow: 0 18px 46px rgba(17, 26, 58, 0.08);
 }
 
 .lead-form-card h3 {
-  color: #f8fafc;
+  color: var(--navy);
   font-size: 1.25rem;
-}
-
-.final-cta-shell .form-field label {
-  color: rgba(248, 250, 252, 0.9);
-}
-
-.final-cta-shell .form-field input,
-.final-cta-shell .form-field select {
-  border-color: rgba(248, 250, 252, 0.16);
-  background: rgba(255, 255, 255, 0.09);
-  color: #f8fafc;
-}
-
-.final-cta-shell .form-field input::placeholder {
-  color: rgba(248, 250, 252, 0.48);
-}
-
-.final-cta-shell .form-field select option {
-  background: #090b16;
-  color: #f8fafc;
-}
-
-.final-cta-shell .form-field input:focus,
-.final-cta-shell .form-field select:focus {
-  border-color: rgba(0, 229, 255, 0.46);
-  background: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 0 0 4px rgba(0, 229, 255, 0.12);
-}
-
-.final-cta-shell .lead-privacy,
-.final-cta-shell .lead-status {
-  color: rgba(248, 250, 252, 0.64);
-}
-
-.final-cta-shell .lead-status[data-state="success"] {
-  color: #7df7d2;
-}
-
-.final-cta-shell .lead-status[data-state="error"] {
-  color: #ffb4b4;
 }
 
 .final-cta-shell .lead-submit {
@@ -1516,11 +1479,8 @@ p {
   padding: 5rem 0;
   overflow: hidden;
   background:
-    radial-gradient(circle at 12% 18%, rgba(0, 229, 255, 0.2), transparent 23rem),
-    radial-gradient(circle at 88% 18%, rgba(55, 200, 162, 0.14), transparent 22rem),
-    linear-gradient(135deg, rgba(0, 229, 255, 0.12), transparent 34%),
-    linear-gradient(315deg, rgba(255, 46, 147, 0.1), transparent 38%),
-    var(--black);
+    radial-gradient(circle at 18% 20%, rgba(16, 191, 211, 0.1), transparent 22rem),
+    linear-gradient(180deg, #f8fafc, #eef8fa);
 }
 
 .final-cta-shell {
@@ -1535,12 +1495,11 @@ p {
   width: 100%;
   position: relative;
   overflow: hidden;
-  padding: clamp(1rem, 4vw, 1.65rem);
-  border-color: rgba(248, 250, 252, 0.14);
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.025)),
-    rgba(255, 255, 255, 0.035);
-  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.28);
+  padding: clamp(1.2rem, 4vw, 1.65rem);
+  border: 1px solid rgba(17, 26, 58, 0.1);
+  border-radius: 34px;
+  background: #ffffff;
+  box-shadow: 0 22px 62px rgba(17, 26, 58, 0.08);
 }
 
 .final-cta-shell .lead-shell::before {
@@ -1548,8 +1507,8 @@ p {
   position: absolute;
   inset: 0 auto 0 0;
   width: 4px;
-  background: linear-gradient(180deg, #00e5ff, #37c8a2);
-  opacity: 0.9;
+  border-radius: 4px 0 0 4px;
+  background: linear-gradient(180deg, #12c3d7, #4bd0ae);
 }
 
 .final-cta-shell .lead-copy {
@@ -1560,16 +1519,16 @@ p {
 }
 
 .final-cta-shell h2 {
-  max-width: 11ch;
-  color: #f8fafc;
-  font-size: clamp(2.35rem, 7vw, 4.45rem);
-  line-height: 0.95;
+  max-width: 14ch;
+  color: var(--navy);
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  line-height: 1.05;
 }
 
 .final-cta-shell .lead-copy p {
   max-width: 34rem;
-  color: rgba(248, 250, 252, 0.76);
-  font-size: 1.05rem;
+  color: var(--muted);
+  font-size: 1.02rem;
 }
 
 .final-actions {
@@ -1849,11 +1808,7 @@ p {
   border-color: rgba(17, 26, 58, 0.12);
 }
 
-.final-cta-section {
-  background:
-    radial-gradient(circle at 18% 20%, rgba(16, 191, 211, 0.14), transparent 22rem),
-    linear-gradient(180deg, #ffffff, #eef8fa);
-}
+/* final-cta-section light defaults are now in the base rules above */
 
 .final-actions {
   width: min(100%, 460px);
@@ -2052,6 +2007,10 @@ p {
   .admin-filters {
     grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
     align-items: end;
+  }
+
+  .review-controls-bar {
+    display: flex;
   }
 
   .review-controls {
@@ -2557,9 +2516,72 @@ html[data-theme="dark"] .review-modal-card {
 
 html[data-theme="dark"] .final-cta-section {
   background:
-    linear-gradient(135deg, rgba(0, 229, 255, 0.16), transparent 34%),
-    linear-gradient(315deg, rgba(255, 46, 147, 0.16), transparent 38%),
-    #05030a;
+    radial-gradient(circle at 18% 20%, rgba(0, 229, 255, 0.1), transparent 22rem),
+    linear-gradient(180deg, #090b16, #05030a);
+}
+
+html[data-theme="dark"] .final-cta-shell .lead-shell {
+  border-color: rgba(248, 250, 252, 0.12);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.025)),
+    rgba(255, 255, 255, 0.03);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.26);
+}
+
+html[data-theme="dark"] .final-cta-shell .lead-shell::before {
+  background: linear-gradient(180deg, #00e5ff, #37c8a2);
+}
+
+html[data-theme="dark"] .final-cta-shell h2 {
+  color: #f8fafc;
+}
+
+html[data-theme="dark"] .final-cta-shell .lead-copy p {
+  color: rgba(248, 250, 252, 0.72);
+}
+
+html[data-theme="dark"] .lead-eyebrow {
+  border-color: rgba(0, 229, 255, 0.28);
+  background: rgba(0, 229, 255, 0.08);
+  color: #00e5ff;
+}
+
+html[data-theme="dark"] .lead-trust-list li {
+  color: rgba(248, 250, 252, 0.82);
+}
+
+html[data-theme="dark"] .lead-trust-list li::before {
+  background: linear-gradient(135deg, #00e5ff, #37c8a2);
+  box-shadow: 0 0 0 5px rgba(0, 229, 255, 0.08);
+}
+
+html[data-theme="dark"] .lead-form-card {
+  border-color: rgba(248, 250, 252, 0.12);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03)),
+    rgba(255, 255, 255, 0.04);
+  box-shadow: 0 18px 54px rgba(0, 0, 0, 0.22);
+}
+
+html[data-theme="dark"] .lead-form-card h3 {
+  color: #f8fafc;
+}
+
+html[data-theme="dark"] .lead-form-card .form-field input::placeholder {
+  color: rgba(248, 250, 252, 0.44);
+}
+
+html[data-theme="dark"] .lead-form-card .form-field select option {
+  background: #090b16;
+  color: #f8fafc;
+}
+
+html[data-theme="dark"] .lead-status[data-state="success"] {
+  color: #7df7d2;
+}
+
+html[data-theme="dark"] .lead-status[data-state="error"] {
+  color: #ffb4b4;
 }
 
 html[data-theme="dark"] .site-footer {
