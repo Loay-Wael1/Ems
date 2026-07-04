@@ -44,31 +44,25 @@ const reviews = [
   <div class="review-marquee reveal-on-scroll" data-review-marquee aria-label="Client review screenshots">
     <div class="review-marquee-track">
       {
-        [...reviews, ...reviews].map((review, index) => {
-          const isDuplicate = index >= reviews.length;
-
-          return (
-            <button
-              class="review-card"
-              type="button"
-              data-review-card
-              data-full={review.image.src}
-              data-title={review.title}
-              aria-label={`Open ${review.title}`}
-              aria-hidden={isDuplicate ? 'true' : undefined}
-              tabindex={isDuplicate ? -1 : undefined}
-            >
-              <img
-                src={review.image.src}
-                width={review.image.width}
-                height={review.image.height}
-                alt={`${review.title} from Easy Fit Alexandria client`}
-                loading="lazy"
-                decoding="async"
-              />
-            </button>
-          );
-        })
+        reviews.map((review) => (
+          <button
+            class="review-card"
+            type="button"
+            data-review-card
+            data-full={review.image.src}
+            data-title={review.title}
+            aria-label={`Open ${review.title}`}
+          >
+            <img
+              src={review.image.src}
+              width={review.image.width}
+              height={review.image.height}
+              alt={`${review.title} from Easy Fit Alexandria client`}
+              loading="lazy"
+              decoding="async"
+            />
+          </button>
+        ))
       }
     </div>
   </div>
@@ -91,49 +85,20 @@ const reviews = [
 <script>
   (() => {
     const marquee = document.querySelector('[data-review-marquee]');
-    const track = marquee?.querySelector('.review-marquee-track');
     const modal = document.querySelector('.review-modal');
     const modalImage = document.querySelector('#review-modal-image');
     const closeButton = document.querySelector('[data-review-close]');
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-    if (!marquee || !track || !modal || !modalImage) return;
+    if (!marquee || !modal || !modalImage) return;
 
-    let raf = null;
-    let lastTime = 0;
     let isDragging = false;
     let hasMoved = false;
     let suppressClick = false;
-    let isModalOpen = false;
     let startX = 0;
     let startScrollLeft = 0;
     let lastReviewTrigger = null;
-    let isPageVisible = !document.hidden;
     let openedByKeyboard = false;
-    const speed = 65;
     const dragThreshold = 8;
-
-    const loopWidth = () => track.scrollWidth / 2;
-
-    const normalize = () => {
-      const half = loopWidth();
-      if (!half) return;
-      if (marquee.scrollLeft >= half) marquee.scrollLeft -= half;
-      if (marquee.scrollLeft < 1) marquee.scrollLeft += half;
-    };
-
-    const animate = (time = 0) => {
-      if (!lastTime) lastTime = time;
-      const delta = Math.min((time - lastTime) / 1000, 0.08);
-      lastTime = time;
-
-      if (isPageVisible && !isDragging && !isModalOpen && !reducedMotion.matches) {
-        marquee.scrollLeft += speed * delta;
-        normalize();
-      }
-
-      raf = requestAnimationFrame(animate);
-    };
 
     const closeModal = () => {
       if (!modal.open) return;
@@ -142,16 +107,14 @@ const reviews = [
       } else {
         modal.removeAttribute('open');
       }
-      isModalOpen = false;
       isDragging = false;
       hasMoved = false;
       suppressClick = false;
-      lastTime = 0;
       modalImage.removeAttribute('src');
       modalImage.removeAttribute('alt');
       marquee.classList.remove('is-dragging');
 
-      if (openedByKeyboard && lastReviewTrigger?.getAttribute?.('aria-hidden') !== 'true') {
+      if (openedByKeyboard) {
         lastReviewTrigger?.focus?.();
       }
       openedByKeyboard = false;
@@ -160,7 +123,6 @@ const reviews = [
     const openModal = (card, byKeyboard = false) => {
       lastReviewTrigger = card;
       openedByKeyboard = byKeyboard;
-      isModalOpen = true;
       modalImage.src = card.getAttribute('data-full') || '';
       modalImage.alt = `${card.getAttribute('data-title') || 'Client review'} from Easy Fit Alexandria`;
       if (typeof modal.showModal === 'function') {
@@ -184,17 +146,11 @@ const reviews = [
         window.setTimeout(() => {
           suppressClick = false;
           hasMoved = false;
-          lastTime = 0;
         }, 120);
       } else {
         hasMoved = false;
       }
-
-      lastTime = 0;
     };
-
-    marquee.scrollLeft = 1;
-    raf = requestAnimationFrame(animate);
 
     marquee.addEventListener('pointerdown', (event) => {
       if (event.pointerType === 'mouse' && event.button !== 0) return;
@@ -213,13 +169,11 @@ const reviews = [
       if (!hasMoved) return;
       event.preventDefault();
       marquee.scrollLeft = startScrollLeft - delta;
-      normalize();
     });
 
     marquee.addEventListener('pointerup', endDrag);
     marquee.addEventListener('pointercancel', endDrag);
     marquee.addEventListener('pointerleave', endDrag);
-    marquee.addEventListener('scroll', normalize, { passive: true });
 
     marquee.addEventListener('click', (event) => {
       const target = event.target;
@@ -247,16 +201,6 @@ const reviews = [
       openModal(card, true);
     });
 
-    reducedMotion.addEventListener?.('change', () => {
-      marquee.scrollLeft = reducedMotion.matches ? 0 : 1;
-      lastTime = 0;
-    });
-
-    document.addEventListener('visibilitychange', () => {
-      isPageVisible = !document.hidden;
-      lastTime = 0;
-    });
-
     closeButton?.addEventListener('click', closeModal);
     modal.addEventListener('click', (event) => {
       if (event.target === modal) closeModal();
@@ -265,9 +209,5 @@ const reviews = [
       event.preventDefault();
       closeModal();
     });
-
-    window.addEventListener('beforeunload', () => {
-      if (raf) cancelAnimationFrame(raf);
-    }, { once: true });
   })();
 </script>

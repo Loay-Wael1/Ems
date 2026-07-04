@@ -909,6 +909,8 @@ p {
   overflow-x: auto;
   overflow-y: hidden;
   overscroll-behavior-inline: contain;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: 1rem;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-y;
   cursor: grab;
@@ -936,6 +938,7 @@ p {
 .review-card {
   flex: 0 0 244px;
   display: grid;
+  scroll-snap-align: start;
   padding: 0.28rem;
   border: 1px solid rgba(248, 250, 252, 0.16);
   border-radius: 18px;
@@ -1137,6 +1140,198 @@ p {
   grid-column: 1 / -1;
   justify-self: center;
   min-height: 34px;
+}
+
+.lead-section {
+  background:
+    radial-gradient(circle at 15% 16%, rgba(16, 191, 211, 0.1), transparent 20rem),
+    linear-gradient(180deg, #ffffff, #f8fafc);
+}
+
+.lead-shell {
+  display: grid;
+  gap: 1.4rem;
+  padding: clamp(1rem, 4vw, 1.4rem);
+  border: 1px solid rgba(16, 191, 211, 0.12);
+  border-radius: 34px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(238, 248, 250, 0.78)),
+    #ffffff;
+  box-shadow: 0 22px 62px rgba(17, 26, 58, 0.08);
+}
+
+.lead-copy {
+  max-width: 560px;
+}
+
+.lead-form {
+  display: grid;
+  gap: 0.95rem;
+}
+
+.form-field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.form-field label,
+.admin-login-form label,
+.admin-filters label {
+  color: var(--navy);
+  font-size: 0.84rem;
+  font-weight: 900;
+}
+
+.form-field input,
+.form-field select,
+.admin-login-form input,
+.admin-filters input,
+.admin-filters select,
+.admin-table select,
+.admin-table textarea {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid rgba(17, 26, 58, 0.12);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--navy);
+  padding: 0.78rem 0.9rem;
+  outline: none;
+  transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.admin-login-form input:focus,
+.admin-filters input:focus,
+.admin-filters select:focus,
+.admin-table select:focus,
+.admin-table textarea:focus {
+  border-color: rgba(16, 191, 211, 0.46);
+  box-shadow: 0 0 0 4px rgba(16, 191, 211, 0.12);
+}
+
+.lead-honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.lead-privacy,
+.lead-status,
+.admin-status {
+  color: var(--dim);
+  font-size: 0.86rem;
+}
+
+.lead-status[data-state="success"],
+.admin-status[data-state="success"] {
+  color: #087f94;
+  font-weight: 800;
+}
+
+.lead-status[data-state="error"],
+.admin-status[data-state="error"] {
+  color: #b42318;
+  font-weight: 800;
+}
+
+.lead-submit:disabled,
+.admin-page .btn:disabled {
+  cursor: wait;
+  opacity: 0.68;
+  transform: none;
+}
+
+.admin-body {
+  min-height: 100svh;
+}
+
+.admin-page {
+  width: var(--container);
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  margin-inline: auto;
+  padding: 2rem 0;
+}
+
+.admin-card {
+  width: min(100%, 1080px);
+  display: grid;
+  gap: 1.2rem;
+  padding: clamp(1rem, 3vw, 1.5rem);
+  border: 1px solid rgba(16, 191, 211, 0.12);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 22px 62px rgba(17, 26, 58, 0.08);
+}
+
+.admin-head,
+.admin-toolbar,
+.admin-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.admin-head h1,
+.admin-toolbar h1 {
+  font-size: 2rem;
+  color: var(--navy);
+}
+
+.admin-login-form,
+.admin-filters {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.admin-toolbar {
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.admin-actions {
+  flex-wrap: wrap;
+}
+
+.admin-table-wrap {
+  overflow-x: auto;
+  border: 1px solid rgba(17, 26, 58, 0.08);
+  border-radius: 18px;
+}
+
+.admin-table {
+  width: 100%;
+  min-width: 860px;
+  border-collapse: collapse;
+  color: var(--navy);
+  font-size: 0.9rem;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid rgba(17, 26, 58, 0.08);
+  text-align: start;
+  vertical-align: top;
+}
+
+.admin-table th {
+  background: rgba(238, 248, 250, 0.78);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.admin-table textarea {
+  min-height: 54px;
+  resize: vertical;
 }
 
 .final-cta-section {
@@ -1627,6 +1822,17 @@ p {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
+  .lead-shell {
+    grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1fr);
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .admin-filters {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+    align-items: end;
+  }
+
   .review-card {
     flex-basis: 264px;
   }
@@ -2031,6 +2237,61 @@ html[data-theme="dark"] .location-image-wrap::after {
 
 html[data-theme="dark"] .location-actions .btn-link {
   color: #00e5ff;
+}
+
+html[data-theme="dark"] .lead-section {
+  background:
+    linear-gradient(180deg, #090b16, #05030a),
+    linear-gradient(90deg, rgba(0, 229, 255, 0.08), transparent 48%, rgba(255, 46, 147, 0.08));
+}
+
+html[data-theme="dark"] .lead-shell,
+html[data-theme="dark"] .admin-card {
+  border-color: rgba(248, 250, 252, 0.12);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.035)),
+    rgba(255, 255, 255, 0.04);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.26);
+}
+
+html[data-theme="dark"] .form-field label,
+html[data-theme="dark"] .admin-login-form label,
+html[data-theme="dark"] .admin-filters label,
+html[data-theme="dark"] .admin-head h1,
+html[data-theme="dark"] .admin-toolbar h1,
+html[data-theme="dark"] .admin-table {
+  color: #f8fafc;
+}
+
+html[data-theme="dark"] .form-field input,
+html[data-theme="dark"] .form-field select,
+html[data-theme="dark"] .admin-login-form input,
+html[data-theme="dark"] .admin-filters input,
+html[data-theme="dark"] .admin-filters select,
+html[data-theme="dark"] .admin-table select,
+html[data-theme="dark"] .admin-table textarea {
+  border-color: rgba(248, 250, 252, 0.16);
+  background: rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
+}
+
+html[data-theme="dark"] .admin-table-wrap {
+  border-color: rgba(248, 250, 252, 0.12);
+}
+
+html[data-theme="dark"] .admin-table th {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+html[data-theme="dark"] .admin-table th,
+html[data-theme="dark"] .admin-table td {
+  border-bottom-color: rgba(248, 250, 252, 0.1);
+}
+
+html[data-theme="dark"] .lead-privacy,
+html[data-theme="dark"] .lead-status,
+html[data-theme="dark"] .admin-status {
+  color: rgba(248, 250, 252, 0.68);
 }
 
 html[data-theme="dark"] .before-after-section {

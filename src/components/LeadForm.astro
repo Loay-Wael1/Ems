@@ -1,0 +1,127 @@
+---
+const renderedAt = Date.now();
+---
+
+<section class="section-padding lead-section" id="book-trial" aria-labelledby="lead-title">
+  <div class="container">
+    <div class="lead-shell reveal-on-scroll">
+      <div class="section-head lead-copy">
+        <h2 id="lead-title" class="section-title">Book your EMS trial.</h2>
+        <p class="section-intro">
+          Leave your details and choose your preferred branch. Our team will contact you to confirm your session.
+        </p>
+      </div>
+
+      <form class="lead-form" data-lead-form novalidate>
+        <input type="text" name="company" tabindex="-1" autocomplete="off" class="lead-honeypot" aria-hidden="true" />
+        <input type="hidden" name="renderedAt" value={renderedAt} />
+
+        <div class="form-field">
+          <label for="lead-name">Name</label>
+          <input id="lead-name" name="name" type="text" autocomplete="name" placeholder="Your name" maxlength="80" required />
+        </div>
+
+        <div class="form-field">
+          <label for="lead-phone">Phone number</label>
+          <input
+            id="lead-phone"
+            name="phone"
+            type="tel"
+            autocomplete="tel"
+            inputmode="tel"
+            placeholder="Your phone number"
+            maxlength="30"
+            required
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="lead-branch">Preferred branch</label>
+          <select id="lead-branch" name="branch" required>
+            <option value="">Choose a branch</option>
+            <option value="smouha">Smouha</option>
+            <option value="ganaklis">Ganaklis</option>
+          </select>
+        </div>
+
+        <p class="lead-privacy">
+          By submitting, you agree that Easy Fit Alexandria may contact you about your trial session.
+        </p>
+
+        <button class="btn btn-primary btn-large lead-submit" type="submit" data-submit-label="Send booking request" data-loading-label="Sending...">
+          Send booking request
+        </button>
+
+        <p class="lead-status" data-lead-status aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  (() => {
+    const form = document.querySelector('[data-lead-form]');
+    if (!(form instanceof HTMLFormElement)) return;
+
+    const status = form.querySelector('[data-lead-status]');
+    const submitButton = form.querySelector('.lead-submit');
+    const successMessage = 'Your request was received. We will contact you soon to confirm your session.';
+    const errorMessage = 'Something went wrong. Please try again or contact us on WhatsApp.';
+
+    const setStatus = (message, type = '') => {
+      if (!status) return;
+      status.textContent = message;
+      status.setAttribute('data-state', type);
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      if (!form.reportValidity()) return;
+      if (!(submitButton instanceof HTMLButtonElement)) return;
+
+      submitButton.disabled = true;
+      submitButton.textContent = submitButton.getAttribute('data-loading-label') || 'Sending...';
+      setStatus('', '');
+
+      const data = new FormData(form);
+      const params = new URLSearchParams(window.location.search);
+      const payload = {
+        name: data.get('name'),
+        phone: data.get('phone'),
+        branch: data.get('branch'),
+        company: data.get('company'),
+        renderedAt: Number(data.get('renderedAt')),
+        submittedAt: Date.now(),
+        page: window.location.pathname,
+        locale: 'en',
+        utm_source: params.get('utm_source') || '',
+        utm_medium: params.get('utm_medium') || '',
+        utm_campaign: params.get('utm_campaign') || ''
+      };
+
+      try {
+        const response = await fetch('/api/leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json().catch(() => ({ ok: false }));
+
+        if (!response.ok || !result.ok) {
+          throw new Error('lead_submit_failed');
+        }
+
+        form.reset();
+        const timestamp = form.querySelector('input[name="renderedAt"]');
+        if (timestamp instanceof HTMLInputElement) timestamp.value = String(Date.now());
+        setStatus(successMessage, 'success');
+      } catch {
+        setStatus(errorMessage, 'error');
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = submitButton.getAttribute('data-submit-label') || 'Send booking request';
+      }
+    });
+  })();
+</script>

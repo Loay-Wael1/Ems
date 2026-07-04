@@ -1,0 +1,275 @@
+---
+import '../styles/global.css';
+---
+
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#F8FAFC" />
+    <title>Easy Fit Leads Admin</title>
+    <script is:inline>
+      (() => {
+        let theme = 'light';
+        try {
+          theme = localStorage.getItem('easyfitTheme') === 'dark' ? 'dark' : 'light';
+        } catch (error) {
+          theme = 'light';
+        }
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+      })();
+    </script>
+  </head>
+  <body class="admin-body">
+    <main class="admin-page" id="main-content">
+      <section class="admin-card" data-login-panel>
+        <div class="admin-head">
+          <img src="/logo-transparent.png" alt="" width="54" height="54" />
+          <div>
+            <h1>Leads Admin</h1>
+            <p>Sign in to manage Easy Fit Alexandria booking requests.</p>
+          </div>
+        </div>
+
+        <form class="admin-login-form" data-login-form>
+          <label for="admin-password">Password</label>
+          <input id="admin-password" name="password" type="password" autocomplete="current-password" required />
+          <button class="btn btn-primary btn-large" type="submit">Login</button>
+          <p class="admin-status" data-login-status aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="admin-dashboard admin-card" data-dashboard hidden>
+        <div class="admin-toolbar">
+          <div>
+            <h1>Leads</h1>
+            <p data-admin-summary>No leads loaded yet.</p>
+          </div>
+          <div class="admin-actions">
+            <a class="btn btn-ghost" href="/api/admin/leads/export">Export CSV</a>
+            <button class="btn btn-primary" type="button" data-logout>Logout</button>
+          </div>
+        </div>
+
+        <form class="admin-filters" data-filter-form>
+          <label>
+            Branch
+            <select name="branch">
+              <option value="">All</option>
+              <option value="smouha">Smouha</option>
+              <option value="ganaklis">Ganaklis</option>
+            </select>
+          </label>
+          <label>
+            Status
+            <select name="status">
+              <option value="">All</option>
+              <option value="new">New</option>
+              <option value="contacted">Contacted</option>
+              <option value="booked">Booked</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </label>
+          <label>
+            Search
+            <input name="search" type="search" placeholder="Name or phone" autocomplete="off" />
+          </label>
+          <button class="btn btn-ghost" type="submit">Apply</button>
+        </form>
+
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Name</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Branch</th>
+                <th scope="col">Status</th>
+                <th scope="col">Notes</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody data-leads-body>
+              <tr>
+                <td colspan="7">No leads yet.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="admin-status" data-admin-status aria-live="polite"></p>
+      </section>
+    </main>
+
+    <script>
+      (() => {
+        const loginPanel = document.querySelector('[data-login-panel]');
+        const dashboard = document.querySelector('[data-dashboard]');
+        const loginForm = document.querySelector('[data-login-form]');
+        const filterForm = document.querySelector('[data-filter-form]');
+        const loginStatus = document.querySelector('[data-login-status]');
+        const adminStatus = document.querySelector('[data-admin-status]');
+        const summary = document.querySelector('[data-admin-summary]');
+        const tbody = document.querySelector('[data-leads-body]');
+        const logoutButton = document.querySelector('[data-logout]');
+
+        const setText = (node, text) => {
+          if (node) node.textContent = text;
+        };
+
+        const showDashboard = () => {
+          loginPanel.hidden = true;
+          dashboard.hidden = false;
+        };
+
+        const showLogin = () => {
+          loginPanel.hidden = false;
+          dashboard.hidden = true;
+        };
+
+        const paramsFromFilters = () => {
+          const data = new FormData(filterForm);
+          const params = new URLSearchParams();
+          ['branch', 'status', 'search'].forEach((key) => {
+            const value = String(data.get(key) || '').trim();
+            if (value) params.set(key, value);
+          });
+          return params;
+        };
+
+        const loadLeads = async () => {
+          const params = paramsFromFilters();
+          const response = await fetch(`/api/admin/leads?${params.toString()}`, { credentials: 'same-origin' });
+          if (response.status === 401) {
+            showLogin();
+            return;
+          }
+          const result = await response.json();
+          if (!result.ok) throw new Error('load_failed');
+          renderLeads(result.leads || []);
+          showDashboard();
+        };
+
+        const renderLeads = (leads) => {
+          setText(summary, leads.length ? `${leads.length} latest lead${leads.length === 1 ? '' : 's'}` : 'No leads yet.');
+          if (!leads.length) {
+            tbody.innerHTML = '<tr><td colspan="7">No leads yet.</td></tr>';
+            return;
+          }
+
+          tbody.innerHTML = leads
+            .map(
+              (lead) => `
+                <tr data-lead-id="${escapeHtml(lead.id)}">
+                  <td>${escapeHtml(formatDate(lead.created_at))}</td>
+                  <td>${escapeHtml(lead.name)}</td>
+                  <td><a href="tel:${escapeHtml(lead.phone)}">${escapeHtml(lead.phone)}</a></td>
+                  <td>${escapeHtml(formatBranch(lead.branch))}</td>
+                  <td>
+                    <select data-status aria-label="Lead status">
+                      ${['new', 'contacted', 'booked', 'cancelled']
+                        .map((status) => `<option value="${status}" ${lead.status === status ? 'selected' : ''}>${formatStatus(status)}</option>`)
+                        .join('')}
+                    </select>
+                  </td>
+                  <td><textarea data-notes rows="2" aria-label="Lead notes">${escapeHtml(lead.notes || '')}</textarea></td>
+                  <td><button class="btn btn-primary" type="button" data-save>Save</button></td>
+                </tr>
+              `
+            )
+            .join('');
+        };
+
+        loginForm.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          setText(loginStatus, '');
+          const password = String(new FormData(loginForm).get('password') || '');
+
+          try {
+            const response = await fetch('/api/admin/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ password }),
+              credentials: 'same-origin'
+            });
+            const result = await response.json().catch(() => ({ ok: false }));
+            if (!response.ok || !result.ok) throw new Error('login_failed');
+            loginForm.reset();
+            await loadLeads();
+          } catch {
+            setText(loginStatus, 'Login failed.');
+          }
+        });
+
+        filterForm.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          setText(adminStatus, '');
+          try {
+            await loadLeads();
+          } catch {
+            setText(adminStatus, 'Could not load leads.');
+          }
+        });
+
+        tbody.addEventListener('click', async (event) => {
+          const button = event.target.closest('[data-save]');
+          if (!button) return;
+
+          const row = button.closest('[data-lead-id]');
+          const status = row.querySelector('[data-status]').value;
+          const notes = row.querySelector('[data-notes]').value;
+          button.disabled = true;
+          setText(adminStatus, '');
+
+          try {
+            const response = await fetch(`/api/admin/leads/${encodeURIComponent(row.dataset.leadId)}`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ status, notes }),
+              credentials: 'same-origin'
+            });
+            const result = await response.json().catch(() => ({ ok: false }));
+            if (!response.ok || !result.ok) throw new Error('save_failed');
+            setText(adminStatus, 'Lead updated.');
+          } catch {
+            setText(adminStatus, 'Could not update lead.');
+          } finally {
+            button.disabled = false;
+          }
+        });
+
+        logoutButton.addEventListener('click', async () => {
+          await fetch('/api/admin/logout', { method: 'POST', credentials: 'same-origin' }).catch(() => {});
+          showLogin();
+        });
+
+        loadLeads().catch(() => showLogin());
+
+        function formatDate(value) {
+          return value ? new Date(value).toLocaleString() : '';
+        }
+
+        function formatBranch(value) {
+          return value === 'ganaklis' ? 'Ganaklis' : 'Smouha';
+        }
+
+        function formatStatus(value) {
+          return value.charAt(0).toUpperCase() + value.slice(1);
+        }
+
+        function escapeHtml(value) {
+          return String(value ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+        }
+      })();
+    </script>
+  </body>
+</html>
