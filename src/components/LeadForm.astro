@@ -2,61 +2,57 @@
 const renderedAt = Date.now();
 ---
 
-<section class="section-padding lead-section" id="book-trial" aria-labelledby="lead-title">
-  <div class="container">
-    <div class="lead-shell reveal-on-scroll">
-      <div class="section-head lead-copy">
-        <h2 id="lead-title" class="section-title">Book your EMS trial.</h2>
-        <p class="section-intro">
-          Leave your details and choose your preferred branch. Our team will contact you to confirm your session.
-        </p>
-      </div>
-
-      <form class="lead-form" data-lead-form novalidate>
-        <input type="text" name="company" tabindex="-1" autocomplete="off" class="lead-honeypot" aria-hidden="true" />
-        <input type="hidden" name="renderedAt" value={renderedAt} />
-
-        <div class="form-field">
-          <label for="lead-name">Name</label>
-          <input id="lead-name" name="name" type="text" autocomplete="name" placeholder="Your name" maxlength="80" required />
-        </div>
-
-        <div class="form-field">
-          <label for="lead-phone">Phone number</label>
-          <input
-            id="lead-phone"
-            name="phone"
-            type="tel"
-            autocomplete="tel"
-            inputmode="tel"
-            placeholder="Your phone number"
-            maxlength="30"
-            required
-          />
-        </div>
-
-        <div class="form-field">
-          <label for="lead-branch">Preferred branch</label>
-          <select id="lead-branch" name="branch" required>
-            <option value="">Choose a branch</option>
-            <option value="smouha">Smouha</option>
-            <option value="ganaklis">Ganaklis</option>
-          </select>
-        </div>
-
-        <p class="lead-privacy">
-          By submitting, you agree that Easy Fit Alexandria may contact you about your trial session.
-        </p>
-
-        <button class="btn btn-primary btn-large lead-submit" type="submit" data-submit-label="Send booking request" data-loading-label="Sending...">
-          Send booking request
-        </button>
-
-        <p class="lead-status" data-lead-status aria-live="polite"></p>
-      </form>
-    </div>
+<div class="lead-shell">
+  <div class="section-head lead-copy">
+    <h2 id="final-cta-title" class="section-title">Ready to try EMS?</h2>
+    <p class="section-intro">
+      Leave your details and choose your preferred branch. Our team will contact you to confirm your trial session.
+    </p>
   </div>
-</section>
+
+  <form class="lead-form" data-lead-form novalidate>
+    <input type="text" name="company" tabindex="-1" autocomplete="off" class="lead-honeypot" aria-hidden="true" />
+    <input type="hidden" name="renderedAt" value={renderedAt} />
+
+    <div class="form-field">
+      <label for="lead-name">Name</label>
+      <input id="lead-name" name="name" type="text" autocomplete="name" placeholder="Your name" maxlength="80" required />
+    </div>
+
+    <div class="form-field">
+      <label for="lead-phone">Phone number</label>
+      <input
+        id="lead-phone"
+        name="phone"
+        type="tel"
+        autocomplete="tel"
+        inputmode="tel"
+        placeholder="Your phone number"
+        maxlength="30"
+        required
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="lead-branch">Preferred branch</label>
+      <select id="lead-branch" name="branch" required>
+        <option value="">Choose a branch</option>
+        <option value="smouha">Smouha</option>
+        <option value="ganaklis">Ganaklis</option>
+      </select>
+    </div>
+
+    <p class="lead-privacy">
+      By submitting, you agree that Easy Fit Alexandria may contact you about your trial session.
+    </p>
+
+    <button class="btn btn-primary btn-large lead-submit" type="submit" data-submit-label="Send booking request" data-loading-label="Sending...">
+      Send booking request
+    </button>
+
+    <p class="lead-status" data-lead-status aria-live="polite"></p>
+  </form>
+</div>
 
 <script>
   (() => {

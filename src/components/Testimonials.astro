@@ -153,6 +153,7 @@ const reviews = [
     };
 
     marquee.addEventListener('pointerdown', (event) => {
+      if (event.pointerType !== 'mouse') return;
       if (event.pointerType === 'mouse' && event.button !== 0) return;
       isDragging = true;
       hasMoved = false;
@@ -163,6 +164,7 @@ const reviews = [
     });
 
     marquee.addEventListener('pointermove', (event) => {
+      if (event.pointerType !== 'mouse') return;
       if (!isDragging) return;
       const delta = event.clientX - startX;
       if (Math.abs(delta) > dragThreshold) hasMoved = true;
