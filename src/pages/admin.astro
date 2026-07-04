@@ -12,14 +12,10 @@ import '../styles/global.css';
     <title>Easy Fit Leads Admin</title>
     <script is:inline>
       (() => {
-        let theme = 'light';
-        try {
-          theme = localStorage.getItem('easyfitTheme') === 'dark' ? 'dark' : 'light';
-        } catch (error) {
-          theme = 'light';
-        }
-        document.documentElement.dataset.theme = theme;
-        document.documentElement.style.colorScheme = theme;
+        // Force admin dashboard to always use the stable light theme
+        // to prevent public site dark mode bugs from affecting the admin UI.
+        document.documentElement.dataset.theme = 'light';
+        document.documentElement.style.colorScheme = 'light';
       })();
     </script>
   </head>
@@ -247,7 +243,9 @@ import '../styles/global.css';
           showLogin();
         });
 
-        loadLeads().catch(() => showLogin());
+        // Always start on login panel.
+        // Do not auto-load leads to prevent flashing/hanging if an old session is present.
+        showLogin();
 
         function formatDate(value) {
           return value ? new Date(value).toLocaleString() : '';

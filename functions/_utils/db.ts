@@ -56,3 +56,13 @@ export async function enforceRateLimit(db: D1Database, ipHash: string) {
 
   return nextCount <= 8;
 }
+
+export async function pruneOldLeads(db: D1Database) {
+  const LEAD_RETENTION_DAYS = 4;
+  const cutoff = new Date(Date.now() - LEAD_RETENTION_DAYS * 24 * 60 * 60 * 1000).toISOString();
+
+  await db.prepare('DELETE FROM leads WHERE created_at < ?').bind(cutoff).run();
+  
+  const rateLimitCutoff = new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString();
+  await db.prepare('DELETE FROM lead_rate_limits WHERE window_start < ?').bind(rateLimitCutoff).run();
+}

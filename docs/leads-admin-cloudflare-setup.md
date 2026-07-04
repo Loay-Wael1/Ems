@@ -36,6 +36,10 @@ Set these in Cloudflare Pages project settings:
 
 Do not commit real values.
 
+## Automatic Lead Pruning
+
+Leads older than 4 days are automatically pruned from the database by the Pages Functions when API requests are made. This is intentional to prevent unlimited storage growth. The admin dashboard is for managing recent leads only, not for long-term CRM storage.
+
 ## Create the Admin Password Hash
 
 Run this locally and paste the output into `ADMIN_PASSWORD_HASH`:

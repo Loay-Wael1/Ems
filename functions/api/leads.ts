@@ -1,4 +1,4 @@
-import { enforceRateLimit, isReasonablePhone, normalizeBranch, normalizeText, type Env } from '../_utils/db';
+import { enforceRateLimit, isReasonablePhone, normalizeBranch, normalizeText, pruneOldLeads, type Env } from '../_utils/db';
 import { assertSameOrigin, getClientIp, hashValue, jsonResponse, readJsonBody } from '../_utils/security';
 
 const GENERIC_VALIDATION = 'Please check your details and try again.';
@@ -42,6 +42,8 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     const utmMedium = normalizeText(body.utm_medium, 120);
     const utmCampaign = normalizeText(body.utm_campaign, 120);
     const userAgent = normalizeText(request.headers.get('User-Agent'), 240);
+
+    await pruneOldLeads(env.DB).catch(() => {});
 
     await env.DB.prepare(
       `INSERT INTO leads (

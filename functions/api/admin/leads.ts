@@ -1,4 +1,4 @@
-import { normalizeBranch, normalizeStatus, normalizeText, type Env } from '../../_utils/db';
+import { normalizeBranch, normalizeStatus, normalizeText, pruneOldLeads, type Env } from '../../_utils/db';
 import { jsonResponse, requireAdmin } from '../../_utils/security';
 
 export const onRequestGet = async ({ request, env }: { request: Request; env: Env }) => {
@@ -11,6 +11,8 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: En
   const status = normalizeStatus(url.searchParams.get('status') || '');
   const search = normalizeText(url.searchParams.get('search') || '', 80).toLowerCase();
   const limit = Math.min(Math.max(Number(url.searchParams.get('limit')) || 100, 1), 100);
+
+  await pruneOldLeads(env.DB).catch(() => {});
 
   const result = await env.DB.prepare(
     `SELECT

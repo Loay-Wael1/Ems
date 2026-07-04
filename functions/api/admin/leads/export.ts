@@ -1,5 +1,5 @@
 import { leadsToCsv } from '../../../_utils/csv';
-import type { Env } from '../../../_utils/db';
+import { pruneOldLeads, type Env } from '../../../_utils/db';
 import { requireAdmin, securityHeaders } from '../../../_utils/security';
 
 export const onRequestGet = async ({ request, env }: { request: Request; env: Env }) => {
@@ -9,6 +9,8 @@ export const onRequestGet = async ({ request, env }: { request: Request; env: En
       headers: securityHeaders({ 'Content-Type': 'text/plain; charset=utf-8' })
     });
   }
+
+  await pruneOldLeads(env.DB).catch(() => {});
 
   const result = await env.DB.prepare(
     `SELECT
