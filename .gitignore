@@ -3,7 +3,6 @@ dist/
 .env
 .env.*
 .dev.vars
-wrangler.local.toml
 .wrangler/
 server.log
 server.err.log

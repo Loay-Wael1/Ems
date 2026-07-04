@@ -12,6 +12,9 @@ This feature keeps the public Astro landing page static. Dynamic behavior is han
 
 ## Required Cloudflare Bindings
 
+Deployed Cloudflare Pages bindings are managed from the Cloudflare Dashboard, not from `wrangler.toml`.
+There is intentionally no committed Wrangler config for this Pages project.
+
 In Cloudflare:
 
 1. Open Workers & Pages.
@@ -49,37 +52,13 @@ node -e "console.log(crypto.randomBytes(32).toString('base64url'))"
 
 Use separate values for `ADMIN_SESSION_SECRET` and `RATE_LIMIT_SECRET`.
 
-## Create D1 Database
+## Create D1 Database And Apply Migration
 
 ```bash
 npx wrangler d1 create easy-fit-leads
 ```
 
-Apply the migration locally:
-
-The committed `wrangler.toml` does not include a D1 database ID because deployed Pages uses the Cloudflare Dashboard binding named `DB`. For local migrations only, create an untracked `wrangler.local.toml` file:
-
-```toml
-name = "easy-fit-alexandria"
-pages_build_output_dir = "dist"
-compatibility_date = "2024-11-18"
-
-[[d1_databases]]
-binding = "DB"
-database_name = "easy-fit-leads"
-database_id = "00000000-0000-0000-0000-000000000000"
-migrations_dir = "migrations"
-```
-
-Then apply the local migration:
-
-```bash
-npx wrangler d1 migrations apply easy-fit-leads --local --config wrangler.local.toml
-```
-
-Do not commit `wrangler.local.toml`.
-
-Apply the migration in production:
+Apply the migration to the Cloudflare D1 database before using the admin dashboard:
 
 ```bash
 npx wrangler d1 migrations apply easy-fit-leads --remote
@@ -108,8 +87,10 @@ npm run build
 Run Pages dev against the built `dist` output and bind local D1 as `DB`:
 
 ```bash
-npx wrangler pages dev dist --d1 DB=00000000-0000-0000-0000-000000000000 --persist-to .wrangler/state
+npx wrangler pages dev dist --d1 DB=easy-fit-leads
 ```
+
+Local `.dev.vars` is loaded by Wrangler Pages dev and must stay local only.
 
 Open:
 
