@@ -1,5 +1,6 @@
 ---
 const heroVideoUrl = '/videos/ems-experience.mp4';
+const mobileHeroVideoUrl = '/videos/ems-experience-reel-v2.mp4';
 const heroReelVideoUrl = '/videos/ems-experience-reel-v2.mp4';
 const heroVideoPoster = '/videos/ems-experience-poster.webp';
 const impactBadges = [
@@ -14,12 +15,12 @@ const impactBadges = [
   <div class="hero-media" aria-hidden="true">
     <video
       class="hero-bg-video"
-      src={heroVideoUrl}
+      data-src={mobileHeroVideoUrl}
       autoplay
       muted
       loop
       playsinline
-      preload="metadata"
+      preload="none"
       poster={heroVideoPoster}
     ></video>
     <div class="hero-static-overlay"></div>
@@ -83,35 +84,57 @@ const impactBadges = [
 
 <script>
   (() => {
+    const mobileMedia = window.matchMedia('(max-width: 759px)');
     const desktopMedia = window.matchMedia('(min-width: 760px)');
+    const bgVideo = document.querySelector('.hero-bg-video');
+    const reelVideo = document.querySelector('.hero-reel-video');
+
+    const handleBgVideo = () => {
+      if (!(bgVideo instanceof HTMLVideoElement)) return;
+
+      if (mobileMedia.matches) {
+        const src = bgVideo.dataset.src;
+        if (src && !bgVideo.currentSrc) {
+          bgVideo.src = src;
+          bgVideo.load();
+        }
+        bgVideo.muted = true;
+        bgVideo.defaultMuted = true;
+        bgVideo.playsInline = true;
+        const attempt = bgVideo.play();
+        if (attempt && typeof attempt.catch === 'function') {
+          attempt.catch(() => {});
+        }
+      } else {
+        bgVideo.pause();
+        bgVideo.removeAttribute('src');
+        bgVideo.load();
+      }
+    };
 
     const playHeroReel = () => {
       if (!desktopMedia.matches) return;
+      if (!(reelVideo instanceof HTMLVideoElement)) return;
 
-      const video = document.querySelector('.hero-reel-video');
-      if (!(video instanceof HTMLVideoElement)) return;
-
-      const videoSrc = video.dataset.src;
-      if (videoSrc && !video.currentSrc) {
-        video.src = videoSrc;
-        video.load();
+      const videoSrc = reelVideo.dataset.src;
+      if (videoSrc && !reelVideo.currentSrc) {
+        reelVideo.src = videoSrc;
+        reelVideo.load();
       }
 
-      video.muted = true;
-      video.defaultMuted = true;
-      video.playsInline = true;
+      reelVideo.muted = true;
+      reelVideo.defaultMuted = true;
+      reelVideo.playsInline = true;
 
-      const attempt = video.play();
+      const attempt = reelVideo.play();
       if (attempt && typeof attempt.catch === 'function') {
         attempt.catch(() => {});
       }
     };
 
     const run = () => {
+      handleBgVideo();
       playHeroReel();
-      window.setTimeout(playHeroReel, 150);
-      window.setTimeout(playHeroReel, 500);
-      window.setTimeout(playHeroReel, 1000);
     };
 
     if (document.readyState === 'loading') {
@@ -120,13 +143,8 @@ const impactBadges = [
       run();
     }
 
-    window.addEventListener('pageshow', playHeroReel);
-
-    ['pointerdown', 'keydown'].forEach((eventName) => {
-      window.addEventListener(eventName, playHeroReel, {
-        once: true,
-        passive: true
-      });
-    });
+    mobileMedia.addEventListener('change', run);
+    desktopMedia.addEventListener('change', run);
+    window.addEventListener('pageshow', run);
   })();
 </script>
