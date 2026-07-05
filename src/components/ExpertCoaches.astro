@@ -41,14 +41,30 @@ const [featuredVideo, ...supportingVideos] = coachVideos;
 
 <section class="section-padding expert-section" id="expert-coaches" aria-labelledby="expert-title">
   <div class="container expert-shell">
-    <div class="section-head expert-copy reveal-on-scroll">
-      <span class="section-kicker">EXPERT GUIDANCE</span>
-      <h2 id="expert-title" class="section-title">
-        Real coaches guide every EMS session.
-      </h2>
-      <p class="section-intro">
-        From movement control to nutrition direction and InBody follow-ups, your 20-minute session is part of a guided plan — not a random workout.
-      </p>
+    <div class="expert-content-column">
+      <div class="section-head expert-copy reveal-on-scroll">
+        <span class="section-kicker">EXPERT GUIDANCE</span>
+        <h2 id="expert-title" class="section-title">
+          Real coaches guide every EMS session.
+        </h2>
+        <p class="section-intro">
+          From movement control to nutrition direction and InBody follow-ups, your 20-minute session is part of a guided plan — not a random workout.
+        </p>
+      </div>
+
+      <div class="coach-trust-grid">
+        {
+          trustCards.map((card, index) => (
+            <article class="coach-trust-card reveal-on-scroll" style={`--card-index:${index}`}>
+              <span class="coach-trust-number">{String(index + 1).padStart(2, '0')}</span>
+              <div>
+                <h3>{card.title}</h3>
+                <p>{card.text}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
     </div>
 
     <div class="expert-media reveal-on-scroll reveal-delay-1">
@@ -90,20 +106,6 @@ const [featuredVideo, ...supportingVideos] = coachVideos;
             ))}
           </div>
         )
-      }
-    </div>
-
-    <div class="coach-trust-grid">
-      {
-        trustCards.map((card, index) => (
-          <article class="coach-trust-card reveal-on-scroll" style={`--card-index:${index}`}>
-            <span class="coach-trust-number">{String(index + 1).padStart(2, '0')}</span>
-            <div>
-              <h3>{card.title}</h3>
-              <p>{card.text}</p>
-            </div>
-          </article>
-        ))
       }
     </div>
   </div>
