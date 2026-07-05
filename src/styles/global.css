@@ -2538,6 +2538,17 @@ html[data-theme="dark"] .footer-logo-light {
 html[data-theme="dark"] .brand-logo-dark,
 html[data-theme="dark"] .footer-logo-dark {
   display: block;
+  object-fit: contain;
+}
+
+html[data-theme="dark"] .brand-logo-dark {
+  width: 36px;
+  height: 36px;
+}
+
+html[data-theme="dark"] .footer-logo-dark {
+  width: 32px;
+  height: 32px;
 }
 
 html[data-theme="dark"] .brand-logo-wrap,
