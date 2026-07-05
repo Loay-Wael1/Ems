@@ -1,0 +1,46 @@
+---
+const guidanceCards = [
+  {
+    title: 'Physical Education Coaches',
+    text: 'Sessions are guided by coaches with sports science backgrounds, so every movement and intensity level stays controlled.'
+  },
+  {
+    title: 'Nutrition Support',
+    text: 'Pharmacy-graduate specialists help guide your nutrition direction around your goal and progress.'
+  },
+  {
+    title: 'InBody Check-Ins',
+    text: 'We track body composition, not just weight, so progress is easier to understand.'
+  },
+  {
+    title: '14-Day Follow-Up',
+    text: 'Your progress is reviewed every 14 days, then the plan is adjusted based on what your body needs next.'
+  }
+];
+---
+
+<section class="section-padding expert-section" id="expert-coaches" aria-labelledby="expert-title">
+  <div class="container expert-shell">
+    <div class="section-head expert-copy reveal-on-scroll">
+      <span class="section-kicker">EXPERT GUIDANCE</span>
+      <h2 id="expert-title" class="section-title">
+        Coaches, nutrition, and progress tracking in one plan.
+      </h2>
+      <p class="section-intro">
+        Your EMS session is guided by qualified coaches, with nutrition support and InBody follow-up every 14 days to keep your progress clear.
+      </p>
+    </div>
+
+    <div class="expert-grid">
+      {
+        guidanceCards.map((card, index) => (
+          <article class="expert-card reveal-on-scroll" style={`--card-index:${index}`}>
+            <span class="expert-number">{String(index + 1).padStart(2, '0')}</span>
+            <h3>{card.title}</h3>
+            <p>{card.text}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

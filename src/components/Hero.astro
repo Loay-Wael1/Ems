@@ -1,11 +1,10 @@
 ---
-const whatsappUrl = 'https://wa.me/201124799978';
 const heroVideoUrl = '/videos/ems-experience.mp4';
 const heroReelVideoUrl = '/videos/ems-experience-reel.mp4';
 const heroVideoPoster = '/videos/ems-experience-poster.webp';
 const impactBadges = [
-  { label: 'Smart 20-Min EMS' },
-  { label: 'Expert Coaching & Nutrition' },
+  { label: 'Smart 20-Minute EMS', href: '#what-is-ems' },
+  { label: 'Expert Coaches & Nutrition', href: '#expert-coaches' },
   { label: 'Our Branches', href: '#locations' },
   { label: 'Client Reviews', href: '#testimonials' }
 ];
@@ -50,9 +49,7 @@ const impactBadges = [
           impactBadges.map((badge) => (
             <li>
               {badge.href ? (
-                <a href={badge.href} style="color: inherit; text-decoration: none;">
-                  {badge.label}
-                </a>
+                <a href={badge.href}>{badge.label}</a>
               ) : (
                 <span>{badge.label}</span>
               )}

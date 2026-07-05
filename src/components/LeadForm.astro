@@ -5,14 +5,14 @@ const renderedAt = Date.now();
 <div class="lead-shell">
   <div class="section-head lead-copy">
     <span class="lead-eyebrow">BOOK YOUR EMS TRIAL</span>
-    <h2 id="final-cta-title" class="section-title">Try EMS with Easy Fit Alexandria</h2>
+    <h2 id="final-cta-title" class="section-title">Book your EMS trial</h2>
     <p class="section-intro">
-      Choose your preferred branch and leave your details. Our team will contact you to confirm your trial session.
+      Choose a branch and leave your number. We'll confirm your session shortly.
     </p>
     <ul class="lead-trust-list" aria-label="Trial session highlights">
-      <li>Coach-guided session</li>
+      <li>Coach-guided</li>
+      <li>InBody follow-up</li>
       <li>Smouha &amp; Ganaklis branches</li>
-      <li>Fast confirmation</li>
     </ul>
   </div>
 
@@ -44,7 +44,7 @@ const renderedAt = Date.now();
       <div class="form-field">
         <label for="lead-branch">Preferred branch</label>
         <select id="lead-branch" name="branch" required>
-          <option value="">Choose a branch</option>
+          <option value="">Select your branch</option>
           <option value="smouha">Smouha</option>
           <option value="ganaklis">Ganaklis</option>
         </select>
@@ -54,8 +54,8 @@ const renderedAt = Date.now();
         We will only use your details to contact you about your EMS trial.
       </p>
 
-      <button class="btn btn-primary btn-large lead-submit" type="submit" data-submit-label="Send booking request" data-loading-label="Sending...">
-        Send booking request
+      <button class="btn btn-primary btn-large lead-submit" type="submit" data-submit-label="Request my trial session" data-loading-label="Sending request...">
+        Request my trial session
       </button>
 
       <p class="lead-status" data-lead-status aria-live="polite"></p>
@@ -86,7 +86,7 @@ const renderedAt = Date.now();
       if (!(submitButton instanceof HTMLButtonElement)) return;
 
       submitButton.disabled = true;
-      submitButton.textContent = submitButton.getAttribute('data-loading-label') || 'Sending...';
+      submitButton.textContent = submitButton.getAttribute('data-loading-label') || 'Sending request...';
       setStatus('', '');
 
       const data = new FormData(form);
@@ -125,7 +125,7 @@ const renderedAt = Date.now();
         setStatus(errorMessage, 'error');
       } finally {
         submitButton.disabled = false;
-        submitButton.textContent = submitButton.getAttribute('data-submit-label') || 'Send booking request';
+        submitButton.textContent = submitButton.getAttribute('data-submit-label') || 'Request my trial session';
       }
     });
   })();

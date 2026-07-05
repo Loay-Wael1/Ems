@@ -2,12 +2,19 @@
 import smouhaImage from '../../smouha.webp';
 import ganaklisImage from '../../چناكليس.jpg';
 
+const smouhaMessage = encodeURIComponent(
+  'Hello Easy Fit Alexandria, I came from the website and would like to ask about booking an EMS trial session at the Smouha branch.'
+);
+const ganaklisMessage = encodeURIComponent(
+  'Hello Easy Fit Alexandria, I came from the website and would like to ask about booking an EMS trial session at the Ganaklis branch.'
+);
+
 const studios = [
   {
     name: 'Smouha',
     address: 'Delta Life Administrative Towers, behind Motager Mall, first floor, Studio 7B.',
     image: smouhaImage,
-    whatsapp: 'https://wa.me/201124799978?text=Hello%20Easy%20Fit%20Alexandria%2C%20I%20came%20from%20the%20website%20and%20would%20like%20to%20ask%20about%20booking%20an%20EMS%20trial%20session%20at%20the%20Smouha%20branch.',
+    whatsapp: `https://wa.me/201124799978?text=${smouhaMessage}`,
     mobileCall: 'tel:+201124799978',
     landlineCall: 'tel:034238908',
     map: 'https://maps.app.goo.gl/FvXUjLWDzwrzMSg99?g_st=ic'
@@ -16,7 +23,7 @@ const studios = [
     name: 'Ganaklis',
     address: 'El Zeraeyeen Towers, ground floor, Abu Qir Street, in front of El Sallab.',
     image: ganaklisImage,
-    whatsapp: 'https://wa.me/201121112737?text=Hello%20Easy%20Fit%20Alexandria%2C%20I%20came%20from%20the%20website%20and%20would%20like%20to%20ask%20about%20booking%20an%20EMS%20trial%20session%20at%20the%20Ganaklis%20branch.',
+    whatsapp: `https://wa.me/201121112737?text=${ganaklisMessage}`,
     mobileCall: 'tel:+201121112737',
     landlineCall: 'tel:035708750',
     map: 'https://maps.app.goo.gl/v9XFmCjmfcxYoo6g7?g_st=ic'
