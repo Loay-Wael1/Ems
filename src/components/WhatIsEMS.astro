@@ -12,24 +12,26 @@
     </div>
 
     <div class="ems-systems-showcase reveal-on-scroll reveal-delay-1">
-      <!-- Tabs -->
-      <div class="systems-tabs" role="tablist" aria-label="EMS Systems">
-        <button type="button" role="tab" aria-selected="true" aria-controls="panel-imotion" id="tab-imotion" class="system-tab-btn active" data-index="0">I-MOTION</button>
-        <button type="button" role="tab" aria-selected="false" aria-controls="panel-imodel" id="tab-imodel" class="system-tab-btn" data-index="1" tabindex="-1">I-MODEL</button>
-        <button type="button" role="tab" aria-selected="false" aria-controls="panel-ishape" id="tab-ishape" class="system-tab-btn" data-index="2" tabindex="-1">I-SHAPE</button>
-      </div>
-
       <!-- Two-column showcase -->
       <div class="systems-layout">
-
-        <!-- Shared visual stage -->
-        <div class="systems-stage" aria-hidden="true">
-          <div class="stage-suits">
-            <img src="/i-motion-clean.png" alt="" class="stage-suit active" data-suit="0" width="440" height="580" loading="eager" decoding="async" />
-            <img src="/i-model-clean.png" alt="" class="stage-suit" data-suit="1" width="440" height="520" loading="lazy" decoding="async" />
-            <img src="/i-shape-clean.png" alt="" class="stage-suit" data-suit="2" width="440" height="480" loading="lazy" decoding="async" />
+        <!-- Visual column (Stage + Tabs) -->
+        <div class="systems-visual-column">
+          <!-- Shared visual stage -->
+          <div class="systems-stage" aria-hidden="true">
+            <div class="stage-suits">
+              <img src="/i-motion-stage.png" alt="" class="stage-suit active" data-suit="0" width="440" height="580" loading="eager" decoding="async" />
+              <img src="/i-model-stage.png" alt="" class="stage-suit" data-suit="1" width="440" height="520" loading="lazy" decoding="async" />
+              <img src="/i-shape-stage.png" alt="" class="stage-suit" data-suit="2" width="440" height="480" loading="lazy" decoding="async" />
+            </div>
+            <img src="/ems-stand-stage.png" alt="" class="stage-stand" width="480" height="200" loading="eager" decoding="async" />
           </div>
-          <img src="/ems-stand-clean.png" alt="" class="stage-stand" width="480" height="200" loading="eager" decoding="async" />
+
+          <!-- Tabs shifted below stage -->
+          <div class="systems-tabs" role="tablist" aria-label="EMS Systems">
+            <button type="button" role="tab" aria-selected="true" aria-controls="panel-imotion" id="tab-imotion" class="system-tab-btn active" data-index="0">I-MOTION</button>
+            <button type="button" role="tab" aria-selected="false" aria-controls="panel-imodel" id="tab-imodel" class="system-tab-btn" data-index="1" tabindex="-1">I-MODEL</button>
+            <button type="button" role="tab" aria-selected="false" aria-controls="panel-ishape" id="tab-ishape" class="system-tab-btn" data-index="2" tabindex="-1">I-SHAPE</button>
+          </div>
         </div>
 
         <!-- Content panels -->
