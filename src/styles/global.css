@@ -2271,16 +2271,18 @@ html:not([data-theme="dark"]) .hero-title span {
   }
 
   .expert-shell {
-    grid-template-columns: minmax(0, 0.8fr) minmax(520px, 1.2fr);
+    grid-template-columns: minmax(0, 0.9fr) minmax(520px, 1.1fr);
+    grid-template-areas: none;
     align-items: center;
-    gap: clamp(2rem, 5vw, 4rem);
+    gap: clamp(2rem, 5vw, 4.5rem);
   }
 
   .expert-content-column {
+    grid-column: 1;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
-    width: 100%;
+    gap: 1.4rem;
+    min-width: 0;
   }
 
   .coach-trust-grid {
@@ -2289,11 +2291,18 @@ html:not([data-theme="dark"]) .hero-title span {
   }
 
   .expert-media {
+    grid-column: 2;
+    grid-area: auto;
+    min-width: 0;
     width: 100%;
     display: grid;
-    grid-template-columns: 1.2fr 1fr 1fr;
+    grid-template-columns: minmax(260px, 1fr) minmax(170px, 0.62fr);
     gap: 1rem;
-    align-items: end;
+    align-items: stretch;
+  }
+
+  .coach-video-card-featured {
+    min-width: 0;
   }
 
   .coach-video-card-featured .coach-video-frame {
@@ -2302,12 +2311,20 @@ html:not([data-theme="dark"]) .hero-title span {
   }
 
   .coach-video-grid {
-    display: contents;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
   .coach-video-card-small .coach-video-frame {
     aspect-ratio: 9 / 16;
+    height: clamp(210px, 18vw, 270px);
     max-height: none;
+  }
+
+  .coach-video-card-small .coach-video-frame video {
+    object-fit: contain;
+    background: #05030a;
   }
 
   .ems-demo-shell {
