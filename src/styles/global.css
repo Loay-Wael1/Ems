@@ -2296,7 +2296,7 @@ html:not([data-theme="dark"]) .hero-title span {
     min-width: 0;
     width: 100%;
     display: grid;
-    grid-template-columns: minmax(260px, 1fr) minmax(220px, 0.82fr);
+    grid-template-columns: minmax(260px, 1fr) minmax(170px, 0.62fr);
     gap: 1rem;
     align-items: stretch;
   }
@@ -2317,9 +2317,8 @@ html:not([data-theme="dark"]) .hero-title span {
   }
 
   .coach-video-card-small .coach-video-frame {
-    width: 100%;
     aspect-ratio: 9 / 16;
-    height: clamp(235px, 20vw, 310px);
+    height: clamp(210px, 18vw, 270px);
     max-height: none;
   }
 
