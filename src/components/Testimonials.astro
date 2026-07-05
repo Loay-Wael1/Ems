@@ -40,17 +40,27 @@ const videoReviews = [
   {
     src: '/videos/reviews/client-review-3.mp4',
     title: 'Client video review 3'
+  },
+  {
+    src: '/videos/reviews/client-review-4.mp4',
+    title: 'Client video review 4'
   }
 ];
 ---
 
 <section class="section-padding reviews-section" id="testimonials" aria-labelledby="reviews-title">
   <div class="container">
-    <div class="section-head center reveal-on-scroll">
+    <div class="section-head center review-heading reveal-on-scroll">
+      <span class="section-kicker">CLIENT FEEDBACK</span>
       <h2 id="reviews-title" class="section-title">Real people. Real feedback.</h2>
       <p class="section-intro">
-        See what Easy Fit clients shared after trying EMS sessions in Alexandria.
+        Watch client stories and browse real feedback from Easy Fit Alexandria.
       </p>
+      <ul class="review-heading-chips" aria-label="Review formats">
+        <li>Video reviews</li>
+        <li>Client screenshots</li>
+        <li>Alexandria EMS</li>
+      </ul>
     </div>
   </div>
 
@@ -135,7 +145,7 @@ const videoReviews = [
       <button class="modal-close-button" type="button" data-review-close aria-label="Close review preview">
         &times;
       </button>
-      <img id="review-modal-image" src="" alt="" />
+      <img id="review-modal-image" src="" alt="" hidden />
       <video id="review-modal-video" controls playsinline hidden></video>
     </div>
   </dialog>
@@ -188,10 +198,17 @@ const videoReviews = [
     const resetModalVideo = () => {
       if (!(modalVideo instanceof HTMLVideoElement)) return;
       modalVideo.pause();
+      modalVideo.hidden = true;
       modalVideo.removeAttribute('src');
       modalVideo.removeAttribute('aria-label');
       modalVideo.load();
-      modalVideo.hidden = true;
+    };
+
+    const resetModalImage = () => {
+      if (!(modalImage instanceof HTMLImageElement)) return;
+      modalImage.hidden = true;
+      modalImage.removeAttribute('src');
+      modalImage.removeAttribute('alt');
     };
 
     const closeModal = () => {
@@ -204,9 +221,8 @@ const videoReviews = [
       isDragging = false;
       hasMoved = false;
       suppressClick = false;
-      modalImage.removeAttribute('src');
-      modalImage.removeAttribute('alt');
-      modalImage.hidden = true;
+      modal.removeAttribute('data-active-type');
+      resetModalImage();
       resetModalVideo();
       scrollAreas.forEach((area) => area.classList.remove('is-dragging'));
 
@@ -224,15 +240,15 @@ const videoReviews = [
       const src = card.getAttribute('data-full') || '';
 
       if (type === 'video') {
-        modalImage.hidden = true;
-        modalImage.removeAttribute('src');
-        modalImage.removeAttribute('alt');
+        resetModalImage();
+        modal.dataset.activeType = 'video';
         modalVideo.hidden = false;
         modalVideo.setAttribute('aria-label', `${title} from Easy Fit Alexandria`);
         modalVideo.src = src;
         modalVideo.load();
       } else {
         resetModalVideo();
+        modal.dataset.activeType = 'image';
         modalImage.hidden = false;
         modalImage.src = src;
         modalImage.alt = `${title} from Easy Fit Alexandria`;

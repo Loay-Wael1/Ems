@@ -255,10 +255,23 @@ p {
   min-width: 0;
 }
 
+.brand-logo-wrap {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+}
+
 .brand-logo {
   width: 44px;
   height: 44px;
   object-fit: contain;
+}
+
+.brand-logo-dark {
+  display: none;
 }
 
 .brand-text {
@@ -1029,7 +1042,29 @@ p {
   position: relative;
 }
 
+.review-heading {
+  gap: 0.85rem;
+}
 
+.review-heading-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0;
+  margin: 0.15rem 0 0;
+  list-style: none;
+}
+
+.review-heading-chips li {
+  padding: 0.42rem 0.66rem;
+  border: 1px solid rgba(17, 26, 58, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 850;
+}
 
 .review-marquee {
   width: 100%;
@@ -1205,6 +1240,18 @@ p {
   border-radius: 18px;
   margin: 0 auto;
   background: #05030a;
+}
+
+.review-modal:not([data-active-type]) #review-modal-image,
+.review-modal:not([data-active-type]) #review-modal-video,
+.review-modal[data-active-type="image"] #review-modal-video,
+.review-modal[data-active-type="video"] #review-modal-image {
+  display: none !important;
+}
+
+.review-modal[data-active-type="image"] #review-modal-image,
+.review-modal[data-active-type="video"] #review-modal-video {
+  display: block;
 }
 
 .modal-close-button {
@@ -1680,10 +1727,24 @@ p {
   gap: 0.75rem;
 }
 
-.footer-brand img {
+.footer-logo-wrap {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+}
+
+.footer-brand img,
+.footer-logo {
   width: 42px;
   height: 42px;
   object-fit: contain;
+}
+
+.footer-logo-dark {
+  display: none;
 }
 
 .footer-brand div {
@@ -2251,6 +2312,7 @@ p {
     gap: 0.5rem;
   }
 
+  .brand-logo-wrap,
   .brand-logo {
     width: 38px;
     height: 38px;
@@ -2341,6 +2403,16 @@ html[data-theme="dark"] .benefit-card h3,
 html[data-theme="dark"] .final-cta-shell h2,
 html[data-theme="dark"] .footer-brand strong {
   color: #f8fafc;
+}
+
+html[data-theme="dark"] .brand-logo-light,
+html[data-theme="dark"] .footer-logo-light {
+  display: none;
+}
+
+html[data-theme="dark"] .brand-logo-dark,
+html[data-theme="dark"] .footer-logo-dark {
+  display: block;
 }
 
 html[data-theme="dark"] .brand-sub,
@@ -2664,7 +2736,8 @@ html[data-theme="dark"] .benefit-index {
   color: var(--accent-dark);
 }
 
-html[data-theme="dark"] .chip {
+html[data-theme="dark"] .chip,
+html[data-theme="dark"] .review-heading-chips li {
   border-color: rgba(248, 250, 252, 0.24);
   background: rgba(5, 3, 10, 0.58);
   backdrop-filter: blur(18px);
