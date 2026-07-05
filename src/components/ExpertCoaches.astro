@@ -72,10 +72,10 @@ const [featuredVideo, ...supportingVideos] = coachVideos;
         <div class="coach-video-frame">
           <video
             class="coach-feature-video"
-            src={featuredVideo.src}
+            data-src={featuredVideo.src}
             controls
             playsinline
-            preload="metadata"
+            preload="none"
             aria-label={featuredVideo.ariaLabel}
           ></video>
         </div>
@@ -92,10 +92,10 @@ const [featuredVideo, ...supportingVideos] = coachVideos;
               <article class="coach-video-card coach-video-card-small">
                 <div class="coach-video-frame">
                   <video
-                    src={video.src}
+                    data-src={video.src}
                     controls
                     playsinline
-                    preload="metadata"
+                    preload="none"
                     aria-label={video.ariaLabel}
                   ></video>
                 </div>
@@ -110,3 +110,38 @@ const [featuredVideo, ...supportingVideos] = coachVideos;
     </div>
   </div>
 </section>
+
+<script>
+  (() => {
+    const section = document.querySelector('#expert-coaches');
+    if (!section) return;
+
+    const videos = Array.from(section.querySelectorAll('video[data-src]'));
+
+    const loadVideo = (video: Element) => {
+      if (!(video instanceof HTMLVideoElement)) return;
+      const src = video.dataset.src;
+      if (!src || video.currentSrc) return;
+      video.src = src;
+      video.preload = 'metadata';
+      video.load();
+    };
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            loadVideo(entry.target);
+            observer.unobserve(entry.target);
+          });
+        },
+        { rootMargin: '640px 0px' }
+      );
+
+      videos.forEach((video) => observer.observe(video));
+    } else {
+      videos.forEach(loadVideo);
+    }
+  })();
+</script>
