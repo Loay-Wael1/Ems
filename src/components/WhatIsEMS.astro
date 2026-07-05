@@ -4,187 +4,76 @@
 <section class="section-padding ems-section" id="what-is-ems" aria-labelledby="ems-title">
   <div class="container">
     <div class="section-head center reveal-on-scroll">
+      <span class="ems-eyebrow">EMS SYSTEMS</span>
       <h2 id="ems-title" class="section-title">20 minutes of EMS. 4 hours of gym-style muscle activation.</h2>
       <p class="section-intro">
-        Easy Fit uses three advanced EMS systems to match different training and body goals — from full-body performance sessions to targeted shaping and aesthetic-focused treatments.
+        Three advanced EMS systems. Each one built for a different result.
       </p>
     </div>
 
     <div class="ems-systems-showcase reveal-on-scroll reveal-delay-1">
-      <!-- Tabs selectors -->
+      <!-- Tabs -->
       <div class="systems-tabs" role="tablist" aria-label="EMS Systems">
-        <button
-          type="button"
-          role="tab"
-          aria-selected="true"
-          aria-controls="panel-imotion"
-          id="tab-imotion"
-          class="system-tab-btn active"
-          data-system="imotion"
-        >
-          I-MOTION
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected="false"
-          aria-controls="panel-imodel"
-          id="tab-imodel"
-          class="system-tab-btn"
-          data-system="imodel"
-          tabindex="-1"
-        >
-          I-MODEL
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected="false"
-          aria-controls="panel-ishape"
-          id="tab-ishape"
-          class="system-tab-btn"
-          data-system="ishape"
-          tabindex="-1"
-        >
-          I-SHAPE
-        </button>
+        <button type="button" role="tab" aria-selected="true" aria-controls="panel-imotion" id="tab-imotion" class="system-tab-btn active" data-index="0">I-MOTION</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="panel-imodel" id="tab-imodel" class="system-tab-btn" data-index="1" tabindex="-1">I-MODEL</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="panel-ishape" id="tab-ishape" class="system-tab-btn" data-index="2" tabindex="-1">I-SHAPE</button>
       </div>
 
-      <!-- Display panels container -->
-      <div class="systems-display-container">
-        
-        <!-- I-MOTION Panel -->
-        <div
-          id="panel-imotion"
-          role="tabpanel"
-          aria-labelledby="tab-imotion"
-          class="system-panel active"
-          data-system="imotion"
-        >
-          <div class="system-grid">
-            <div class="system-visual-panel">
-              <div class="system-visual-stage">
-                <img
-                  src="/i-motion.png"
-                  alt="I-MOTION EMS suit visual"
-                  class="system-suit-img"
-                  loading="eager"
-                  decoding="async"
-                  width="440"
-                  height="550"
-                />
-              </div>
-            </div>
-            <div class="system-content-panel">
-              <h3 class="system-name">I-MOTION</h3>
-              <p class="system-tagline">Full-body EMS training for performance, strength, and transformation.</p>
-              <p class="system-description">
-                Our I-MOTION system is designed for active, coach-guided EMS sessions that engage the whole body through intelligent muscle stimulation while you move. It is ideal for clients who want an efficient, premium workout experience with full-body focus.
-              </p>
-              <ul class="system-features" aria-label="I-MOTION features">
-                <li>Full-body EMS activation</li>
-                <li>Coach-guided movement sessions</li>
-                <li>Efficient 20-minute format</li>
-                <li>Great for strength, conditioning, and fat-loss support</li>
-              </ul>
-              <p class="system-best-for">
-                <strong>Best for:</strong> Full-body training, active sessions, busy schedules, and overall transformation.
-              </p>
-            </div>
+      <!-- Two-column showcase -->
+      <div class="systems-layout">
+
+        <!-- Shared visual stage -->
+        <div class="systems-stage" aria-hidden="true">
+          <div class="stage-suits">
+            <img src="/i-motion.png" alt="" class="stage-suit active" data-suit="0" width="440" height="580" loading="eager" decoding="async" />
+            <img src="/i-model.png" alt="" class="stage-suit" data-suit="1" width="440" height="520" loading="lazy" decoding="async" />
+            <img src="/i-shape.png" alt="" class="stage-suit" data-suit="2" width="440" height="480" loading="lazy" decoding="async" />
           </div>
+          <img src="/ems-stand.png" alt="" class="stage-stand" width="480" height="200" loading="eager" decoding="async" />
         </div>
 
-        <!-- I-MODEL Panel -->
-        <div
-          id="panel-imodel"
-          role="tabpanel"
-          aria-labelledby="tab-imodel"
-          class="system-panel"
-          data-system="imodel"
-          hidden
-        >
-          <div class="system-grid">
-            <div class="system-visual-panel">
-              <div class="system-visual-stage">
-                <img
-                  src="/i-model.png"
-                  alt="I-MODEL EMS suit visual"
-                  class="system-suit-img"
-                  loading="lazy"
-                  decoding="async"
-                  width="440"
-                  height="550"
-                />
-              </div>
+        <!-- Content panels -->
+        <div class="systems-content">
+          <div id="panel-imotion" role="tabpanel" aria-labelledby="tab-imotion" class="sys-panel active" data-panel="0">
+            <h3 class="sys-name">I-MOTION</h3>
+            <p class="sys-tagline">Full-body EMS for strength, movement, and transformation.</p>
+            <p class="sys-desc">Built for active coach-guided sessions that activate the whole body in one efficient workout.</p>
+            <div class="sys-chips" aria-label="I-MOTION features">
+              <span class="sys-chip">Full-body activation</span>
+              <span class="sys-chip">Coach-guided</span>
+              <span class="sys-chip">20-minute format</span>
             </div>
-            <div class="system-content-panel">
-              <h3 class="system-name">I-MODEL</h3>
-              <p class="system-tagline">Targeted EMS support for shaping, toning, and aesthetic-focused sessions.</p>
-              <p class="system-description">
-                I-MODEL focuses on key body areas such as the abdomen, glutes, and thighs through precise electrostimulation. It supports toning, shaping, and aesthetic body treatments in a professional and comfortable way.
-              </p>
-              <ul class="system-features" aria-label="I-MODEL features">
-                <li>Targeted body-area activation</li>
-                <li>Ideal for toning and shaping</li>
-                <li>Comfortable and precise application</li>
-                <li>Designed for aesthetic-focused sessions</li>
-              </ul>
-              <p class="system-best-for">
-                <strong>Best for:</strong> Abdomen, thighs, glutes, and clients focused on toning and body contouring.
-              </p>
+            <p class="sys-best">Best for full-body training and overall transformation.</p>
+          </div>
+
+          <div id="panel-imodel" role="tabpanel" aria-labelledby="tab-imodel" class="sys-panel" data-panel="1" hidden>
+            <h3 class="sys-name">I-MODEL</h3>
+            <p class="sys-tagline">Targeted EMS for shaping and toning.</p>
+            <p class="sys-desc">Designed to focus on areas like the abdomen, glutes, and thighs with more precise stimulation.</p>
+            <div class="sys-chips" aria-label="I-MODEL features">
+              <span class="sys-chip">Targeted shaping</span>
+              <span class="sys-chip">Toning support</span>
+              <span class="sys-chip">Aesthetic sessions</span>
             </div>
+            <p class="sys-best">Best for contouring, toning, and body-shape goals.</p>
+          </div>
+
+          <div id="panel-ishape" role="tabpanel" aria-labelledby="tab-ishape" class="sys-panel" data-panel="2" hidden>
+            <h3 class="sys-name">I-SHAPE</h3>
+            <p class="sys-tagline">Advanced lower-body EMS for glutes and legs.</p>
+            <p class="sys-desc">A focused EMS system for lower-body definition and high-value shaping sessions.</p>
+            <div class="sys-chips" aria-label="I-SHAPE features">
+              <span class="sys-chip">Lower-body focus</span>
+              <span class="sys-chip">Glutes & legs</span>
+              <span class="sys-chip">Premium shaping</span>
+            </div>
+            <p class="sys-best">Best for glute focus and lower-body definition.</p>
           </div>
         </div>
-
-        <!-- I-SHAPE Panel -->
-        <div
-          id="panel-ishape"
-          role="tabpanel"
-          aria-labelledby="tab-ishape"
-          class="system-panel"
-          data-system="ishape"
-          hidden
-        >
-          <div class="system-grid">
-            <div class="system-visual-panel">
-              <div class="system-visual-stage">
-                <img
-                  src="/i-shape.png"
-                  alt="I-SHAPE EMS suit visual"
-                  class="system-suit-img"
-                  loading="lazy"
-                  decoding="async"
-                  width="440"
-                  height="550"
-                />
-              </div>
-            </div>
-            <div class="system-content-panel">
-              <h3 class="system-name">I-SHAPE</h3>
-              <p class="system-tagline">Advanced shaping technology for glutes, legs, and lower-body definition.</p>
-              <p class="system-description">
-                I-SHAPE is designed for specialized lower-body and contour-focused EMS work. It helps support firmer-looking muscles, more focused stimulation, and a premium shaping experience for clients who want targeted body definition.
-              </p>
-              <ul class="system-features" aria-label="I-SHAPE features">
-                <li>Focused lower-body stimulation</li>
-                <li>Great for glutes and legs</li>
-                <li>High-value aesthetic EMS experience</li>
-                <li>Premium technology-led treatment flow</li>
-              </ul>
-              <p class="system-best-for">
-                <strong>Best for:</strong> Glute focus, leg shaping, lower-body contouring, and advanced aesthetic EMS sessions.
-              </p>
-            </div>
-          </div>
-        </div>
-
       </div>
 
-      <!-- Optional CTA -->
       <div class="systems-cta-wrap center">
-        <a class="btn btn-primary btn-large" href="#booking-form">
-          Book the 20-Minute Trial
-        </a>
+        <a class="btn btn-primary" href="#booking-form">Book the 20-Minute Trial</a>
       </div>
     </div>
   </div>
@@ -192,63 +81,58 @@
 
 <script>
   (() => {
-    const tablist = document.querySelector('[role="tablist"]');
-    if (!tablist) return;
+    const section = document.querySelector('.ems-systems-showcase');
+    if (!section) return;
 
-    const tabs = Array.from(tablist.querySelectorAll('[role="tab"]'));
-    const panels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
+    const tabs = Array.from(section.querySelectorAll('[role="tab"]'));
+    const panels = Array.from(section.querySelectorAll('[role="tabpanel"]'));
+    const suits = Array.from(section.querySelectorAll('.stage-suit'));
 
-    const selectTab = (index) => {
-      tabs.forEach((tab, i) => {
-        const isSelected = i === index;
-        tab.setAttribute('aria-selected', isSelected ? 'true' : 'false');
-        tab.setAttribute('tabindex', isSelected ? '0' : '-1');
-        if (isSelected) {
-          tab.classList.add('active');
-          // Set focus safely
-          (tab as HTMLButtonElement).focus();
-        } else {
-          tab.classList.remove('active');
-        }
+    const activate = (idx: number) => {
+      // Update tabs
+      tabs.forEach((t, i) => {
+        const on = i === idx;
+        t.setAttribute('aria-selected', String(on));
+        t.setAttribute('tabindex', on ? '0' : '-1');
+        t.classList.toggle('active', on);
       });
 
-      panels.forEach((panel, i) => {
-        const isActive = i === index;
-        if (isActive) {
-          panel.removeAttribute('hidden');
-          // Trigger reflow for premium animation
-          void (panel as HTMLElement).offsetWidth;
-          panel.classList.add('active');
+      // Morph suits — crossfade within shared stage
+      suits.forEach((s, i) => {
+        s.classList.toggle('active', i === idx);
+      });
+
+      // Switch content panels
+      panels.forEach((p, i) => {
+        const on = i === idx;
+        if (on) {
+          p.removeAttribute('hidden');
+          void (p as HTMLElement).offsetWidth;
+          p.classList.add('active');
         } else {
-          panel.classList.remove('active');
-          panel.setAttribute('hidden', '');
+          p.classList.remove('active');
+          p.setAttribute('hidden', '');
         }
       });
     };
 
-    tabs.forEach((tab, index) => {
+    tabs.forEach((tab, idx) => {
       tab.addEventListener('click', () => {
-        selectTab(index);
+        activate(idx);
+        (tab as HTMLElement).focus();
       });
 
-      tab.addEventListener('keydown', (e) => {
-        let newIndex = index;
-        if (e.key === 'ArrowRight') {
-          newIndex = (index + 1) % tabs.length;
-          e.preventDefault();
-        } else if (e.key === 'ArrowLeft') {
-          newIndex = (index - 1 + tabs.length) % tabs.length;
-          e.preventDefault();
-        } else if (e.key === 'Home') {
-          newIndex = 0;
-          e.preventDefault();
-        } else if (e.key === 'End') {
-          newIndex = tabs.length - 1;
-          e.preventDefault();
-        }
-        if (newIndex !== index) {
-          selectTab(newIndex);
-        }
+      tab.addEventListener('keydown', (e: Event) => {
+        const ke = e as KeyboardEvent;
+        let next = idx;
+        if (ke.key === 'ArrowRight') next = (idx + 1) % tabs.length;
+        else if (ke.key === 'ArrowLeft') next = (idx - 1 + tabs.length) % tabs.length;
+        else if (ke.key === 'Home') next = 0;
+        else if (ke.key === 'End') next = tabs.length - 1;
+        else return;
+        ke.preventDefault();
+        activate(next);
+        (tabs[next] as HTMLElement).focus();
       });
     });
   })();
