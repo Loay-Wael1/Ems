@@ -3,7 +3,12 @@ const whatsappUrl = 'https://wa.me/201124799978';
 const heroVideoUrl = '/videos/ems-experience.mp4';
 const heroReelVideoUrl = '/videos/ems-experience-reel.mp4';
 const heroVideoPoster = '/videos/ems-experience-poster.webp';
-const impactBadges = ['20 Min Session', 'Coach Guided', 'Two Alexandria Studios', 'EMS Technology'];
+const impactBadges = [
+  { label: 'Smart 20-Min EMS' },
+  { label: 'Expert Coaching & Nutrition' },
+  { label: 'Our Branches', href: '#locations' },
+  { label: 'Client Reviews', href: '#testimonials' }
+];
 ---
 
 <section class="hero-section" aria-labelledby="hero-title">
@@ -19,8 +24,8 @@ const impactBadges = ['20 Min Session', 'Coach Guided', 'Two Alexandria Studios'
       poster={heroVideoPoster}
     ></video>
     <div class="hero-static-overlay"></div>
-    <div class="hero-glow hero-glow-cyan"></div>
-    <div class="hero-glow hero-glow-pink"></div>
+    <div class="hero-glow hero-glow-primary"></div>
+    <div class="hero-glow hero-glow-secondary"></div>
   </div>
 
   <div class="container hero-grid">
@@ -34,14 +39,26 @@ const impactBadges = ['20 Min Session', 'Coach Guided', 'Two Alexandria Studios'
       </p>
 
       <div class="hero-actions reveal-on-scroll reveal-delay-3">
-        <a class="btn btn-primary btn-large" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+        <a class="btn btn-primary btn-large" href="#booking-form">
           Book Your Trial Session
         </a>
         <a class="btn btn-ghost btn-large" href="#results">See Transformations</a>
       </div>
 
       <ul class="hero-badges reveal-on-scroll reveal-delay-4" aria-label="Easy Fit highlights">
-        {impactBadges.map((badge) => <li>{badge}</li>)}
+        {
+          impactBadges.map((badge) => (
+            <li>
+              {badge.href ? (
+                <a href={badge.href} style="color: inherit; text-decoration: none;">
+                  {badge.label}
+                </a>
+              ) : (
+                <span>{badge.label}</span>
+              )}
+            </li>
+          ))
+        }
       </ul>
     </div>
 
