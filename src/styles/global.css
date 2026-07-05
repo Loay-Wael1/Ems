@@ -1141,12 +1141,13 @@ p {
   font-family: var(--font-display);
   font-size: 1.35rem;
   font-weight: 700;
-  color: var(--white);
+  color: var(--navy);
   letter-spacing: -0.02em;
 }
 
 .review-video-shell {
-  margin-top: 0;
+  width: var(--container);
+  margin: 0 auto;
 }
 
 .review-video-marquee {
@@ -2219,12 +2220,13 @@ p {
 
   .lead-shell {
     grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1fr);
-    align-items: center;
+    align-items: start;
     gap: 2rem;
   }
 
   .final-cta-shell .lead-shell {
     grid-template-columns: minmax(0, 0.92fr) minmax(340px, 0.72fr);
+    align-items: start;
     gap: clamp(2rem, 5vw, 4rem);
   }
 
@@ -2256,6 +2258,10 @@ p {
 
   .review-marquee-track {
     gap: 1.25rem;
+  }
+
+  .review-video-marquee .review-marquee-track {
+    margin-inline: auto;
   }
 
   .footer-container {
@@ -2735,6 +2741,10 @@ html[data-theme="dark"] .reviews-section {
   background:
     linear-gradient(180deg, #090b16, #05030a),
     linear-gradient(90deg, rgba(141, 215, 207, 0.08), transparent 48%, rgba(55, 200, 162, 0.06));
+}
+
+html[data-theme="dark"] .review-sub-title {
+  color: #f8fafc;
 }
 
 html[data-theme="dark"] .locations-section {
@@ -3268,7 +3278,9 @@ html[data-theme="dark"] .systems-stage {
 
 /* CTA */
 .systems-cta-wrap {
-  margin-top: 0.5rem;
+  margin-top: 1.15rem;
+  display: flex;
+  justify-content: flex-start;
 }
 
 /* ---- Dark mode content ---- */
@@ -3366,6 +3378,10 @@ html[data-theme="dark"] .sys-best {
 
   .systems-content {
     min-height: auto;
+  }
+
+  .systems-cta-wrap {
+    justify-content: center;
   }
 
   .sys-name {
