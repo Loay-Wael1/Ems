@@ -2271,9 +2271,9 @@ html:not([data-theme="dark"]) .hero-title span {
   }
 
   .expert-shell {
-    grid-template-columns: minmax(0, 0.9fr) minmax(480px, 0.95fr);
+    grid-template-columns: minmax(0, 0.8fr) minmax(520px, 1.2fr);
     align-items: center;
-    gap: clamp(2rem, 5vw, 4.5rem);
+    gap: clamp(2rem, 5vw, 4rem);
   }
 
   .expert-content-column {
@@ -2291,24 +2291,18 @@ html:not([data-theme="dark"]) .hero-title span {
   .expert-media {
     width: 100%;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(130px, 0.48fr);
-    gap: 0.9rem;
-    align-items: stretch;
-  }
-
-  .coach-video-card-featured {
-    grid-row: span 2;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: 1rem;
+    align-items: end;
   }
 
   .coach-video-card-featured .coach-video-frame {
     aspect-ratio: 9 / 16;
-    height: 100%;
+    height: auto;
   }
 
   .coach-video-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0.9rem;
+    display: contents;
   }
 
   .coach-video-card-small .coach-video-frame {
