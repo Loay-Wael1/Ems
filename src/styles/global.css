@@ -3174,7 +3174,7 @@ html[data-theme="dark"] .systems-stage {
 }
 
 .stage-suit[data-suit="1"] { /* I-MODEL: mid-length */
-  --suit-scale: 1.04;
+  --suit-scale: 1.01;
   --suit-y: 0px;
 }
 
@@ -3350,7 +3350,7 @@ html[data-theme="dark"] .sys-best {
   }
 
   .stage-suit[data-suit="1"] {
-    --suit-scale: 1.03;
+    --suit-scale: 1;
     --suit-y: 0px;
   }
 
