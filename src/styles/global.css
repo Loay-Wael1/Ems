@@ -538,6 +538,12 @@ p {
   background-clip: text;
 }
 
+html:not([data-theme="dark"]) .hero-title span {
+  background: linear-gradient(90deg, #0f766e 0%, #24577a 55%, #111a3a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
 .hero-description {
   width: 100%;
   max-width: min(20.5rem, calc(100vw - 32px));
@@ -913,9 +919,8 @@ p {
   grid-template-areas:
     "copy"
     "media"
-    "trust"
-    "cta";
-  gap: 1.2rem;
+    "trust";
+  gap: 1.25rem;
 }
 
 .section-kicker {
@@ -938,7 +943,7 @@ p {
 
 .expert-media {
   grid-area: media;
-  width: min(100%, 430px);
+  width: min(100%, 440px);
   display: grid;
   gap: 0.85rem;
   justify-self: center;
@@ -971,6 +976,10 @@ p {
 
 .coach-video-card-featured {
   padding: 0.55rem;
+}
+
+.coach-video-card-featured .coach-video-frame {
+  box-shadow: inset 0 0 0 1px rgba(17, 26, 58, 0.04);
 }
 
 .coach-video-card-small {
@@ -1044,12 +1053,6 @@ p {
   color: var(--muted);
   font-size: 0.9rem;
   line-height: 1.5;
-}
-
-.expert-cta {
-  grid-area: cta;
-  display: flex;
-  justify-content: flex-start;
 }
 
 .benefits-section {
@@ -2264,21 +2267,36 @@ p {
   }
 
   .expert-shell {
-    grid-template-columns: minmax(0, 0.92fr) minmax(300px, 0.68fr);
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 460px);
     grid-template-areas:
       "copy media"
-      "trust media"
-      "cta media";
+      "trust media";
     align-items: center;
-    gap: clamp(2rem, 5vw, 4rem);
+    gap: clamp(2.25rem, 5vw, 4.5rem);
   }
 
   .coach-trust-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.82rem;
   }
 
   .expert-media {
+    width: min(100%, 460px);
     justify-self: end;
+  }
+
+  .coach-video-card-featured .coach-video-frame {
+    aspect-ratio: 4 / 5;
+    max-height: 520px;
+  }
+
+  .coach-video-grid {
+    gap: 0.82rem;
+  }
+
+  .coach-video-card-small .coach-video-frame {
+    aspect-ratio: 4 / 3.15;
+    max-height: 170px;
   }
 
   .ems-demo-shell {
