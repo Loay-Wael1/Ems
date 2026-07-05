@@ -56,12 +56,11 @@ const videoReviews = [
       <p class="section-intro">
         Watch client stories and browse real feedback from Easy Fit Alexandria.
       </p>
-      <ul class="review-heading-chips" aria-label="Review formats">
-        <li>Video reviews</li>
-        <li>Client screenshots</li>
-        <li>Alexandria EMS</li>
-      </ul>
     </div>
+  </div>
+
+  <div class="container review-sub-head reveal-on-scroll">
+    <h3 class="review-sub-title">Client video stories</h3>
   </div>
 
   <div class="review-carousel-shell review-video-shell reveal-on-scroll">
@@ -92,6 +91,10 @@ const videoReviews = [
         }
       </div>
     </div>
+  </div>
+
+  <div class="container review-sub-head reveal-on-scroll">
+    <h3 class="review-sub-title">Review screenshots</h3>
   </div>
 
   <div class="review-carousel-shell reveal-on-scroll">
@@ -155,7 +158,6 @@ const videoReviews = [
   (() => {
     const section = document.querySelector('#testimonials');
     const marquee = document.querySelector('[data-review-marquee]');
-    const scrollAreas = document.querySelectorAll('[data-review-scroll]');
     const modal = document.querySelector('.review-modal');
     const modalImage = document.querySelector('#review-modal-image');
     const modalVideo = document.querySelector('#review-modal-video');
@@ -165,16 +167,8 @@ const videoReviews = [
 
     if (!section || !marquee || !modal || !modalImage || !modalVideo) return;
 
-    let isDragging = false;
-    let hasMoved = false;
-    let suppressClick = false;
-    let startX = 0;
-    let startScrollLeft = 0;
-    let activeScrollArea = null;
     let lastReviewTrigger = null;
     let openedByKeyboard = false;
-    const dragThreshold = 8;
-    const suppressClickDelay = 180;
 
     const maxScrollLeft = () => Math.max(0, marquee.scrollWidth - marquee.clientWidth);
 
@@ -213,21 +207,19 @@ const videoReviews = [
 
     const closeModal = () => {
       if (!modal.open) return;
+      
+      resetModalImage();
+      resetModalVideo();
+      modal.removeAttribute('data-active-type');
+      
       if (typeof modal.close === 'function') {
         modal.close();
       } else {
         modal.removeAttribute('open');
       }
-      isDragging = false;
-      hasMoved = false;
-      suppressClick = false;
-      modal.removeAttribute('data-active-type');
-      resetModalImage();
-      resetModalVideo();
-      scrollAreas.forEach((area) => area.classList.remove('is-dragging'));
 
-      if (openedByKeyboard) {
-        lastReviewTrigger?.focus?.();
+      if (openedByKeyboard && lastReviewTrigger) {
+        lastReviewTrigger.focus();
       }
       openedByKeyboard = false;
     };
@@ -246,6 +238,13 @@ const videoReviews = [
         modalVideo.setAttribute('aria-label', `${title} from Easy Fit Alexandria`);
         modalVideo.src = src;
         modalVideo.load();
+        
+        if (modalVideo instanceof HTMLVideoElement) {
+          const attempt = modalVideo.play();
+          if (attempt && typeof attempt.catch === 'function') {
+            attempt.catch(() => {});
+          }
+        }
       } else {
         resetModalVideo();
         modal.dataset.activeType = 'image';
@@ -260,96 +259,22 @@ const videoReviews = [
         modal.setAttribute('open', '');
       }
       closeButton?.focus();
-
-      if (type === 'video' && modalVideo instanceof HTMLVideoElement) {
-        const attempt = modalVideo.play();
-        if (attempt && typeof attempt.catch === 'function') {
-          attempt.catch(() => {});
-        }
-      }
     };
 
-    const endDrag = (event) => {
-      if (!isDragging) return;
-      isDragging = false;
-      if (activeScrollArea) activeScrollArea.classList.remove('is-dragging');
-      if (activeScrollArea?.hasPointerCapture?.(event.pointerId)) {
-        activeScrollArea.releasePointerCapture(event.pointerId);
-      }
-
-      if (hasMoved) {
-        suppressClick = true;
-        window.setTimeout(() => {
-          suppressClick = false;
-          hasMoved = false;
-        }, suppressClickDelay);
-      } else {
-        hasMoved = false;
-      }
-      activeScrollArea = null;
-      updateControls();
-    };
-
-    scrollAreas.forEach((scrollArea) => {
-      scrollArea.addEventListener('pointerdown', (event) => {
-        if (event.pointerType === 'mouse' && event.button !== 0) return;
-        isDragging = true;
-        hasMoved = false;
-        activeScrollArea = scrollArea;
-        startX = event.clientX;
-        startScrollLeft = scrollArea.scrollLeft;
-        scrollArea.classList.add('is-dragging');
-        if (event.pointerType === 'mouse') scrollArea.setPointerCapture?.(event.pointerId);
-      });
-
-      scrollArea.addEventListener('pointermove', (event) => {
-        if (!isDragging || activeScrollArea !== scrollArea) return;
-        const delta = event.clientX - startX;
-        if (Math.abs(delta) > dragThreshold) hasMoved = true;
-        if (!hasMoved) return;
-
-        if (event.pointerType === 'mouse') {
-          event.preventDefault();
-          scrollArea.scrollLeft = startScrollLeft - delta;
-          updateControls();
-        }
-      });
-
-      scrollArea.addEventListener('pointerup', endDrag);
-      scrollArea.addEventListener('pointercancel', endDrag);
-      scrollArea.addEventListener('pointerleave', endDrag);
-      scrollArea.addEventListener('scroll', updateControls, { passive: true });
-    });
+    marquee.addEventListener('scroll', updateControls, { passive: true });
 
     previousButton?.addEventListener('click', () => scrollReviews(-1));
     nextButton?.addEventListener('click', () => scrollReviews(1));
 
-    /* Wheel-to-horizontal removed: let the browser handle scroll naturally. */
-
-    section.addEventListener('click', (event) => {
-      const target = event.target;
-      if (!(target instanceof Element)) return;
-      const card = target.closest('[data-review-card]');
-      if (!card) return;
-
-      if (suppressClick) {
+    // Direct event listener binding to individual review cards
+    const cards = section.querySelectorAll('[data-review-card]');
+    cards.forEach((card) => {
+      card.addEventListener('click', () => openModal(card));
+      card.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
         event.preventDefault();
-        return;
-      }
-
-      openModal(card);
-    });
-
-    section.addEventListener('keydown', (event) => {
-      if (event.key !== 'Enter' && event.key !== ' ') return;
-
-      const target = event.target;
-      if (!(target instanceof Element)) return;
-      const card = target.closest('[data-review-card]');
-      if (!card) return;
-
-      event.preventDefault();
-      openModal(card, true);
+        openModal(card, true);
+      });
     });
 
     const loadPreviewVideo = (video) => {

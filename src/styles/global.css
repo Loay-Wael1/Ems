@@ -262,11 +262,16 @@ p {
   flex: 0 0 auto;
   display: grid;
   place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(17, 26, 58, 0.12);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 2px 8px rgba(17, 26, 58, 0.04);
+  transition: background 180ms ease, border-color 180ms ease;
 }
 
 .brand-logo {
-  width: 44px;
-  height: 44px;
+  width: 32px;
+  height: 32px;
   object-fit: contain;
 }
 
@@ -1075,19 +1080,14 @@ p {
   scroll-padding-inline: 1rem;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-x pan-y;
-  cursor: grab;
-  user-select: none;
+  cursor: default;
   scrollbar-width: none;
-  margin-top: 2rem;
+  margin-top: 0.5rem;
   padding-bottom: 0.4rem;
 }
 
 .review-marquee::-webkit-scrollbar {
   display: none;
-}
-
-.review-marquee.is-dragging {
-  cursor: grabbing;
 }
 
 .review-marquee-track {
@@ -1134,12 +1134,25 @@ p {
   pointer-events: none;
 }
 
+.review-sub-head {
+  margin-top: 3.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.review-sub-title {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.02em;
+}
+
 .review-video-shell {
-  margin-top: 1.35rem;
+  margin-top: 0;
 }
 
 .review-video-marquee {
-  margin-top: 0;
+  margin-top: 0.5rem;
 }
 
 .review-video-card {
@@ -1243,10 +1256,16 @@ p {
 }
 
 .review-modal:not([data-active-type]) #review-modal-image,
-.review-modal:not([data-active-type]) #review-modal-video,
-.review-modal[data-active-type="image"] #review-modal-video,
+.review-modal:not([data-active-type]) #review-modal-video {
+  display: none;
+}
+
+.review-modal[data-active-type="image"] #review-modal-video {
+  display: none;
+}
+
 .review-modal[data-active-type="video"] #review-modal-image {
-  display: none !important;
+  display: none;
 }
 
 .review-modal[data-active-type="image"] #review-modal-image,
@@ -1734,12 +1753,17 @@ p {
   flex: 0 0 auto;
   display: grid;
   place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(17, 26, 58, 0.12);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 2px 8px rgba(17, 26, 58, 0.04);
+  transition: background 180ms ease, border-color 180ms ease;
 }
 
 .footer-brand img,
 .footer-logo {
-  width: 42px;
-  height: 42px;
+  width: 30px;
+  height: 30px;
   object-fit: contain;
 }
 
@@ -2413,6 +2437,13 @@ html[data-theme="dark"] .footer-logo-light {
 html[data-theme="dark"] .brand-logo-dark,
 html[data-theme="dark"] .footer-logo-dark {
   display: block;
+}
+
+html[data-theme="dark"] .brand-logo-wrap,
+html[data-theme="dark"] .footer-logo-wrap {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 html[data-theme="dark"] .brand-sub,
