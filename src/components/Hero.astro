@@ -143,8 +143,13 @@ const impactBadges = [
       run();
     }
 
-    mobileMedia.addEventListener('change', run);
-    desktopMedia.addEventListener('change', run);
+    if (typeof mobileMedia.addEventListener === 'function') {
+      mobileMedia.addEventListener('change', run);
+      desktopMedia.addEventListener('change', run);
+    } else {
+      mobileMedia.addListener(run);
+      desktopMedia.addListener(run);
+    }
     window.addEventListener('pageshow', run);
   })();
 </script>
