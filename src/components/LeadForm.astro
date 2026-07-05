@@ -1,0 +1,128 @@
+---
+const renderedAt = Date.now();
+---
+
+<div class="lead-shell">
+  <div class="section-head lead-copy">
+    <span class="lead-eyebrow">START YOUR EMS TRIAL</span>
+    <h2 id="final-cta-title" class="section-title">Ready for your 20-minute EMS trial?</h2>
+    <p class="section-intro">
+      Pick your branch, leave your details, and our team will confirm your trial time.
+    </p>
+
+  </div>
+
+  <div class="lead-form-card">
+    <h3>Book your trial</h3>
+    <form class="lead-form" data-lead-form novalidate>
+      <input type="text" name="company" tabindex="-1" autocomplete="off" class="lead-honeypot" aria-hidden="true" />
+      <input type="hidden" name="renderedAt" value={renderedAt} />
+
+      <div class="form-field">
+        <label for="lead-name">Full name</label>
+        <input id="lead-name" name="name" type="text" autocomplete="name" placeholder="Your full name" maxlength="80" required />
+      </div>
+
+      <div class="form-field">
+        <label for="lead-phone">Phone number</label>
+        <input
+          id="lead-phone"
+          name="phone"
+          type="tel"
+          autocomplete="tel"
+          inputmode="tel"
+          placeholder="Your mobile number"
+          maxlength="30"
+          required
+        />
+      </div>
+
+      <div class="form-field">
+        <label for="lead-branch">Preferred branch</label>
+        <select id="lead-branch" name="branch" required>
+          <option value="">Select your branch</option>
+          <option value="smouha">Smouha</option>
+          <option value="ganaklis">Ganaklis</option>
+        </select>
+      </div>
+
+      <p class="lead-privacy">
+        We will only use your details to contact you about your EMS trial.
+      </p>
+
+      <button class="btn btn-primary btn-large lead-submit" type="submit" data-submit-label="Request my trial session" data-loading-label="Sending request...">
+        Request my trial session
+      </button>
+
+      <p class="lead-status" data-lead-status aria-live="polite"></p>
+    </form>
+  </div>
+</div>
+
+<script>
+  (() => {
+    const form = document.querySelector('[data-lead-form]');
+    if (!(form instanceof HTMLFormElement)) return;
+
+    const status = form.querySelector('[data-lead-status]');
+    const submitButton = form.querySelector('.lead-submit');
+    const successMessage = 'Your request has been received. We will contact you shortly.';
+    const errorMessage = 'Something went wrong. Please try again or message us on WhatsApp.';
+
+    const setStatus = (message, type = '') => {
+      if (!status) return;
+      status.textContent = message;
+      status.setAttribute('data-state', type);
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      if (!form.reportValidity()) return;
+      if (!(submitButton instanceof HTMLButtonElement)) return;
+
+      submitButton.disabled = true;
+      submitButton.textContent = submitButton.getAttribute('data-loading-label') || 'Sending request...';
+      setStatus('', '');
+
+      const data = new FormData(form);
+      const params = new URLSearchParams(window.location.search);
+      const payload = {
+        name: data.get('name'),
+        phone: data.get('phone'),
+        branch: data.get('branch'),
+        company: data.get('company'),
+        renderedAt: Number(data.get('renderedAt')),
+        submittedAt: Date.now(),
+        page: window.location.pathname,
+        locale: 'en',
+        utm_source: params.get('utm_source') || '',
+        utm_medium: params.get('utm_medium') || '',
+        utm_campaign: params.get('utm_campaign') || ''
+      };
+
+      try {
+        const response = await fetch('/api/leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json().catch(() => ({ ok: false }));
+
+        if (!response.ok || !result.ok) {
+          throw new Error('lead_submit_failed');
+        }
+
+        form.reset();
+        const timestamp = form.querySelector('input[name="renderedAt"]');
+        if (timestamp instanceof HTMLInputElement) timestamp.value = String(Date.now());
+        setStatus(successMessage, 'success');
+      } catch {
+        setStatus(errorMessage, 'error');
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = submitButton.getAttribute('data-submit-label') || 'Request my trial session';
+      }
+    });
+  })();
+</script>

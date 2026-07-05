@@ -11,8 +11,6 @@ import reviewNine from '../../clint review/Screenshot 2026-07-02 010324.png';
 import reviewTen from '../../clint review/Screenshot 2026-07-02 010333.png';
 import reviewEleven from '../../clint review/Screenshot 2026-07-02 010356.png';
 
-const whatsappUrl = 'https://wa.me/201124799978';
-
 const reviews = [
   reviewOne,
   reviewTwo,
@@ -29,34 +27,89 @@ const reviews = [
   image,
   title: `Client review ${index + 1}`
 }));
+
+const videoReviews = [
+  {
+    src: '/videos/reviews/client-review-1.mp4',
+    title: 'Client video review 1'
+  },
+  {
+    src: '/videos/reviews/client-review-2.mp4',
+    title: 'Client video review 2'
+  },
+  {
+    src: '/videos/reviews/client-review-3.mp4',
+    title: 'Client video review 3'
+  },
+  {
+    src: '/videos/reviews/client-review-4.mp4',
+    title: 'Client video review 4'
+  }
+];
 ---
 
 <section class="section-padding reviews-section" id="testimonials" aria-labelledby="reviews-title">
   <div class="container">
-    <div class="section-head center reveal-on-scroll">
+    <div class="section-head center review-heading reveal-on-scroll">
+      <span class="section-kicker">CLIENT FEEDBACK</span>
       <h2 id="reviews-title" class="section-title">Real people. Real feedback.</h2>
       <p class="section-intro">
-        See what Easy Fit clients shared after trying EMS sessions in Alexandria.
+        Watch client stories and browse real feedback from Easy Fit Alexandria.
       </p>
     </div>
   </div>
 
-  <div class="review-marquee reveal-on-scroll" data-review-marquee aria-label="Client review screenshots">
-    <div class="review-marquee-track">
-      {
-        [...reviews, ...reviews].map((review, index) => {
-          const isDuplicate = index >= reviews.length;
+  <div class="container review-sub-head reveal-on-scroll">
+    <h3 class="review-sub-title">Client video stories</h3>
+  </div>
 
-          return (
+  <div class="review-carousel-shell review-video-shell reveal-on-scroll">
+    <div class="review-marquee review-video-marquee" data-review-scroll aria-label="Client video reviews">
+      <div class="review-marquee-track">
+        {
+          videoReviews.map((review) => (
+            <button
+              class="review-card review-video-card"
+              type="button"
+              data-review-card
+              data-review-type="video"
+              data-full={review.src}
+              data-title={review.title}
+              aria-label={`Open ${review.title}`}
+            >
+              <video
+                class="review-preview-video"
+                data-src={review.src}
+                muted
+                playsinline
+                preload="metadata"
+                aria-hidden="true"
+              ></video>
+              <span class="review-play-badge" aria-hidden="true"></span>
+            </button>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="container review-sub-head reveal-on-scroll">
+    <h3 class="review-sub-title">Review screenshots</h3>
+  </div>
+
+  <div class="review-carousel-shell reveal-on-scroll">
+    <div id="review-marquee" class="review-marquee" data-review-marquee data-review-scroll aria-label="Client review screenshots">
+      <div class="review-marquee-track">
+        {
+          reviews.map((review) => (
             <button
               class="review-card"
               type="button"
               data-review-card
+              data-review-type="image"
               data-full={review.image.src}
               data-title={review.title}
               aria-label={`Open ${review.title}`}
-              aria-hidden={isDuplicate ? 'true' : undefined}
-              tabindex={isDuplicate ? -1 : undefined}
             >
               <img
                 src={review.image.src}
@@ -65,17 +118,29 @@ const reviews = [
                 alt={`${review.title} from Easy Fit Alexandria client`}
                 loading="lazy"
                 decoding="async"
+                draggable="false"
               />
             </button>
-          );
-        })
-      }
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="container review-controls-bar reveal-on-scroll">
+    <div class="review-controls" aria-label="Review carousel controls">
+      <button class="review-nav" type="button" data-review-prev aria-label="Show previous reviews" aria-controls="review-marquee">
+        <span aria-hidden="true">&lsaquo;</span>
+      </button>
+      <button class="review-nav" type="button" data-review-next aria-label="Show next reviews" aria-controls="review-marquee">
+        <span aria-hidden="true">&rsaquo;</span>
+      </button>
     </div>
   </div>
 
   <div class="container review-cta-row reveal-on-scroll">
     <p>Want to feel the difference yourself?</p>
-    <a class="btn btn-primary" href={whatsappUrl} target="_blank" rel="noopener noreferrer">Book on WhatsApp</a>
+    <a class="btn btn-primary" href="#booking-form">Book Your Trial</a>
   </div>
 
   <dialog class="review-modal" aria-label="Client review preview" aria-modal="true">
@@ -83,76 +148,78 @@ const reviews = [
       <button class="modal-close-button" type="button" data-review-close aria-label="Close review preview">
         &times;
       </button>
-      <img id="review-modal-image" src="" alt="" />
+      <img id="review-modal-image" src="" alt="" hidden />
+      <video id="review-modal-video" controls playsinline hidden></video>
     </div>
   </dialog>
 </section>
 
 <script>
   (() => {
+    const section = document.querySelector('#testimonials');
     const marquee = document.querySelector('[data-review-marquee]');
-    const track = marquee?.querySelector('.review-marquee-track');
     const modal = document.querySelector('.review-modal');
     const modalImage = document.querySelector('#review-modal-image');
+    const modalVideo = document.querySelector('#review-modal-video');
     const closeButton = document.querySelector('[data-review-close]');
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const previousButton = document.querySelector('[data-review-prev]');
+    const nextButton = document.querySelector('[data-review-next]');
 
-    if (!marquee || !track || !modal || !modalImage) return;
+    if (!section || !marquee || !modal || !modalImage || !modalVideo) return;
 
-    let raf = null;
-    let lastTime = 0;
-    let isDragging = false;
-    let hasMoved = false;
-    let suppressClick = false;
-    let isModalOpen = false;
-    let startX = 0;
-    let startScrollLeft = 0;
     let lastReviewTrigger = null;
-    let isPageVisible = !document.hidden;
     let openedByKeyboard = false;
-    const speed = 65;
-    const dragThreshold = 8;
 
-    const loopWidth = () => track.scrollWidth / 2;
+    const maxScrollLeft = () => Math.max(0, marquee.scrollWidth - marquee.clientWidth);
 
-    const normalize = () => {
-      const half = loopWidth();
-      if (!half) return;
-      if (marquee.scrollLeft >= half) marquee.scrollLeft -= half;
-      if (marquee.scrollLeft < 1) marquee.scrollLeft += half;
+    const updateControls = () => {
+      const max = maxScrollLeft();
+      const atStart = marquee.scrollLeft <= 2;
+      const atEnd = marquee.scrollLeft >= max - 2;
+
+      if (previousButton instanceof HTMLButtonElement) previousButton.disabled = atStart;
+      if (nextButton instanceof HTMLButtonElement) nextButton.disabled = atEnd || max <= 0;
     };
 
-    const animate = (time = 0) => {
-      if (!lastTime) lastTime = time;
-      const delta = Math.min((time - lastTime) / 1000, 0.08);
-      lastTime = time;
+    const scrollReviews = (direction) => {
+      const card = marquee.querySelector('[data-review-card]');
+      const cardWidth = card instanceof HTMLElement ? card.offsetWidth : 0;
+      const amount = Math.max(cardWidth + 16, marquee.clientWidth * 0.72);
+      marquee.scrollBy({ left: direction * amount, behavior: 'smooth' });
+      window.setTimeout(updateControls, 260);
+    };
 
-      if (isPageVisible && !isDragging && !isModalOpen && !reducedMotion.matches) {
-        marquee.scrollLeft += speed * delta;
-        normalize();
-      }
+    const resetModalVideo = () => {
+      if (!(modalVideo instanceof HTMLVideoElement)) return;
+      modalVideo.pause();
+      modalVideo.hidden = true;
+      modalVideo.removeAttribute('src');
+      modalVideo.removeAttribute('aria-label');
+      modalVideo.load();
+    };
 
-      raf = requestAnimationFrame(animate);
+    const resetModalImage = () => {
+      if (!(modalImage instanceof HTMLImageElement)) return;
+      modalImage.hidden = true;
+      modalImage.removeAttribute('src');
+      modalImage.removeAttribute('alt');
     };
 
     const closeModal = () => {
       if (!modal.open) return;
+      
+      resetModalImage();
+      resetModalVideo();
+      modal.removeAttribute('data-active-type');
+      
       if (typeof modal.close === 'function') {
         modal.close();
       } else {
         modal.removeAttribute('open');
       }
-      isModalOpen = false;
-      isDragging = false;
-      hasMoved = false;
-      suppressClick = false;
-      lastTime = 0;
-      modalImage.removeAttribute('src');
-      modalImage.removeAttribute('alt');
-      marquee.classList.remove('is-dragging');
 
-      if (openedByKeyboard && lastReviewTrigger?.getAttribute?.('aria-hidden') !== 'true') {
-        lastReviewTrigger?.focus?.();
+      if (openedByKeyboard && lastReviewTrigger) {
+        lastReviewTrigger.focus();
       }
       openedByKeyboard = false;
     };
@@ -160,9 +227,32 @@ const reviews = [
     const openModal = (card, byKeyboard = false) => {
       lastReviewTrigger = card;
       openedByKeyboard = byKeyboard;
-      isModalOpen = true;
-      modalImage.src = card.getAttribute('data-full') || '';
-      modalImage.alt = `${card.getAttribute('data-title') || 'Client review'} from Easy Fit Alexandria`;
+      const type = card.getAttribute('data-review-type') || 'image';
+      const title = card.getAttribute('data-title') || 'Client review';
+      const src = card.getAttribute('data-full') || '';
+
+      if (type === 'video') {
+        resetModalImage();
+        modal.dataset.activeType = 'video';
+        modalVideo.hidden = false;
+        modalVideo.setAttribute('aria-label', `${title} from Easy Fit Alexandria`);
+        modalVideo.src = src;
+        modalVideo.load();
+        
+        if (modalVideo instanceof HTMLVideoElement) {
+          const attempt = modalVideo.play();
+          if (attempt && typeof attempt.catch === 'function') {
+            attempt.catch(() => {});
+          }
+        }
+      } else {
+        resetModalVideo();
+        modal.dataset.activeType = 'image';
+        modalImage.hidden = false;
+        modalImage.src = src;
+        modalImage.alt = `${title} from Easy Fit Alexandria`;
+      }
+
       if (typeof modal.showModal === 'function') {
         modal.showModal();
       } else {
@@ -171,91 +261,46 @@ const reviews = [
       closeButton?.focus();
     };
 
-    const endDrag = (event) => {
-      if (!isDragging) return;
-      isDragging = false;
-      marquee.classList.remove('is-dragging');
-      if (marquee.hasPointerCapture?.(event.pointerId)) {
-        marquee.releasePointerCapture(event.pointerId);
-      }
+    marquee.addEventListener('scroll', updateControls, { passive: true });
 
-      if (hasMoved) {
-        suppressClick = true;
-        window.setTimeout(() => {
-          suppressClick = false;
-          hasMoved = false;
-          lastTime = 0;
-        }, 120);
-      } else {
-        hasMoved = false;
-      }
+    previousButton?.addEventListener('click', () => scrollReviews(-1));
+    nextButton?.addEventListener('click', () => scrollReviews(1));
 
-      lastTime = 0;
+    // Direct event listener binding to individual review cards
+    const cards = section.querySelectorAll('[data-review-card]');
+    cards.forEach((card) => {
+      card.addEventListener('click', () => openModal(card));
+      card.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        openModal(card, true);
+      });
+    });
+
+    const loadPreviewVideo = (video) => {
+      if (!(video instanceof HTMLVideoElement)) return;
+      const src = video.dataset.src;
+      if (!src || video.currentSrc) return;
+      video.src = src;
     };
 
-    marquee.scrollLeft = 1;
-    raf = requestAnimationFrame(animate);
+    const previewVideos = section.querySelectorAll('.review-preview-video');
+    if ('IntersectionObserver' in window) {
+      const previewObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            loadPreviewVideo(entry.target);
+            previewObserver.unobserve(entry.target);
+          });
+        },
+        { rootMargin: '360px 0px' }
+      );
 
-    marquee.addEventListener('pointerdown', (event) => {
-      if (event.pointerType === 'mouse' && event.button !== 0) return;
-      isDragging = true;
-      hasMoved = false;
-      startX = event.clientX;
-      startScrollLeft = marquee.scrollLeft;
-      marquee.classList.add('is-dragging');
-      marquee.setPointerCapture?.(event.pointerId);
-    });
-
-    marquee.addEventListener('pointermove', (event) => {
-      if (!isDragging) return;
-      const delta = event.clientX - startX;
-      if (Math.abs(delta) > dragThreshold) hasMoved = true;
-      if (!hasMoved) return;
-      event.preventDefault();
-      marquee.scrollLeft = startScrollLeft - delta;
-      normalize();
-    });
-
-    marquee.addEventListener('pointerup', endDrag);
-    marquee.addEventListener('pointercancel', endDrag);
-    marquee.addEventListener('pointerleave', endDrag);
-    marquee.addEventListener('scroll', normalize, { passive: true });
-
-    marquee.addEventListener('click', (event) => {
-      const target = event.target;
-      if (!(target instanceof Element)) return;
-      const card = target.closest('[data-review-card]');
-      if (!card) return;
-
-      if (suppressClick) {
-        event.preventDefault();
-        return;
-      }
-
-      openModal(card);
-    });
-
-    marquee.addEventListener('keydown', (event) => {
-      if (event.key !== 'Enter' && event.key !== ' ') return;
-
-      const target = event.target;
-      if (!(target instanceof Element)) return;
-      const card = target.closest('[data-review-card]');
-      if (!card) return;
-
-      event.preventDefault();
-      openModal(card, true);
-    });
-
-    reducedMotion.addEventListener?.('change', () => {
-      marquee.scrollLeft = reducedMotion.matches ? 0 : 1;
-      lastTime = 0;
-    });
-
-    document.addEventListener('visibilitychange', () => {
-      isPageVisible = !document.hidden;
-      lastTime = 0;
-    });
+      previewVideos.forEach((video) => previewObserver.observe(video));
+    } else {
+      previewVideos.forEach(loadPreviewVideo);
+    }
 
     closeButton?.addEventListener('click', closeModal);
     modal.addEventListener('click', (event) => {
@@ -266,8 +311,6 @@ const reviews = [
       closeModal();
     });
 
-    window.addEventListener('beforeunload', () => {
-      if (raf) cancelAnimationFrame(raf);
-    }, { once: true });
+    updateControls();
   })();
 </script>

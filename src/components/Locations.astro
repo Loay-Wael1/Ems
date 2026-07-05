@@ -2,12 +2,19 @@
 import smouhaImage from '../../smouha.webp';
 import ganaklisImage from '../../چناكليس.jpg';
 
+const smouhaMessage = encodeURIComponent(
+  'Hello Easy Fit Alexandria, I came from the website and would like to ask about booking an EMS trial session at the Smouha branch.'
+);
+const ganaklisMessage = encodeURIComponent(
+  'Hello Easy Fit Alexandria, I came from the website and would like to ask about booking an EMS trial session at the Ganaklis branch.'
+);
+
 const studios = [
   {
     name: 'Smouha',
     address: 'Delta Life Administrative Towers, behind Motager Mall, first floor, Studio 7B.',
     image: smouhaImage,
-    whatsapp: 'https://wa.me/201124799978',
+    whatsapp: `https://wa.me/201124799978?text=${smouhaMessage}`,
     mobileCall: 'tel:+201124799978',
     landlineCall: 'tel:034238908',
     map: 'https://maps.app.goo.gl/FvXUjLWDzwrzMSg99?g_st=ic'
@@ -16,7 +23,7 @@ const studios = [
     name: 'Ganaklis',
     address: 'El Zeraeyeen Towers, ground floor, Abu Qir Street, in front of El Sallab.',
     image: ganaklisImage,
-    whatsapp: 'https://wa.me/201121112737',
+    whatsapp: `https://wa.me/201121112737?text=${ganaklisMessage}`,
     mobileCall: 'tel:+201121112737',
     landlineCall: 'tel:035708750',
     map: 'https://maps.app.goo.gl/v9XFmCjmfcxYoo6g7?g_st=ic'
@@ -27,9 +34,9 @@ const studios = [
 <section class="section-padding locations-section" id="locations" aria-labelledby="locations-title">
   <div class="container">
     <div class="section-head center reveal-on-scroll">
-      <h2 id="locations-title" class="section-title">Two Alexandria studios. One focused EMS experience.</h2>
+      <h2 id="locations-title" class="section-title">Our Branches</h2>
       <p class="section-intro">
-        Choose the branch that works for your day and message us to book your trial session.
+        Smouha or Ganaklis — choose the branch that fits your day.
       </p>
     </div>
 

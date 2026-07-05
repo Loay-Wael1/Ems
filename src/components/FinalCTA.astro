@@ -1,27 +1,24 @@
 ---
+import LeadForm from './LeadForm.astro';
+
 const smouhaWhatsapp = 'https://wa.me/201124799978';
-const ganaklisWhatsapp = 'https://wa.me/201121112737';
 const instagramUrl = 'https://instagram.com/ems.easyfit.alexandria?igsh=MWV1NDlkcG1wc3dnYw==';
 const facebookUrl = 'https://www.facebook.com/ems.easyfit.alexandria/?ref=NONE_xav_ig_profile_page_web#';
 ---
 
-<section class="final-cta-section" aria-labelledby="final-cta-title">
+<section class="final-cta-section" id="booking-form" aria-labelledby="final-cta-title">
   <div class="container final-cta-shell reveal-on-scroll">
-    <h2 id="final-cta-title">Ready to try EMS?</h2>
-    <p>
-      Book your trial session and let our coach guide you to the right plan for your body.
-    </p>
-    <div class="final-actions">
-      <a class="btn btn-primary btn-large" href={smouhaWhatsapp} target="_blank" rel="noopener noreferrer">WhatsApp Smouha</a>
-      <a class="btn btn-ghost btn-large" href={ganaklisWhatsapp} target="_blank" rel="noopener noreferrer">WhatsApp Ganaklis</a>
-    </div>
+    <LeadForm />
   </div>
 </section>
 
 <footer class="site-footer">
   <div class="container footer-container">
     <div class="footer-brand">
-      <img src="/logo-transparent.png" alt="" width="42" height="42" loading="lazy" />
+      <span class="footer-logo-wrap" aria-hidden="true">
+        <img class="footer-logo footer-logo-light" src="/logo-transparent.png" alt="" width="42" height="42" loading="lazy" />
+        <img class="footer-logo footer-logo-dark" src="/logo-dark.jpeg" alt="" width="42" height="42" loading="lazy" />
+      </span>
       <div>
         <strong>Easy Fit Alexandria</strong>
         <span>Alexandria's 1st EMS Studio</span>
@@ -29,9 +26,9 @@ const facebookUrl = 'https://www.facebook.com/ems.easyfit.alexandria/?ref=NONE_x
     </div>
 
     <ul class="footer-links" aria-label="Social and booking links">
-      <li><a href={smouhaWhatsapp} target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
-      <li><a href={instagramUrl} target="_blank" rel="noopener noreferrer">Instagram</a></li>
       <li><a href={facebookUrl} target="_blank" rel="noopener noreferrer">Facebook</a></li>
+      <li><a href={instagramUrl} target="_blank" rel="noopener noreferrer">Instagram</a></li>
+      <li><a href={smouhaWhatsapp} target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
     </ul>
     <p class="footer-copy">&copy; 2026 Easy Fit Alexandria. All rights reserved.</p>
   </div>

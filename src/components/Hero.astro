@@ -1,26 +1,32 @@
 ---
-const whatsappUrl = 'https://wa.me/201124799978';
 const heroVideoUrl = '/videos/ems-experience.mp4';
-const heroReelVideoUrl = '/videos/ems-experience-reel.mp4';
+const mobileHeroVideoUrl = '/videos/ems-experience-reel-v2-mobile.mp4';
+const mobileHeroPosterUrl = '/videos/ems-experience-reel-v2-poster.webp';
+const heroReelVideoUrl = '/videos/ems-experience-reel-v2.mp4';
 const heroVideoPoster = '/videos/ems-experience-poster.webp';
-const impactBadges = ['20 Min Session', 'Coach Guided', 'Two Alexandria Studios', 'EMS Technology'];
+const impactBadges = [
+  { label: 'Smart 20-Minute EMS', href: '#what-is-ems' },
+  { label: 'Expert Coaches & Nutrition', href: '#expert-coaches' },
+  { label: 'Client Reviews', href: '#testimonials' },
+  { label: 'Our Branches', href: '#locations' }
+];
 ---
 
 <section class="hero-section" aria-labelledby="hero-title">
   <div class="hero-media" aria-hidden="true">
     <video
       class="hero-bg-video"
-      src={heroVideoUrl}
+      data-src={mobileHeroVideoUrl}
       autoplay
       muted
       loop
       playsinline
-      preload="metadata"
-      poster={heroVideoPoster}
+      preload="auto"
+      poster={mobileHeroPosterUrl}
     ></video>
     <div class="hero-static-overlay"></div>
-    <div class="hero-glow hero-glow-cyan"></div>
-    <div class="hero-glow hero-glow-pink"></div>
+    <div class="hero-glow hero-glow-primary"></div>
+    <div class="hero-glow hero-glow-secondary"></div>
   </div>
 
   <div class="container hero-grid">
@@ -34,14 +40,24 @@ const impactBadges = ['20 Min Session', 'Coach Guided', 'Two Alexandria Studios'
       </p>
 
       <div class="hero-actions reveal-on-scroll reveal-delay-3">
-        <a class="btn btn-primary btn-large" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+        <a class="btn btn-primary btn-large" href="#booking-form">
           Book Your Trial Session
         </a>
         <a class="btn btn-ghost btn-large" href="#results">See Transformations</a>
       </div>
 
       <ul class="hero-badges reveal-on-scroll reveal-delay-4" aria-label="Easy Fit highlights">
-        {impactBadges.map((badge) => <li>{badge}</li>)}
+        {
+          impactBadges.map((badge) => (
+            <li>
+              {badge.href ? (
+                <a href={badge.href}>{badge.label}</a>
+              ) : (
+                <span>{badge.label}</span>
+              )}
+            </li>
+          ))
+        }
       </ul>
     </div>
 
@@ -69,50 +85,81 @@ const impactBadges = ['20 Min Session', 'Coach Guided', 'Two Alexandria Studios'
 
 <script>
   (() => {
+    const mobileMedia = window.matchMedia('(max-width: 759px)');
     const desktopMedia = window.matchMedia('(min-width: 760px)');
+    const bgVideo = document.querySelector('.hero-bg-video');
+    const reelVideo = document.querySelector('.hero-reel-video');
+
+    const handleBgVideo = () => {
+      if (!(bgVideo instanceof HTMLVideoElement)) return;
+
+      if (mobileMedia.matches) {
+        const src = bgVideo.dataset.src;
+        bgVideo.preload = 'auto';
+        bgVideo.muted = true;
+        bgVideo.defaultMuted = true;
+        bgVideo.playsInline = true;
+
+        if (src && bgVideo.getAttribute('src') !== src) {
+          bgVideo.src = src;
+          bgVideo.load();
+        }
+
+        const markReady = () => bgVideo.classList.add('is-ready');
+        bgVideo.addEventListener('loadeddata', markReady, { once: true });
+        bgVideo.addEventListener('canplay', markReady, { once: true });
+        bgVideo.addEventListener('playing', markReady, { once: true });
+
+        const attempt = bgVideo.play();
+        if (attempt && typeof attempt.catch === 'function') {
+          attempt.catch(() => {});
+        }
+      } else {
+        bgVideo.pause();
+        bgVideo.removeAttribute('src');
+        bgVideo.classList.remove('is-ready');
+        bgVideo.load();
+      }
+    };
 
     const playHeroReel = () => {
       if (!desktopMedia.matches) return;
+      if (!(reelVideo instanceof HTMLVideoElement)) return;
 
-      const video = document.querySelector('.hero-reel-video');
-      if (!(video instanceof HTMLVideoElement)) return;
-
-      const videoSrc = video.dataset.src;
-      if (videoSrc && !video.currentSrc) {
-        video.src = videoSrc;
-        video.load();
+      const videoSrc = reelVideo.dataset.src;
+      if (videoSrc && !reelVideo.currentSrc) {
+        reelVideo.src = videoSrc;
+        reelVideo.load();
       }
 
-      video.muted = true;
-      video.defaultMuted = true;
-      video.playsInline = true;
+      reelVideo.muted = true;
+      reelVideo.defaultMuted = true;
+      reelVideo.playsInline = true;
 
-      const attempt = video.play();
+      const attempt = reelVideo.play();
       if (attempt && typeof attempt.catch === 'function') {
         attempt.catch(() => {});
       }
     };
 
     const run = () => {
+      handleBgVideo();
       playHeroReel();
-      window.setTimeout(playHeroReel, 150);
-      window.setTimeout(playHeroReel, 500);
-      window.setTimeout(playHeroReel, 1000);
     };
+
+    run();
 
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', run, { once: true });
-    } else {
-      run();
     }
 
-    window.addEventListener('pageshow', playHeroReel);
-
-    ['pointerdown', 'keydown'].forEach((eventName) => {
-      window.addEventListener(eventName, playHeroReel, {
-        once: true,
-        passive: true
-      });
-    });
+    if (typeof mobileMedia.addEventListener === 'function') {
+      mobileMedia.addEventListener('change', run);
+      desktopMedia.addEventListener('change', run);
+    } else {
+      mobileMedia.addListener(run);
+      desktopMedia.addListener(run);
+    }
+    window.addEventListener('pageshow', run);
   })();
 </script>

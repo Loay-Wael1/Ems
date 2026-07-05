@@ -1,40 +1,81 @@
 ---
-const whatsappUrl = 'https://wa.me/201124799978';
-const explainerVideo = '/videos/ems-explainer.mp4';
-const explainerPoster = '/videos/ems-explainer-poster.webp';
-const emsPoints = ['Coach guided', 'Full-body activation', 'Built for busy schedules'];
 ---
 
 <section class="section-padding ems-section" id="what-is-ems" aria-labelledby="ems-title">
   <div class="container">
-    <div class="ems-demo-shell">
-      <div class="ems-media-card reveal-on-scroll">
-        <video
-          data-src={explainerVideo}
-          poster={explainerPoster}
-          autoplay
-          muted
-          loop
-          playsinline
-          preload="none"
-        ></video>
-      </div>
+    <div class="section-head center reveal-on-scroll">
+      <span class="ems-eyebrow">EMS SYSTEMS</span>
+      <h2 id="ems-title" class="section-title">20 minutes EMS = 4 hours in the gym</h2>
+      <p class="section-intro">
+        Three EMS systems. One smarter way to train, shape, and activate.
+      </p>
+    </div>
 
-      <div class="ems-copy-panel reveal-on-scroll reveal-delay-1">
-        <h2 id="ems-title" class="section-title">EMS in 20 minutes.</h2>
-        <p class="section-intro">
-          A focused coach-guided session using EMS technology to activate your muscles while you move.
-        </p>
+    <div class="ems-systems-showcase reveal-on-scroll reveal-delay-1">
+      <!-- Two-column showcase -->
+      <div class="systems-layout">
+        <!-- Visual column (Stage + Tabs) -->
+        <div class="systems-visual-column">
+          <!-- Shared visual stage -->
+          <div class="systems-stage" aria-hidden="true">
+            <div class="stage-suits">
+              <img src="/i-motion-stage.webp" alt="" class="stage-suit active" data-suit="0" width="440" height="580" loading="eager" decoding="async" />
+              <img src="/i-model-stage.webp" alt="" class="stage-suit" data-suit="1" width="440" height="520" loading="lazy" decoding="async" />
+              <img src="/i-shape-stage.webp" alt="" class="stage-suit" data-suit="2" width="440" height="480" loading="lazy" decoding="async" />
+            </div>
+            <img src="/ems-stand-stage.webp" alt="" class="stage-stand" width="480" height="200" loading="eager" decoding="async" />
+          </div>
 
-        <ul class="ems-points" aria-label="EMS session benefits">
-          {emsPoints.map((point) => <li>{point}</li>)}
-        </ul>
+          <!-- Tabs shifted below stage -->
+          <div class="systems-tabs" role="tablist" aria-label="EMS Systems">
+            <button type="button" role="tab" aria-selected="true" aria-controls="panel-imotion" id="tab-imotion" class="system-tab-btn active" data-index="0">I-MOTION</button>
+            <button type="button" role="tab" aria-selected="false" aria-controls="panel-imodel" id="tab-imodel" class="system-tab-btn" data-index="1" tabindex="-1">I-MODEL</button>
+            <button type="button" role="tab" aria-selected="false" aria-controls="panel-ishape" id="tab-ishape" class="system-tab-btn" data-index="2" tabindex="-1">I-SHAPE</button>
+          </div>
+        </div>
 
-        <p class="fine-note">EMS is training, not a shortcut.</p>
+        <!-- Content panels -->
+        <div class="systems-content">
+          <div id="panel-imotion" role="tabpanel" aria-labelledby="tab-imotion" class="sys-panel active" data-panel="0">
+            <h3 class="sys-name">I-MOTION</h3>
+            <p class="sys-tagline">Full-body EMS for strength, movement, and transformation.</p>
+            <p class="sys-desc">Built for active coach-guided sessions that activate the whole body in one efficient workout.</p>
+            <div class="sys-chips" aria-label="I-MOTION features">
+              <span class="sys-chip">Full-body activation</span>
+              <span class="sys-chip">Coach-guided</span>
+              <span class="sys-chip">20-minute format</span>
+            </div>
+            <p class="sys-best">Best for full-body training and overall transformation.</p>
+          </div>
 
-        <a class="btn btn-primary ems-cta" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-          Book the 20-Min Trial
-        </a>
+          <div id="panel-imodel" role="tabpanel" aria-labelledby="tab-imodel" class="sys-panel" data-panel="1" hidden>
+            <h3 class="sys-name">I-MODEL</h3>
+            <p class="sys-tagline">Targeted EMS for shaping and toning.</p>
+            <p class="sys-desc">Designed to focus on areas like the abdomen, glutes, and thighs with more precise stimulation.</p>
+            <div class="sys-chips" aria-label="I-MODEL features">
+              <span class="sys-chip">Targeted shaping</span>
+              <span class="sys-chip">Toning support</span>
+              <span class="sys-chip">Aesthetic sessions</span>
+            </div>
+            <p class="sys-best">Best for contouring, toning, and body-shape goals.</p>
+          </div>
+
+          <div id="panel-ishape" role="tabpanel" aria-labelledby="tab-ishape" class="sys-panel" data-panel="2" hidden>
+            <h3 class="sys-name">I-SHAPE</h3>
+            <p class="sys-tagline">Advanced lower-body EMS for glutes and legs.</p>
+            <p class="sys-desc">A focused EMS system for lower-body definition and high-value shaping sessions.</p>
+            <div class="sys-chips" aria-label="I-SHAPE features">
+              <span class="sys-chip">Lower-body focus</span>
+              <span class="sys-chip">Glutes & legs</span>
+              <span class="sys-chip">Premium shaping</span>
+            </div>
+            <p class="sys-best">Best for glute focus and lower-body definition.</p>
+          </div>
+
+          <div class="systems-cta-wrap">
+            <a class="btn btn-primary" href="#booking-form">Book the 20-Minute Trial</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -42,36 +83,59 @@ const emsPoints = ['Coach guided', 'Full-body activation', 'Built for busy sched
 
 <script>
   (() => {
-    const video = document.querySelector('.ems-media-card video');
-    if (!(video instanceof HTMLVideoElement)) return;
+    const section = document.querySelector('.ems-systems-showcase');
+    if (!section) return;
 
-    const loadVideo = () => {
-      const videoSrc = video.dataset.src;
-      if (videoSrc && !video.currentSrc) {
-        video.src = videoSrc;
-        video.load();
-      }
+    const tabs = Array.from(section.querySelectorAll('[role="tab"]'));
+    const panels = Array.from(section.querySelectorAll('[role="tabpanel"]'));
+    const suits = Array.from(section.querySelectorAll('.stage-suit'));
 
-      const attempt = video.play();
-      if (attempt && typeof attempt.catch === 'function') {
-        attempt.catch(() => {});
-      }
+    const activate = (idx: number) => {
+      // Update tabs
+      tabs.forEach((t, i) => {
+        const on = i === idx;
+        t.setAttribute('aria-selected', String(on));
+        t.setAttribute('tabindex', on ? '0' : '-1');
+        t.classList.toggle('active', on);
+      });
+
+      // Morph suits — crossfade within shared stage
+      suits.forEach((s, i) => {
+        s.classList.toggle('active', i === idx);
+      });
+
+      // Switch content panels
+      panels.forEach((p, i) => {
+        const on = i === idx;
+        if (on) {
+          p.removeAttribute('hidden');
+          void (p as HTMLElement).offsetWidth;
+          p.classList.add('active');
+        } else {
+          p.classList.remove('active');
+          p.setAttribute('hidden', '');
+        }
+      });
     };
 
-    if (!('IntersectionObserver' in window)) {
-      loadVideo();
-      return;
-    }
+    tabs.forEach((tab, idx) => {
+      tab.addEventListener('click', () => {
+        activate(idx);
+        (tab as HTMLElement).focus();
+      });
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (!entries.some((entry) => entry.isIntersecting)) return;
-        loadVideo();
-        observer.disconnect();
-      },
-      { rootMargin: '500px 0px' }
-    );
-
-    observer.observe(video);
+      tab.addEventListener('keydown', (e: Event) => {
+        const ke = e as KeyboardEvent;
+        let next = idx;
+        if (ke.key === 'ArrowRight') next = (idx + 1) % tabs.length;
+        else if (ke.key === 'ArrowLeft') next = (idx - 1 + tabs.length) % tabs.length;
+        else if (ke.key === 'Home') next = 0;
+        else if (ke.key === 'End') next = tabs.length - 1;
+        else return;
+        ke.preventDefault();
+        activate(next);
+        (tabs[next] as HTMLElement).focus();
+      });
+    });
   })();
 </script>

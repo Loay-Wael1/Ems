@@ -1,0 +1,147 @@
+---
+const trustCards = [
+  {
+    title: 'Coach-led sessions',
+    text: 'Every movement, posture, and intensity level is guided by trained coaches.'
+  },
+  {
+    title: 'Nutrition direction',
+    text: 'You get practical nutrition support matched to your goal and progress.'
+  },
+  {
+    title: 'InBody tracking',
+    text: 'We track body composition, not just weight, so progress is easier to understand.'
+  },
+  {
+    title: '14-day follow-up',
+    text: 'Your plan is reviewed every 14 days and adjusted based on your body’s response.'
+  }
+];
+
+const coachVideos = [
+  {
+    src: '/videos/coaches/coach-sohaila-ems.mp4',
+    label: 'Coach insight',
+    ariaLabel: 'Easy Fit coach explaining EMS training guidance'
+  },
+  {
+    src: '/videos/coaches/coach-arwa-ems-1.mp4',
+    label: 'Training guidance',
+    ariaLabel: 'Easy Fit coach sharing EMS training guidance'
+  },
+  {
+    src: '/videos/coaches/coach-arwa-ems-2.mp4',
+    label: 'Coach advice',
+    ariaLabel: 'Easy Fit coach sharing EMS session advice'
+  }
+];
+
+const [featuredVideo, ...supportingVideos] = coachVideos;
+---
+
+<section class="section-padding expert-section" id="expert-coaches" aria-labelledby="expert-title">
+  <div class="container expert-shell">
+    <div class="expert-content-column">
+      <div class="section-head expert-copy reveal-on-scroll">
+        <span class="section-kicker">EXPERT GUIDANCE</span>
+        <h2 id="expert-title" class="section-title">
+          Real coaches guide every EMS session.
+        </h2>
+        <p class="section-intro">
+          From movement control to nutrition direction and InBody follow-ups, your 20-minute session is part of a guided plan — not a random workout.
+        </p>
+      </div>
+
+      <div class="coach-trust-grid">
+        {
+          trustCards.map((card, index) => (
+            <article class="coach-trust-card reveal-on-scroll" style={`--card-index:${index}`}>
+              <span class="coach-trust-number">{String(index + 1).padStart(2, '0')}</span>
+              <div>
+                <h3>{card.title}</h3>
+                <p>{card.text}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="expert-media reveal-on-scroll reveal-delay-1">
+      <article class="coach-video-card coach-video-card-featured">
+        <div class="coach-video-frame">
+          <video
+            class="coach-feature-video"
+            data-src={featuredVideo.src}
+            controls
+            playsinline
+            preload="none"
+            aria-label={featuredVideo.ariaLabel}
+          ></video>
+        </div>
+        <div class="coach-video-caption">
+          <span>{featuredVideo.label}</span>
+          <strong>Real guidance before you train</strong>
+        </div>
+      </article>
+
+      {
+        supportingVideos.length > 0 && (
+          <div class="coach-video-grid" aria-label="More coach guidance videos">
+            {supportingVideos.map((video) => (
+              <article class="coach-video-card coach-video-card-small">
+                <div class="coach-video-frame">
+                  <video
+                    data-src={video.src}
+                    controls
+                    playsinline
+                    preload="none"
+                    aria-label={video.ariaLabel}
+                  ></video>
+                </div>
+                <div class="coach-video-caption">
+                  <span>{video.label}</span>
+                </div>
+              </article>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  (() => {
+    const section = document.querySelector('#expert-coaches');
+    if (!section) return;
+
+    const videos = Array.from(section.querySelectorAll('video[data-src]'));
+
+    const loadVideo = (video: Element) => {
+      if (!(video instanceof HTMLVideoElement)) return;
+      const src = video.dataset.src;
+      if (!src || video.currentSrc) return;
+      video.src = src;
+      video.preload = 'metadata';
+      video.load();
+    };
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            loadVideo(entry.target);
+            observer.unobserve(entry.target);
+          });
+        },
+        { rootMargin: '640px 0px' }
+      );
+
+      videos.forEach((video) => observer.observe(video));
+    } else {
+      videos.forEach(loadVideo);
+    }
+  })();
+</script>

@@ -5,19 +5,23 @@ const facebookUrl = 'https://www.facebook.com/ems.easyfit.alexandria/?ref=NONE_x
 
 const navItems = [
   { label: 'Results', href: '#results' },
+  { label: 'Systems', href: '#what-is-ems' },
   { label: 'EMS', href: '#why-ems' },
-  { label: 'Benefits', href: '#benefits' },
-  { label: 'Studios', href: '#locations' }
+  { label: 'Reviews', href: '#testimonials' },
+  { label: 'Branches', href: '#locations' }
 ];
 ---
 
 <header class="site-header" aria-label="Primary navigation">
   <div class="container header-container">
     <a class="brand" href="#main-content">
-      <img class="brand-logo" src="/logo-transparent.png" alt="" width="48" height="48" />
+      <span class="brand-logo-wrap" aria-hidden="true">
+        <img class="brand-logo brand-logo-light" src="/logo-transparent.png" alt="" width="48" height="48" />
+        <img class="brand-logo brand-logo-dark" src="/logo-dark.jpeg" alt="" width="48" height="48" />
+      </span>
       <span class="brand-text">
-        <span class="brand-name">Easy Fit</span>
-        <span class="brand-sub">Alexandria EMS Studio</span>
+        <span class="brand-name">Easy Fit Alexandria</span>
+        <span class="brand-sub">EMS Studios</span>
       </span>
     </a>
 
@@ -40,8 +44,8 @@ const navItems = [
         </span>
         <span class="theme-toggle-text">Night</span>
       </button>
-      <a class="btn btn-primary nav-cta" href={whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="Book on WhatsApp">
-        <span class="cta-full">Book on WhatsApp</span>
+      <a class="btn btn-primary nav-cta" href="#booking-form" aria-label="Book Trial">
+        <span class="cta-full">Book Trial</span>
         <span class="cta-short" aria-hidden="true">Book</span>
       </a>
     </div>
