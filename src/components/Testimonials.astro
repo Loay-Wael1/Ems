@@ -56,77 +56,70 @@ const videoReviews = [
       <p class="section-intro">
         Watch client stories and browse real feedback from Easy Fit Alexandria.
       </p>
+      <ul class="review-heading-chips" aria-label="Review formats">
+        <li>Video reviews</li>
+        <li>Client screenshots</li>
+        <li>Alexandria EMS</li>
+      </ul>
     </div>
   </div>
 
-  <div class="container review-media-section">
-    <div class="review-group review-video-group reveal-on-scroll">
-      <div class="review-group-head">
-        <span>Client video stories</span>
-      </div>
-      <div class="review-carousel-shell review-video-shell">
-        <div class="review-marquee review-video-marquee" data-review-scroll aria-label="Client video reviews">
-          <div class="review-marquee-track">
-            {
-              videoReviews.map((review) => (
-                <button
-                  class="review-card review-video-card"
-                  type="button"
-                  data-review-card
-                  data-review-type="video"
-                  data-full={review.src}
-                  data-title={review.title}
-                  aria-label={`Open ${review.title}`}
-                >
-                  <video
-                    class="review-preview-video"
-                    data-src={review.src}
-                    muted
-                    playsinline
-                    preload="metadata"
-                    aria-hidden="true"
-                  ></video>
-                  <span class="review-play-badge" aria-hidden="true"></span>
-                </button>
-              ))
-            }
-          </div>
-        </div>
+  <div class="review-carousel-shell review-video-shell reveal-on-scroll">
+    <div class="review-marquee review-video-marquee" data-review-scroll aria-label="Client video reviews">
+      <div class="review-marquee-track">
+        {
+          videoReviews.map((review) => (
+            <button
+              class="review-card review-video-card"
+              type="button"
+              data-review-card
+              data-review-type="video"
+              data-full={review.src}
+              data-title={review.title}
+              aria-label={`Open ${review.title}`}
+            >
+              <video
+                class="review-preview-video"
+                data-src={review.src}
+                muted
+                playsinline
+                preload="metadata"
+                aria-hidden="true"
+              ></video>
+              <span class="review-play-badge" aria-hidden="true"></span>
+            </button>
+          ))
+        }
       </div>
     </div>
+  </div>
 
-    <div class="review-group review-image-group reveal-on-scroll">
-      <div class="review-group-head">
-        <span>Review screenshots</span>
-      </div>
-      <div class="review-carousel-shell">
-        <div id="review-marquee" class="review-marquee" data-review-marquee data-review-scroll aria-label="Client review screenshots">
-          <div class="review-marquee-track">
-            {
-              reviews.map((review) => (
-                <button
-                  class="review-card"
-                  type="button"
-                  data-review-card
-                  data-review-type="image"
-                  data-full={review.image.src}
-                  data-title={review.title}
-                  aria-label={`Open ${review.title}`}
-                >
-                  <img
-                    src={review.image.src}
-                    width={review.image.width}
-                    height={review.image.height}
-                    alt={`${review.title} from Easy Fit Alexandria client`}
-                    loading="lazy"
-                    decoding="async"
-                    draggable="false"
-                  />
-                </button>
-              ))
-            }
-          </div>
-        </div>
+  <div class="review-carousel-shell reveal-on-scroll">
+    <div id="review-marquee" class="review-marquee" data-review-marquee data-review-scroll aria-label="Client review screenshots">
+      <div class="review-marquee-track">
+        {
+          reviews.map((review) => (
+            <button
+              class="review-card"
+              type="button"
+              data-review-card
+              data-review-type="image"
+              data-full={review.image.src}
+              data-title={review.title}
+              aria-label={`Open ${review.title}`}
+            >
+              <img
+                src={review.image.src}
+                width={review.image.width}
+                height={review.image.height}
+                alt={`${review.title} from Easy Fit Alexandria client`}
+                loading="lazy"
+                decoding="async"
+                draggable="false"
+              />
+            </button>
+          ))
+        }
       </div>
     </div>
   </div>
@@ -171,7 +164,6 @@ const videoReviews = [
     const nextButton = document.querySelector('[data-review-next]');
 
     if (!section || !marquee || !modal || !modalImage || !modalVideo) return;
-    const cards = section.querySelectorAll('[data-review-card]');
 
     let isDragging = false;
     let hasMoved = false;
@@ -334,21 +326,30 @@ const videoReviews = [
 
     /* Wheel-to-horizontal removed: let the browser handle scroll naturally. */
 
-    cards.forEach((card) => {
-      card.addEventListener('click', (event) => {
-        if (suppressClick) {
-          event.preventDefault();
-          return;
-        }
+    section.addEventListener('click', (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const card = target.closest('[data-review-card]');
+      if (!card) return;
 
-        openModal(card);
-      });
-
-      card.addEventListener('keydown', (event) => {
-        if (event.key !== 'Enter' && event.key !== ' ') return;
+      if (suppressClick) {
         event.preventDefault();
-        openModal(card, true);
-      });
+        return;
+      }
+
+      openModal(card);
+    });
+
+    section.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const card = target.closest('[data-review-card]');
+      if (!card) return;
+
+      event.preventDefault();
+      openModal(card, true);
     });
 
     const loadPreviewVideo = (video) => {
