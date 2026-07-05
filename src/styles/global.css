@@ -3143,9 +3143,9 @@ html[data-theme="dark"] .systems-stage {
 .stage-suit {
   position: absolute;
   left: 50%;
-  bottom: clamp(78px, 7.2vw, 98px);
-  max-height: clamp(258px, 30vw, 350px);
-  max-width: min(76%, 382px);
+  bottom: clamp(72px, 6.8vw, 92px);
+  max-height: clamp(250px, 29vw, 340px);
+  max-width: min(74%, 372px);
   width: auto;
   height: auto;
   object-fit: contain;
@@ -3345,7 +3345,7 @@ html[data-theme="dark"] .sys-best {
   }
 
   .stage-suit[data-suit="0"] {
-    --suit-scale: 0.99;
+    --suit-scale: 1.02;
     --suit-y: 0px;
   }
 
@@ -3355,7 +3355,7 @@ html[data-theme="dark"] .sys-best {
   }
 
   .stage-suit[data-suit="2"] {
-    --suit-scale: 0.98;
+    --suit-scale: 0.94;
     --suit-y: 0px;
   }
 
