@@ -27,6 +27,21 @@ const reviews = [
   image,
   title: `Client review ${index + 1}`
 }));
+
+const videoReviews = [
+  {
+    src: '/videos/reviews/client-review-1.mp4',
+    title: 'Client video review 1'
+  },
+  {
+    src: '/videos/reviews/client-review-2.mp4',
+    title: 'Client video review 2'
+  },
+  {
+    src: '/videos/reviews/client-review-3.mp4',
+    title: 'Client video review 3'
+  }
+];
 ---
 
 <section class="section-padding reviews-section" id="testimonials" aria-labelledby="reviews-title">
@@ -39,8 +54,38 @@ const reviews = [
     </div>
   </div>
 
+  <div class="review-carousel-shell review-video-shell reveal-on-scroll">
+    <div class="review-marquee review-video-marquee" data-review-scroll aria-label="Client video reviews">
+      <div class="review-marquee-track">
+        {
+          videoReviews.map((review) => (
+            <button
+              class="review-card review-video-card"
+              type="button"
+              data-review-card
+              data-review-type="video"
+              data-full={review.src}
+              data-title={review.title}
+              aria-label={`Open ${review.title}`}
+            >
+              <video
+                class="review-preview-video"
+                data-src={review.src}
+                muted
+                playsinline
+                preload="metadata"
+                aria-hidden="true"
+              ></video>
+              <span class="review-play-badge" aria-hidden="true"></span>
+            </button>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
   <div class="review-carousel-shell reveal-on-scroll">
-    <div id="review-marquee" class="review-marquee" data-review-marquee aria-label="Client review screenshots">
+    <div id="review-marquee" class="review-marquee" data-review-marquee data-review-scroll aria-label="Client review screenshots">
       <div class="review-marquee-track">
         {
           reviews.map((review) => (
@@ -48,6 +93,7 @@ const reviews = [
               class="review-card"
               type="button"
               data-review-card
+              data-review-type="image"
               data-full={review.image.src}
               data-title={review.title}
               aria-label={`Open ${review.title}`}
@@ -90,27 +136,31 @@ const reviews = [
         &times;
       </button>
       <img id="review-modal-image" src="" alt="" />
+      <video id="review-modal-video" controls playsinline hidden></video>
     </div>
   </dialog>
 </section>
 
 <script>
   (() => {
+    const section = document.querySelector('#testimonials');
     const marquee = document.querySelector('[data-review-marquee]');
+    const scrollAreas = document.querySelectorAll('[data-review-scroll]');
     const modal = document.querySelector('.review-modal');
     const modalImage = document.querySelector('#review-modal-image');
+    const modalVideo = document.querySelector('#review-modal-video');
     const closeButton = document.querySelector('[data-review-close]');
     const previousButton = document.querySelector('[data-review-prev]');
     const nextButton = document.querySelector('[data-review-next]');
-    const finePointer = window.matchMedia('(pointer: fine)');
 
-    if (!marquee || !modal || !modalImage) return;
+    if (!section || !marquee || !modal || !modalImage || !modalVideo) return;
 
     let isDragging = false;
     let hasMoved = false;
     let suppressClick = false;
     let startX = 0;
     let startScrollLeft = 0;
+    let activeScrollArea = null;
     let lastReviewTrigger = null;
     let openedByKeyboard = false;
     const dragThreshold = 8;
@@ -135,6 +185,15 @@ const reviews = [
       window.setTimeout(updateControls, 260);
     };
 
+    const resetModalVideo = () => {
+      if (!(modalVideo instanceof HTMLVideoElement)) return;
+      modalVideo.pause();
+      modalVideo.removeAttribute('src');
+      modalVideo.removeAttribute('aria-label');
+      modalVideo.load();
+      modalVideo.hidden = true;
+    };
+
     const closeModal = () => {
       if (!modal.open) return;
       if (typeof modal.close === 'function') {
@@ -147,7 +206,9 @@ const reviews = [
       suppressClick = false;
       modalImage.removeAttribute('src');
       modalImage.removeAttribute('alt');
-      marquee.classList.remove('is-dragging');
+      modalImage.hidden = true;
+      resetModalVideo();
+      scrollAreas.forEach((area) => area.classList.remove('is-dragging'));
 
       if (openedByKeyboard) {
         lastReviewTrigger?.focus?.();
@@ -158,22 +219,46 @@ const reviews = [
     const openModal = (card, byKeyboard = false) => {
       lastReviewTrigger = card;
       openedByKeyboard = byKeyboard;
-      modalImage.src = card.getAttribute('data-full') || '';
-      modalImage.alt = `${card.getAttribute('data-title') || 'Client review'} from Easy Fit Alexandria`;
+      const type = card.getAttribute('data-review-type') || 'image';
+      const title = card.getAttribute('data-title') || 'Client review';
+      const src = card.getAttribute('data-full') || '';
+
+      if (type === 'video') {
+        modalImage.hidden = true;
+        modalImage.removeAttribute('src');
+        modalImage.removeAttribute('alt');
+        modalVideo.hidden = false;
+        modalVideo.setAttribute('aria-label', `${title} from Easy Fit Alexandria`);
+        modalVideo.src = src;
+        modalVideo.load();
+      } else {
+        resetModalVideo();
+        modalImage.hidden = false;
+        modalImage.src = src;
+        modalImage.alt = `${title} from Easy Fit Alexandria`;
+      }
+
       if (typeof modal.showModal === 'function') {
         modal.showModal();
       } else {
         modal.setAttribute('open', '');
       }
       closeButton?.focus();
+
+      if (type === 'video' && modalVideo instanceof HTMLVideoElement) {
+        const attempt = modalVideo.play();
+        if (attempt && typeof attempt.catch === 'function') {
+          attempt.catch(() => {});
+        }
+      }
     };
 
     const endDrag = (event) => {
       if (!isDragging) return;
       isDragging = false;
-      marquee.classList.remove('is-dragging');
-      if (marquee.hasPointerCapture?.(event.pointerId)) {
-        marquee.releasePointerCapture(event.pointerId);
+      if (activeScrollArea) activeScrollArea.classList.remove('is-dragging');
+      if (activeScrollArea?.hasPointerCapture?.(event.pointerId)) {
+        activeScrollArea.releasePointerCapture(event.pointerId);
       }
 
       if (hasMoved) {
@@ -185,42 +270,47 @@ const reviews = [
       } else {
         hasMoved = false;
       }
+      activeScrollArea = null;
       updateControls();
     };
 
-    marquee.addEventListener('pointerdown', (event) => {
-      if (event.pointerType !== 'mouse') return;
-      if (event.pointerType === 'mouse' && event.button !== 0) return;
-      isDragging = true;
-      hasMoved = false;
-      startX = event.clientX;
-      startScrollLeft = marquee.scrollLeft;
-      marquee.classList.add('is-dragging');
-      marquee.setPointerCapture?.(event.pointerId);
-    });
+    scrollAreas.forEach((scrollArea) => {
+      scrollArea.addEventListener('pointerdown', (event) => {
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        isDragging = true;
+        hasMoved = false;
+        activeScrollArea = scrollArea;
+        startX = event.clientX;
+        startScrollLeft = scrollArea.scrollLeft;
+        scrollArea.classList.add('is-dragging');
+        if (event.pointerType === 'mouse') scrollArea.setPointerCapture?.(event.pointerId);
+      });
 
-    marquee.addEventListener('pointermove', (event) => {
-      if (event.pointerType !== 'mouse') return;
-      if (!isDragging) return;
-      const delta = event.clientX - startX;
-      if (Math.abs(delta) > dragThreshold) hasMoved = true;
-      if (!hasMoved) return;
-      event.preventDefault();
-      marquee.scrollLeft = startScrollLeft - delta;
-      updateControls();
-    });
+      scrollArea.addEventListener('pointermove', (event) => {
+        if (!isDragging || activeScrollArea !== scrollArea) return;
+        const delta = event.clientX - startX;
+        if (Math.abs(delta) > dragThreshold) hasMoved = true;
+        if (!hasMoved) return;
 
-    marquee.addEventListener('pointerup', endDrag);
-    marquee.addEventListener('pointercancel', endDrag);
-    marquee.addEventListener('pointerleave', endDrag);
-    marquee.addEventListener('scroll', updateControls, { passive: true });
+        if (event.pointerType === 'mouse') {
+          event.preventDefault();
+          scrollArea.scrollLeft = startScrollLeft - delta;
+          updateControls();
+        }
+      });
+
+      scrollArea.addEventListener('pointerup', endDrag);
+      scrollArea.addEventListener('pointercancel', endDrag);
+      scrollArea.addEventListener('pointerleave', endDrag);
+      scrollArea.addEventListener('scroll', updateControls, { passive: true });
+    });
 
     previousButton?.addEventListener('click', () => scrollReviews(-1));
     nextButton?.addEventListener('click', () => scrollReviews(1));
 
     /* Wheel-to-horizontal removed: let the browser handle scroll naturally. */
 
-    marquee.addEventListener('click', (event) => {
+    section.addEventListener('click', (event) => {
       const target = event.target;
       if (!(target instanceof Element)) return;
       const card = target.closest('[data-review-card]');
@@ -234,7 +324,7 @@ const reviews = [
       openModal(card);
     });
 
-    marquee.addEventListener('keydown', (event) => {
+    section.addEventListener('keydown', (event) => {
       if (event.key !== 'Enter' && event.key !== ' ') return;
 
       const target = event.target;
@@ -245,6 +335,31 @@ const reviews = [
       event.preventDefault();
       openModal(card, true);
     });
+
+    const loadPreviewVideo = (video) => {
+      if (!(video instanceof HTMLVideoElement)) return;
+      const src = video.dataset.src;
+      if (!src || video.currentSrc) return;
+      video.src = src;
+    };
+
+    const previewVideos = section.querySelectorAll('.review-preview-video');
+    if ('IntersectionObserver' in window) {
+      const previewObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            loadPreviewVideo(entry.target);
+            previewObserver.unobserve(entry.target);
+          });
+        },
+        { rootMargin: '360px 0px' }
+      );
+
+      previewVideos.forEach((video) => previewObserver.observe(video));
+    } else {
+      previewVideos.forEach(loadPreviewVideo);
+    }
 
     closeButton?.addEventListener('click', closeModal);
     modal.addEventListener('click', (event) => {
