@@ -1,22 +1,42 @@
 ---
-const guidanceCards = [
+const trustCards = [
   {
-    title: 'Physical Education Coaches',
-    text: 'Sessions are guided by coaches with sports science backgrounds, so every movement and intensity level stays controlled.'
+    title: 'Coach-led sessions',
+    text: 'Every movement, posture, and intensity level is guided by trained coaches.'
   },
   {
-    title: 'Nutrition Support',
-    text: 'Pharmacy-graduate specialists help guide your nutrition direction around your goal and progress.'
+    title: 'Nutrition direction',
+    text: 'You get practical nutrition support matched to your goal and progress.'
   },
   {
-    title: 'InBody Check-Ins',
+    title: 'InBody tracking',
     text: 'We track body composition, not just weight, so progress is easier to understand.'
   },
   {
-    title: '14-Day Follow-Up',
-    text: 'Your progress is reviewed every 14 days, then the plan is adjusted based on what your body needs next.'
+    title: '14-day follow-up',
+    text: 'Your plan is reviewed every 14 days and adjusted based on your body’s response.'
   }
 ];
+
+const coachVideos = [
+  {
+    src: '/videos/coaches/coach-sohaila-ems.mp4',
+    label: 'Coach insight',
+    ariaLabel: 'Easy Fit coach explaining EMS training guidance'
+  },
+  {
+    src: '/videos/coaches/coach-arwa-ems-1.mp4',
+    label: 'Training guidance',
+    ariaLabel: 'Easy Fit coach sharing EMS training guidance'
+  },
+  {
+    src: '/videos/coaches/coach-arwa-ems-2.mp4',
+    label: 'Coach advice',
+    ariaLabel: 'Easy Fit coach sharing EMS session advice'
+  }
+];
+
+const [featuredVideo, ...supportingVideos] = coachVideos;
 ---
 
 <section class="section-padding expert-section" id="expert-coaches" aria-labelledby="expert-title">
@@ -24,23 +44,71 @@ const guidanceCards = [
     <div class="section-head expert-copy reveal-on-scroll">
       <span class="section-kicker">EXPERT GUIDANCE</span>
       <h2 id="expert-title" class="section-title">
-        Coaches, nutrition, and progress tracking in one plan.
+        Real coaches guide every EMS session.
       </h2>
       <p class="section-intro">
-        Your EMS session is guided by qualified coaches, with nutrition support and InBody follow-up every 14 days to keep your progress clear.
+        From movement control to nutrition direction and InBody follow-ups, your 20-minute session is part of a guided plan — not a random workout.
       </p>
     </div>
 
-    <div class="expert-grid">
+    <div class="expert-media reveal-on-scroll reveal-delay-1">
+      <article class="coach-video-card coach-video-card-featured">
+        <div class="coach-video-frame">
+          <video
+            class="coach-feature-video"
+            src={featuredVideo.src}
+            controls
+            playsinline
+            preload="metadata"
+            aria-label={featuredVideo.ariaLabel}
+          ></video>
+        </div>
+        <div class="coach-video-caption">
+          <span>{featuredVideo.label}</span>
+          <strong>Real guidance before you train</strong>
+        </div>
+      </article>
+
       {
-        guidanceCards.map((card, index) => (
-          <article class="expert-card reveal-on-scroll" style={`--card-index:${index}`}>
-            <span class="expert-number">{String(index + 1).padStart(2, '0')}</span>
-            <h3>{card.title}</h3>
-            <p>{card.text}</p>
+        supportingVideos.length > 0 && (
+          <div class="coach-video-grid" aria-label="More coach guidance videos">
+            {supportingVideos.map((video) => (
+              <article class="coach-video-card coach-video-card-small">
+                <div class="coach-video-frame">
+                  <video
+                    src={video.src}
+                    controls
+                    playsinline
+                    preload="metadata"
+                    aria-label={video.ariaLabel}
+                  ></video>
+                </div>
+                <div class="coach-video-caption">
+                  <span>{video.label}</span>
+                </div>
+              </article>
+            ))}
+          </div>
+        )
+      }
+    </div>
+
+    <div class="coach-trust-grid">
+      {
+        trustCards.map((card, index) => (
+          <article class="coach-trust-card reveal-on-scroll" style={`--card-index:${index}`}>
+            <span class="coach-trust-number">{String(index + 1).padStart(2, '0')}</span>
+            <div>
+              <h3>{card.title}</h3>
+              <p>{card.text}</p>
+            </div>
           </article>
         ))
       }
+    </div>
+
+    <div class="expert-cta reveal-on-scroll">
+      <a class="btn btn-primary" href="#booking-form">Book your coached EMS trial</a>
     </div>
   </div>
 </section>
