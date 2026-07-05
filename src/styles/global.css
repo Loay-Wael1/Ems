@@ -3125,25 +3125,6 @@ html[data-theme="dark"] .system-tab-btn.active {
   overflow: hidden;
 }
 
-/* Subtle radial depth shadow under the hovering suit */
-.systems-stage::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: clamp(68px, 6.2vw, 88px);
-  transform: translateX(-50%);
-  width: clamp(116px, 12vw, 158px);
-  height: 10px;
-  background: radial-gradient(ellipse at center, rgba(15, 118, 110, 0.24) 0%, rgba(15, 118, 110, 0.1) 34%, rgba(0, 0, 0, 0) 72%);
-  z-index: 2;
-  pointer-events: none;
-  transition: opacity 280ms ease;
-}
-
-html[data-theme="dark"] .systems-stage::after {
-  background: radial-gradient(ellipse at center, rgba(20, 184, 166, 0.35) 0%, rgba(0, 0, 0, 0) 70%);
-}
-
 html[data-theme="dark"] .systems-stage {
   background:
     radial-gradient(ellipse 80% 60% at 50% 55%, rgba(20, 184, 166, 0.06), transparent),
@@ -3198,7 +3179,7 @@ html[data-theme="dark"] .systems-stage {
 }
 
 .stage-suit[data-suit="2"] { /* I-SHAPE: shorts only, shortest */
-  --suit-scale: 1.1;
+  --suit-scale: 1;
   --suit-y: 0px;
 }
 
@@ -3357,12 +3338,6 @@ html[data-theme="dark"] .sys-best {
     border-radius: 18px;
   }
 
-  .systems-stage::after {
-    bottom: clamp(56px, 14vw, 72px);
-    width: clamp(86px, 24vw, 118px);
-    height: 8px;
-  }
-
   .stage-suit {
     bottom: clamp(64px, 16vw, 82px);
     max-height: clamp(220px, 68vw, 292px);
@@ -3380,7 +3355,7 @@ html[data-theme="dark"] .sys-best {
   }
 
   .stage-suit[data-suit="2"] {
-    --suit-scale: 1.08;
+    --suit-scale: 0.98;
     --suit-y: 0px;
   }
 
