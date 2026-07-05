@@ -59,7 +59,22 @@ const structuredData = {
     <meta name="twitter:card" content="summary_large_image" />
 
     <link rel="preload" href="/logo-transparent.png" as="image" />
-    <link rel="preload" href="/hero-desktop.webp" as="image" type="image/webp" fetchpriority="high" />
+    <link
+      rel="preload"
+      href="/hero-desktop.webp"
+      as="image"
+      type="image/webp"
+      media="(min-width: 760px)"
+      fetchpriority="high"
+    />
+    <link
+      rel="preload"
+      href="/videos/ems-experience-reel-v2.mp4"
+      as="video"
+      type="video/mp4"
+      media="(max-width: 759px)"
+      fetchpriority="high"
+    />
     <link
       rel="preload"
       href="/videos/ems-experience-reel-v2.mp4"

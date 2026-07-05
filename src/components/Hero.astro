@@ -20,8 +20,7 @@ const impactBadges = [
       muted
       loop
       playsinline
-      preload="none"
-      poster={heroVideoPoster}
+      preload="auto"
     ></video>
     <div class="hero-static-overlay"></div>
     <div class="hero-glow hero-glow-primary"></div>
@@ -94,13 +93,21 @@ const impactBadges = [
 
       if (mobileMedia.matches) {
         const src = bgVideo.dataset.src;
-        if (src && !bgVideo.currentSrc) {
-          bgVideo.src = src;
-          bgVideo.load();
-        }
+        bgVideo.preload = 'auto';
         bgVideo.muted = true;
         bgVideo.defaultMuted = true;
         bgVideo.playsInline = true;
+
+        if (src && bgVideo.getAttribute('src') !== src) {
+          bgVideo.src = src;
+          bgVideo.load();
+        }
+
+        const markReady = () => bgVideo.classList.add('is-ready');
+        bgVideo.addEventListener('loadeddata', markReady, { once: true });
+        bgVideo.addEventListener('canplay', markReady, { once: true });
+        bgVideo.addEventListener('playing', markReady, { once: true });
+
         const attempt = bgVideo.play();
         if (attempt && typeof attempt.catch === 'function') {
           attempt.catch(() => {});
@@ -108,6 +115,7 @@ const impactBadges = [
       } else {
         bgVideo.pause();
         bgVideo.removeAttribute('src');
+        bgVideo.classList.remove('is-ready');
         bgVideo.load();
       }
     };
@@ -137,10 +145,10 @@ const impactBadges = [
       playHeroReel();
     };
 
+    run();
+
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', run, { once: true });
-    } else {
-      run();
     }
 
     if (typeof mobileMedia.addEventListener === 'function') {
