@@ -2317,9 +2317,7 @@ p {
   }
 
   .hero-media {
-    background:
-      linear-gradient(180deg, rgba(5, 3, 10, 0.16), rgba(5, 3, 10, 0.88)),
-      #05030a;
+    background: #05030a;
   }
 
   .hero-bg-video {
@@ -2331,17 +2329,22 @@ p {
     height: 100%;
     object-fit: cover;
     object-position: center;
+    filter: saturate(1.08) contrast(1.04) brightness(0.96);
   }
 
   .hero-media::before {
     z-index: 1;
+    opacity: 0.7;
+    background:
+      radial-gradient(circle at 72% 22%, rgba(15, 118, 110, 0.18), transparent 34%),
+      radial-gradient(circle at 20% 68%, rgba(124, 58, 237, 0.16), transparent 36%);
   }
 
   .hero-static-overlay {
     z-index: 2;
     background:
-      linear-gradient(180deg, rgba(5, 3, 10, 0.22), rgba(5, 3, 10, 0.78) 74%, var(--black)),
-      linear-gradient(90deg, rgba(5, 3, 10, 0.64), rgba(5, 3, 10, 0.26));
+      linear-gradient(180deg, rgba(5, 3, 10, 0.20), rgba(5, 3, 10, 0.38) 48%, rgba(5, 3, 10, 0.86) 100%),
+      linear-gradient(90deg, rgba(5, 3, 10, 0.56), rgba(5, 3, 10, 0.18) 52%, rgba(5, 3, 10, 0.42));
   }
 
   .hero-glow {
@@ -2581,16 +2584,14 @@ html[data-theme="dark"] .hero-glow-secondary {
 }
 
 @media (max-width: 759px) {
-  html[data-theme="dark"] .hero-media {
-    background:
-      linear-gradient(180deg, rgba(5, 3, 10, 0.16), rgba(5, 3, 10, 0.88)),
-      #05030a;
+  html[data-theme="dark"] .hero-bg-video {
+    filter: saturate(1.04) contrast(1.05) brightness(0.90);
   }
 
   html[data-theme="dark"] .hero-static-overlay {
     background:
-      linear-gradient(180deg, rgba(5, 3, 10, 0.18), rgba(5, 3, 10, 0.22) 58%, rgba(5, 3, 10, 0.88)),
-      linear-gradient(90deg, rgba(5, 3, 10, 0.78), rgba(5, 3, 10, 0.18));
+      linear-gradient(180deg, rgba(5, 3, 10, 0.26), rgba(5, 3, 10, 0.54) 50%, rgba(5, 3, 10, 0.92) 100%),
+      linear-gradient(90deg, rgba(5, 3, 10, 0.70), rgba(5, 3, 10, 0.24) 52%, rgba(5, 3, 10, 0.58));
   }
 }
 
