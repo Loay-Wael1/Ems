@@ -3143,9 +3143,9 @@ html[data-theme="dark"] .systems-stage {
 .stage-suit {
   position: absolute;
   left: 50%;
-  bottom: clamp(65px, 7vw, 90px);
-  max-height: clamp(280px, 32vw, 380px);
-  max-width: min(80%, 420px);
+  bottom: clamp(58px, 6vw, 78px);
+  max-height: clamp(250px, 29vw, 340px);
+  max-width: min(78%, 390px);
   width: auto;
   height: auto;
   object-fit: contain;
@@ -3167,20 +3167,20 @@ html[data-theme="dark"] .systems-stage {
   z-index: 2;
 }
 
-/* Per-suit fine-tuning — optimized for stage-ready trimmed assets */
+/* Per-suit fine-tuning — balanced to avoid top cropping while sitting close to pedestal */
 .stage-suit[data-suit="0"] { /* I-MOTION: full-body, tallest */
-  --suit-scale: 1.05;
-  --suit-y: 0px;
+  --suit-scale: 0.98;
+  --suit-y: 12px;
 }
 
 .stage-suit[data-suit="1"] { /* I-MODEL: mid-length */
-  --suit-scale: 1.1;
-  --suit-y: -10px;
+  --suit-scale: 1.04;
+  --suit-y: 14px;
 }
 
-.stage-suit[data-suit="2"] { /* I-SHAPE: shorts only */
-  --suit-scale: 1.05;
-  --suit-y: -25px;
+.stage-suit[data-suit="2"] { /* I-SHAPE: shorts only, shortest */
+  --suit-scale: 1.1;
+  --suit-y: 16px;
 }
 
 /* Stand anchored at bottom */
@@ -3339,24 +3339,24 @@ html[data-theme="dark"] .sys-best {
   }
 
   .stage-suit {
-    bottom: clamp(52px, 15vw, 72px);
-    max-height: clamp(230px, 72vw, 290px);
+    bottom: clamp(50px, 14vw, 66px);
+    max-height: clamp(220px, 68vw, 285px);
     max-width: 86%;
   }
 
   .stage-suit[data-suit="0"] {
-    --suit-scale: 1.05;
-    --suit-y: 0px;
+    --suit-scale: 0.98;
+    --suit-y: 10px;
   }
 
   .stage-suit[data-suit="1"] {
-    --suit-scale: 1.1;
-    --suit-y: -10px;
+    --suit-scale: 1.03;
+    --suit-y: 12px;
   }
 
   .stage-suit[data-suit="2"] {
-    --suit-scale: 1.05;
-    --suit-y: -22px;
+    --suit-scale: 1.08;
+    --suit-y: 14px;
   }
 
   .stage-stand {
