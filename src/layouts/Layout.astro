@@ -85,13 +85,7 @@ const structuredData = {
       media="(max-width: 759px)"
       fetchpriority="high"
     />
-    <link
-      rel="preload"
-      href="/videos/ems-experience-reel-v2.mp4"
-      as="video"
-      type="video/mp4"
-      media="(min-width: 760px)"
-    />
+
 
     <script is:inline>
       (() => {
@@ -115,7 +109,15 @@ const structuredData = {
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
 
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
