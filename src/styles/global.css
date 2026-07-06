@@ -1648,6 +1648,9 @@ html:not([data-theme="dark"]) .hero-title span {
 
 .admin-body {
   min-height: 100svh;
+  background:
+    radial-gradient(circle at 18% 8%, rgba(20, 184, 166, 0.12), transparent 22rem),
+    linear-gradient(180deg, #f8fafc 0%, #eef7f6 100%);
 }
 
 .admin-page {
@@ -1659,11 +1662,15 @@ html:not([data-theme="dark"]) .hero-title span {
   padding: 2rem 0;
 }
 
+.admin-loading-card {
+  max-width: 560px;
+}
+
 .admin-card {
   width: min(100%, 1080px);
   display: grid;
-  gap: 1.2rem;
-  padding: clamp(1rem, 3vw, 1.5rem);
+  gap: 1.25rem;
+  padding: clamp(1.1rem, 3vw, 1.65rem);
   border: 1px solid rgba(15, 118, 110, 0.12);
   border-radius: 28px;
   background: rgba(255, 255, 255, 0.92);
@@ -1691,6 +1698,14 @@ html:not([data-theme="dark"]) .hero-title span {
   color: var(--navy);
 }
 
+.admin-head img,
+.admin-toolbar-brand img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
 .admin-login-form,
 .admin-filters {
   display: grid;
@@ -1701,10 +1716,41 @@ html:not([data-theme="dark"]) .hero-title span {
   justify-content: space-between;
   align-items: flex-start;
   flex-wrap: wrap;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(17, 26, 58, 0.08);
 }
 
 .admin-actions {
   flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.admin-toolbar-brand {
+  min-width: min(100%, 320px);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+}
+
+.admin-toolbar-brand p,
+.admin-head p {
+  margin-top: 0.25rem;
+}
+
+.admin-meta,
+.admin-row-meta {
+  display: block;
+  color: var(--dim);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.admin-filters {
+  grid-template-columns: 1fr;
+  padding: 1rem;
+  border: 1px solid rgba(17, 26, 58, 0.08);
+  border-radius: 22px;
+  background: rgba(238, 248, 250, 0.55);
 }
 
 .admin-table-wrap {
@@ -1723,7 +1769,7 @@ html:not([data-theme="dark"]) .hero-title span {
 
 .admin-table th,
 .admin-table td {
-  padding: 0.75rem;
+  padding: 0.85rem;
   border-bottom: 1px solid rgba(17, 26, 58, 0.08);
   text-align: start;
   vertical-align: top;
@@ -1734,6 +1780,48 @@ html:not([data-theme="dark"]) .hero-title span {
   font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+}
+
+.admin-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.admin-table tr.is-dirty td {
+  background: rgba(20, 184, 166, 0.055);
+}
+
+.admin-status-pill {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  margin-bottom: 0.45rem;
+  padding: 0.26rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(15, 118, 110, 0.1);
+  color: #0f766e;
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+.admin-status-pill[data-status-value="new"] {
+  background: rgba(20, 184, 166, 0.16);
+  color: #0f766e;
+}
+
+.admin-status-pill[data-status-value="contacted"] {
+  background: rgba(36, 87, 122, 0.12);
+  color: #24577a;
+}
+
+.admin-status-pill[data-status-value="booked"] {
+  background: rgba(22, 163, 74, 0.12);
+  color: #15803d;
+}
+
+.admin-status-pill[data-status-value="cancelled"] {
+  background: rgba(180, 35, 24, 0.1);
+  color: #b42318;
 }
 
 .admin-table textarea {
@@ -2665,10 +2753,10 @@ html[data-theme="dark"] .footer-logo-dark {
 }
 
 html[data-theme="dark"] .brand-logo-wrap {
-  border-radius: 999px;
-  background: rgba(13, 12, 21, 0.74);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  border-radius: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
 }
 
 html[data-theme="dark"] .footer-logo-wrap {
