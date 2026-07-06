@@ -1,4 +1,6 @@
-CREATE TABLE IF NOT EXISTS leads (
+DROP TABLE IF EXISTS leads_new;
+
+CREATE TABLE IF NOT EXISTS leads_new (
   id TEXT PRIMARY KEY,
   created_at TEXT NOT NULL,
   name TEXT NOT NULL,
@@ -15,14 +17,50 @@ CREATE TABLE IF NOT EXISTS leads (
   ip_hash TEXT
 );
 
+INSERT INTO leads_new (
+  id,
+  created_at,
+  name,
+  phone,
+  branch,
+  locale,
+  page,
+  utm_source,
+  utm_medium,
+  utm_campaign,
+  status,
+  notes,
+  user_agent,
+  ip_hash
+)
+SELECT
+  id,
+  created_at,
+  name,
+  phone,
+  branch,
+  locale,
+  page,
+  utm_source,
+  utm_medium,
+  utm_campaign,
+  CASE
+    WHEN status = 'new' THEN 'new'
+    WHEN status = 'contacted' THEN 'arrived'
+    WHEN status = 'booked' THEN 'booked'
+    WHEN status = 'cancelled' THEN 'new'
+    ELSE 'new'
+  END,
+  notes,
+  user_agent,
+  ip_hash
+FROM leads;
+
+DROP TABLE leads;
+
+ALTER TABLE leads_new RENAME TO leads;
+
 CREATE INDEX IF NOT EXISTS idx_leads_created_at ON leads (created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_leads_branch ON leads (branch);
 CREATE INDEX IF NOT EXISTS idx_leads_status ON leads (status);
 CREATE INDEX IF NOT EXISTS idx_leads_phone ON leads (phone);
-
-CREATE TABLE IF NOT EXISTS lead_rate_limits (
-  ip_hash TEXT NOT NULL,
-  window_start TEXT NOT NULL,
-  count INTEGER NOT NULL,
-  PRIMARY KEY (ip_hash, window_start)
-);

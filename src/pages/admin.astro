@@ -80,9 +80,8 @@ import '../styles/global.css';
             <select name="status">
               <option value="">All</option>
               <option value="new">New</option>
-              <option value="contacted">Contacted</option>
+              <option value="arrived">Arrived</option>
               <option value="booked">Booked</option>
-              <option value="cancelled">Cancelled</option>
             </select>
           </label>
           <label>
@@ -120,7 +119,7 @@ import '../styles/global.css';
     <script>
       (() => {
         const POLL_INTERVAL_MS = 12000;
-        const STATUSES = ['new', 'contacted', 'booked', 'cancelled'];
+        const STATUSES = ['new', 'arrived', 'booked'];
         const loginPanel = document.querySelector('[data-login-panel]');
         const dashboard = document.querySelector('[data-dashboard]');
         const authLoading = document.querySelector('[data-auth-loading]');
@@ -137,9 +136,10 @@ import '../styles/global.css';
 
         const leadBaseline = new Map();
         const dirtyRows = new Map();
+        const savingRows = new Set();
         let pollTimer = 0;
         let isLoadingLeads = false;
-        let isSaving = false;
+        let isSavingAll = false;
 
         const setText = (node, text, state = '') => {
           if (!node) return;
@@ -187,14 +187,16 @@ import '../styles/global.css';
         };
 
         const updateSaveAllState = () => {
-          const hasDirtyRows = dirtyRows.size > 0;
+          const visibleLeadCount = tbody.querySelectorAll('[data-lead-id]').length;
           if (saveAllButton) {
-            saveAllButton.disabled = !hasDirtyRows || isSaving;
-            saveAllButton.textContent = isSaving ? 'Saving...' : hasDirtyRows ? `Save All (${dirtyRows.size})` : 'Save All';
+            saveAllButton.disabled = visibleLeadCount === 0 || isSavingAll || savingRows.size > 0;
+            saveAllButton.textContent = isSavingAll ? 'Saving...' : 'Save All';
           }
           tbody.querySelectorAll('[data-save]').forEach((button) => {
             const row = button.closest('[data-lead-id]');
-            button.disabled = isSaving || !row || !dirtyRows.has(row.dataset.leadId);
+            const leadId = row?.dataset.leadId || '';
+            button.disabled = isSavingAll || savingRows.has(leadId);
+            button.textContent = savingRows.has(leadId) ? 'Saving...' : 'Save';
           });
         };
 
@@ -244,7 +246,7 @@ import '../styles/global.css';
           if (document.hidden) return;
 
           pollTimer = window.setInterval(() => {
-            if (!document.hidden && !isSaving) {
+            if (!document.hidden && !isSavingAll) {
               loadLeads({ silent: true }).catch(() => {});
             }
           }, POLL_INTERVAL_MS);
@@ -258,7 +260,7 @@ import '../styles/global.css';
         };
 
         const refreshVisibleDashboard = () => {
-          if (!dashboard.hidden && !document.hidden && !isSaving) {
+          if (!dashboard.hidden && !document.hidden && !isSavingAll) {
             loadLeads({ silent: true }).catch(() => {});
           }
         };
@@ -272,8 +274,8 @@ import '../styles/global.css';
           row.classList.toggle('is-dirty', isDirty);
           const saveButton = row.querySelector('[data-save]');
           if (saveButton) {
-            saveButton.textContent = isDirty ? 'Save' : 'Saved';
-            saveButton.setAttribute('aria-label', isDirty ? 'Save lead changes' : 'Lead changes saved');
+            saveButton.textContent = savingRows.has(row.dataset.leadId) ? 'Saving...' : 'Save';
+            saveButton.setAttribute('aria-label', 'Save lead changes');
           }
         };
 
@@ -316,11 +318,11 @@ import '../styles/global.css';
         };
 
         const saveOneRow = async (row, button) => {
+          if (isSavingAll) return;
           const leadId = row.dataset.leadId;
           const values = getRowValues(row);
 
-          button.disabled = true;
-          isSaving = true;
+          savingRows.add(leadId);
           updateSaveAllState();
           setText(adminStatus, '');
 
@@ -331,18 +333,19 @@ import '../styles/global.css';
           } catch {
             setText(adminStatus, 'Could not update lead.', 'error');
           } finally {
-            isSaving = false;
+            savingRows.delete(leadId);
             updateSaveAllState();
           }
         };
 
         const saveAllRows = async () => {
-          const entries = [...dirtyRows.entries()];
-          if (!entries.length || isSaving) return;
+          const rows = [...tbody.querySelectorAll('[data-lead-id]')];
+          const entries = rows.map((row) => [row.dataset.leadId, getRowValues(row)]);
+          if (!entries.length || isSavingAll || savingRows.size > 0) return;
 
-          isSaving = true;
+          isSavingAll = true;
           updateSaveAllState();
-          setText(adminStatus, `Saving ${entries.length} changed lead${entries.length === 1 ? '' : 's'}...`);
+          setText(adminStatus, `Saving ${entries.length} lead${entries.length === 1 ? '' : 's'}...`);
 
           const results = await Promise.allSettled(entries.map(([leadId, values]) => saveLead(leadId, values)));
           let savedCount = 0;
@@ -358,7 +361,7 @@ import '../styles/global.css';
             }
           });
 
-          isSaving = false;
+          isSavingAll = false;
           updateSaveAllState();
 
           if (failedCount) {
@@ -388,7 +391,7 @@ import '../styles/global.css';
             .map((lead) => {
               const leadId = String(lead.id);
               const baseline = {
-                status: lead.status || 'new',
+                status: normalizeLeadStatus(lead.status),
                 notes: lead.notes || ''
               };
               const dirty = dirtyRows.get(leadId);
@@ -402,7 +405,6 @@ import '../styles/global.css';
                   <td>${escapeHtml(formatDate(lead.created_at))}</td>
                   <td>
                     <strong>${escapeHtml(lead.name)}</strong>
-                    ${lead.utm_source ? `<span class="admin-row-meta">${escapeHtml(lead.utm_source)}</span>` : ''}
                   </td>
                   <td><a href="tel:${escapeHtml(lead.phone)}">${escapeHtml(lead.phone)}</a></td>
                   <td>${escapeHtml(formatBranch(lead.branch))}</td>
@@ -413,7 +415,7 @@ import '../styles/global.css';
                     </select>
                   </td>
                   <td><textarea data-notes rows="2" aria-label="Lead notes">${escapeHtml(current.notes)}</textarea></td>
-                  <td><button class="btn btn-primary" type="button" data-save aria-label="${isDirty ? 'Save lead changes' : 'Lead changes saved'}">${isDirty ? 'Save' : 'Saved'}</button></td>
+                  <td><button class="btn btn-primary" type="button" data-save aria-label="Save lead changes">Save</button></td>
                 </tr>
               `;
             })
@@ -483,7 +485,7 @@ import '../styles/global.css';
           if (!button) return;
 
           const row = button.closest('[data-lead-id]');
-          if (!row || !dirtyRows.has(row.dataset.leadId)) return;
+          if (!row) return;
           await saveOneRow(row, button);
         });
 
@@ -520,6 +522,11 @@ import '../styles/global.css';
 
         function formatStatus(value) {
           return value.charAt(0).toUpperCase() + value.slice(1);
+        }
+
+        function normalizeLeadStatus(value) {
+          if (value === 'arrived' || value === 'booked' || value === 'new') return value;
+          return 'new';
         }
 
         function cssEscape(value) {
