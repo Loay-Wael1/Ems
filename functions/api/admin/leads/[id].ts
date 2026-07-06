@@ -1,5 +1,5 @@
 import { normalizeStatus, normalizeText, type Env } from '../../../_utils/db';
-import { assertSameOrigin, jsonResponse, readJsonBody, requireAdmin } from '../../../_utils/security';
+import { assertSameOrigin, jsonResponse, readJsonBody, requireAdmin, safeErrorMessage } from '../../../_utils/security';
 
 export const onRequestPatch = async ({
   request,
@@ -33,7 +33,8 @@ export const onRequestPatch = async ({
       .run();
 
     return jsonResponse({ ok: true, changed: result.meta.changes || 0 });
-  } catch {
+  } catch (error) {
+    console.error('admin_lead_update_failed', safeErrorMessage(error));
     return jsonResponse({ ok: false, message: 'Something went wrong.' }, { status: 500 });
   }
 };

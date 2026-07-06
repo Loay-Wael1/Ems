@@ -28,6 +28,11 @@ export function securityHeaders(extra: HeadersInit = {}) {
   };
 }
 
+export function safeErrorMessage(error: unknown) {
+  if (error instanceof Error) return error.name || 'Error';
+  return typeof error;
+}
+
 export function getClientIp(request: Request) {
   return (
     request.headers.get('CF-Connecting-IP') ||
@@ -124,6 +129,11 @@ export async function readJsonBody(request: Request, maxBytes = 4096) {
   const contentType = request.headers.get('Content-Type') || '';
   if (!contentType.toLowerCase().includes('application/json')) {
     throw new Error('invalid_content_type');
+  }
+
+  const contentLength = Number(request.headers.get('Content-Length') || 0);
+  if (Number.isFinite(contentLength) && contentLength > maxBytes) {
+    throw new Error('body_too_large');
   }
 
   const text = await request.text();
