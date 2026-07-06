@@ -45,7 +45,7 @@ const structuredData = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#F8FAFC" />
+    <meta name="theme-color" content="#05030A" />
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -89,11 +89,12 @@ const structuredData = {
 
     <script is:inline>
       (() => {
-        let theme = 'light';
+        let theme = 'dark';
         try {
-          theme = localStorage.getItem('easyfitTheme') === 'dark' ? 'dark' : 'light';
+          const storedTheme = localStorage.getItem('easyfitTheme');
+          theme = storedTheme === 'light' ? 'light' : 'dark';
         } catch (error) {
-          theme = 'light';
+          theme = 'dark';
         }
 
         document.documentElement.dataset.theme = theme;

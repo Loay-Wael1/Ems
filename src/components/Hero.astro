@@ -1,9 +1,6 @@
 ---
-const heroVideoUrl = '/videos/ems-experience.mp4';
 const mobileHeroVideoUrl = '/videos/ems-experience-reel-v2-mobile.mp4';
 const mobileHeroPosterUrl = '/videos/ems-experience-reel-v2-poster.webp';
-const heroReelVideoUrl = '/videos/ems-experience-reel-v2.mp4';
-const heroVideoPoster = '/videos/ems-experience-poster.webp';
 const impactBadges = [
   { label: 'Smart 20-Minute EMS', href: '#what-is-ems' },
   { label: 'Expert Coaches & Nutrition', href: '#expert-coaches' },
@@ -35,8 +32,8 @@ const impactBadges = [
         Train smarter. <span>Transform faster.</span>
       </h1>
       <p class="hero-description reveal-on-scroll reveal-delay-2">
-        20-minute EMS sessions designed to activate deep muscle fibers, save time, and help you
-        build a stronger, leaner body with coach-guided intensity.
+        Get the results of a 4-hour gym workout in just one 20-minute weekly session. Experience
+        coach-guided EMS designed to activate deep muscle fibers and save you time.
       </p>
 
       <div class="hero-actions reveal-on-scroll reveal-delay-3">
@@ -60,35 +57,13 @@ const impactBadges = [
         }
       </ul>
     </div>
-
-    <div class="hero-visual reveal-on-scroll reveal-delay-3" aria-label="Easy Fit EMS experience preview">
-      <div class="hero-reel-card">
-        <div class="hero-reel-top">
-          <span>EMS Experience</span>
-        </div>
-        <video
-          class="hero-reel-video"
-          data-src={heroReelVideoUrl}
-          autoplay
-          muted
-          loop
-          playsinline
-          preload="auto"
-          poster={heroVideoPoster}
-          aria-label="Easy Fit EMS training preview"
-        ></video>
-        <p>See how EMS activates your muscles</p>
-      </div>
-    </div>
   </div>
 </section>
 
 <script>
   (() => {
     const mobileMedia = window.matchMedia('(max-width: 759px)');
-    const desktopMedia = window.matchMedia('(min-width: 760px)');
     const bgVideo = document.querySelector('.hero-bg-video');
-    const reelVideo = document.querySelector('.hero-reel-video');
 
     const handleBgVideo = () => {
       if (!(bgVideo instanceof HTMLVideoElement)) return;
@@ -122,29 +97,8 @@ const impactBadges = [
       }
     };
 
-    const playHeroReel = () => {
-      if (!desktopMedia.matches) return;
-      if (!(reelVideo instanceof HTMLVideoElement)) return;
-
-      const videoSrc = reelVideo.dataset.src;
-      if (videoSrc && !reelVideo.currentSrc) {
-        reelVideo.src = videoSrc;
-        reelVideo.load();
-      }
-
-      reelVideo.muted = true;
-      reelVideo.defaultMuted = true;
-      reelVideo.playsInline = true;
-
-      const attempt = reelVideo.play();
-      if (attempt && typeof attempt.catch === 'function') {
-        attempt.catch(() => {});
-      }
-    };
-
     const run = () => {
       handleBgVideo();
-      playHeroReel();
     };
 
     run();
@@ -155,10 +109,8 @@ const impactBadges = [
 
     if (typeof mobileMedia.addEventListener === 'function') {
       mobileMedia.addEventListener('change', run);
-      desktopMedia.addEventListener('change', run);
     } else {
       mobileMedia.addListener(run);
-      desktopMedia.addListener(run);
     }
     window.addEventListener('pageshow', run);
   })();

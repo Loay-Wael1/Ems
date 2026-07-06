@@ -1,15 +1,29 @@
 ---
-import reviewOne from '../../clint review/Screenshot 2026-07-02 010221.png';
-import reviewTwo from '../../clint review/Screenshot 2026-07-02 010228.png';
-import reviewThree from '../../clint review/Screenshot 2026-07-02 010235.png';
-import reviewFour from '../../clint review/Screenshot 2026-07-02 010240.png';
-import reviewFive from '../../clint review/Screenshot 2026-07-02 010246.png';
-import reviewSix from '../../clint review/Screenshot 2026-07-02 010252.png';
-import reviewSeven from '../../clint review/Screenshot 2026-07-02 010257.png';
-import reviewEight from '../../clint review/Screenshot 2026-07-02 010317.png';
-import reviewNine from '../../clint review/Screenshot 2026-07-02 010324.png';
-import reviewTen from '../../clint review/Screenshot 2026-07-02 010333.png';
-import reviewEleven from '../../clint review/Screenshot 2026-07-02 010356.png';
+import reviewOne from '../../صور الريفيوز الجديده/5933510690117193229.jpg';
+import reviewTwo from '../../صور الريفيوز الجديده/5933510690117193230.jpg';
+import reviewThree from '../../صور الريفيوز الجديده/5933510690117193231.jpg';
+import reviewFour from '../../صور الريفيوز الجديده/5933510690117193232.jpg';
+import reviewFive from '../../صور الريفيوز الجديده/5933510690117193233.jpg';
+import reviewSix from '../../صور الريفيوز الجديده/5933510690117193234.jpg';
+import reviewSeven from '../../صور الريفيوز الجديده/5933510690117193235.jpg';
+import reviewEight from '../../صور الريفيوز الجديده/5933510690117193236.jpg';
+import reviewNine from '../../صور الريفيوز الجديده/5933510690117193237.jpg';
+import reviewTen from '../../صور الريفيوز الجديده/5933510690117193238.jpg';
+import reviewEleven from '../../صور الريفيوز الجديده/5933510690117193239.jpg';
+import reviewTwelve from '../../صور الريفيوز الجديده/5933510690117193240.jpg';
+import reviewThirteen from '../../صور الريفيوز الجديده/5933510690117193241.jpg';
+import reviewFourteen from '../../صور الريفيوز الجديده/5933510690117193242.jpg';
+import reviewFifteen from '../../صور الريفيوز الجديده/5933510690117193243.jpg';
+import reviewSixteen from '../../صور الريفيوز الجديده/5933510690117193244.jpg';
+import reviewSeventeen from '../../صور الريفيوز الجديده/5933510690117193245.jpg';
+import reviewEighteen from '../../صور الريفيوز الجديده/5933510690117193246.jpg';
+import reviewNineteen from '../../صور الريفيوز الجديده/5933510690117193247.jpg';
+import reviewTwenty from '../../صور الريفيوز الجديده/5933510690117193248.jpg';
+import reviewTwentyOne from '../../صور الريفيوز الجديده/5933510690117193249.jpg';
+import reviewTwentyTwo from '../../صور الريفيوز الجديده/5933510690117193250.jpg';
+import reviewTwentyThree from '../../صور الريفيوز الجديده/5933510690117193251.jpg';
+import reviewTwentyFour from '../../صور الريفيوز الجديده/5933510690117193252.jpg';
+import reviewTwentyFive from '../../صور الريفيوز الجديده/5933510690117193253.jpg';
 
 const reviews = [
   reviewOne,
@@ -22,7 +36,21 @@ const reviews = [
   reviewEight,
   reviewNine,
   reviewTen,
-  reviewEleven
+  reviewEleven,
+  reviewTwelve,
+  reviewThirteen,
+  reviewFourteen,
+  reviewFifteen,
+  reviewSixteen,
+  reviewSeventeen,
+  reviewEighteen,
+  reviewNineteen,
+  reviewTwenty,
+  reviewTwentyOne,
+  reviewTwentyTwo,
+  reviewTwentyThree,
+  reviewTwentyFour,
+  reviewTwentyFive
 ].map((image, index) => ({
   image,
   title: `Client review ${index + 1}`
@@ -31,18 +59,22 @@ const reviews = [
 const videoReviews = [
   {
     src: '/videos/reviews/client-review-1.mp4',
+    poster: '/videos/reviews/client-review-1-poster.webp',
     title: 'Client video review 1'
   },
   {
     src: '/videos/reviews/client-review-2.mp4',
+    poster: '/videos/reviews/client-review-2-poster.webp',
     title: 'Client video review 2'
   },
   {
     src: '/videos/reviews/client-review-3.mp4',
+    poster: '/videos/reviews/client-review-3-poster.webp',
     title: 'Client video review 3'
   },
   {
     src: '/videos/reviews/client-review-4.mp4',
+    poster: '/videos/reviews/client-review-4-poster.webp',
     title: 'Client video review 4'
   }
 ];
@@ -52,7 +84,7 @@ const videoReviews = [
   <div class="container">
     <div class="section-head center review-heading reveal-on-scroll">
       <span class="section-kicker">CLIENT FEEDBACK</span>
-      <h2 id="reviews-title" class="section-title">Real people. Real feedback.</h2>
+      <h2 id="reviews-title" class="section-title">Real people. Real results.</h2>
       <p class="section-intro">
         Watch client stories and browse real feedback from Easy Fit Alexandria.
       </p>
@@ -60,7 +92,7 @@ const videoReviews = [
   </div>
 
   <div class="container review-sub-head reveal-on-scroll">
-    <h3 class="review-sub-title">Client video stories</h3>
+    <h3 class="review-sub-title">Clients say</h3>
   </div>
 
   <div class="review-carousel-shell review-video-shell reveal-on-scroll">
@@ -74,15 +106,17 @@ const videoReviews = [
               data-review-card
               data-review-type="video"
               data-full={review.src}
+              data-poster={review.poster}
               data-title={review.title}
               aria-label={`Open ${review.title}`}
             >
               <video
                 class="review-preview-video"
                 data-src={review.src}
+                poster={review.poster}
                 muted
                 playsinline
-                preload="metadata"
+                preload="none"
                 aria-hidden="true"
               ></video>
               <span class="review-play-badge" aria-hidden="true"></span>
@@ -94,7 +128,7 @@ const videoReviews = [
   </div>
 
   <div class="container review-sub-head reveal-on-scroll">
-    <h3 class="review-sub-title">Review screenshots</h3>
+    <h3 class="review-sub-title">Reviews</h3>
   </div>
 
   <div class="review-carousel-shell reveal-on-scroll">
@@ -139,7 +173,7 @@ const videoReviews = [
   </div>
 
   <div class="container review-cta-row reveal-on-scroll">
-    <p>Want to feel the difference yourself?</p>
+    <p>Feel the Power of EMS Training</p>
     <a class="btn btn-primary" href="#booking-form">Book Your Trial</a>
   </div>
 
@@ -194,6 +228,7 @@ const videoReviews = [
       modalVideo.pause();
       modalVideo.hidden = true;
       modalVideo.removeAttribute('src');
+      modalVideo.removeAttribute('poster');
       modalVideo.removeAttribute('aria-label');
       modalVideo.load();
     };
@@ -230,12 +265,14 @@ const videoReviews = [
       const type = card.getAttribute('data-review-type') || 'image';
       const title = card.getAttribute('data-title') || 'Client review';
       const src = card.getAttribute('data-full') || '';
+      const poster = card.getAttribute('data-poster') || '';
 
       if (type === 'video') {
         resetModalImage();
         modal.dataset.activeType = 'video';
         modalVideo.hidden = false;
         modalVideo.setAttribute('aria-label', `${title} from Easy Fit Alexandria`);
+        if (poster) modalVideo.setAttribute('poster', poster);
         modalVideo.src = src;
         modalVideo.load();
         

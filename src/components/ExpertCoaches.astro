@@ -1,8 +1,8 @@
 ---
 const trustCards = [
   {
-    title: 'Coach-led sessions',
-    text: 'Every movement, posture, and intensity level is guided by trained coaches.'
+    title: 'Private PT coach sessions',
+    text: 'Every movement, posture, and intensity level is guided by a dedicated personal coach.'
   },
   {
     title: 'Nutrition direction',
@@ -30,9 +30,10 @@ const coachVideos = [
     ariaLabel: 'Easy Fit coach sharing EMS training guidance'
   },
   {
-    src: '/videos/coaches/coach-arwa-ems-2.mp4',
-    label: 'Coach advice',
-    ariaLabel: 'Easy Fit coach sharing EMS session advice'
+    src: '/videos/coaches/coach-train-smarter.mp4',
+    label: 'Train smarter',
+    detail: 'How EMS fits your routine',
+    ariaLabel: 'Easy Fit coach explaining how EMS fits your routine'
   }
 ];
 
@@ -65,6 +66,10 @@ const [featuredVideo, ...supportingVideos] = coachVideos;
           ))
         }
       </div>
+
+      <p class="expert-privacy-note reveal-on-scroll">
+        Private, same-gender coaching keeps every session comfortable: men train with male coaches, and women train with female coaches.
+      </p>
     </div>
 
     <div class="expert-media reveal-on-scroll reveal-delay-1">
@@ -101,6 +106,7 @@ const [featuredVideo, ...supportingVideos] = coachVideos;
                 </div>
                 <div class="coach-video-caption">
                   <span>{video.label}</span>
+                  {video.detail && <strong>{video.detail}</strong>}
                 </div>
               </article>
             ))}

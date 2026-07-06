@@ -597,56 +597,6 @@ html:not([data-theme="dark"]) .hero-title span {
   outline-offset: 5px;
 }
 
-.hero-visual {
-  display: none;
-}
-
-.hero-reel-card {
-  position: relative;
-  overflow: hidden;
-  display: grid;
-  gap: 0.75rem;
-  width: min(100%, 330px);
-  margin-inline: auto;
-  padding: 0.72rem;
-  border: 1px solid rgba(17, 26, 58, 0.1);
-  border-radius: 34px;
-  background: rgba(255, 255, 255, 0.76);
-  box-shadow: 0 24px 70px rgba(17, 26, 58, 0.14);
-  backdrop-filter: blur(18px);
-}
-
-.hero-reel-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.1rem 0.45rem;
-  color: var(--muted);
-  font-size: 0.76rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.hero-reel-video {
-  width: 100%;
-  aspect-ratio: 9 / 16;
-  display: block;
-  border-radius: 25px;
-  background: #edf6f8;
-  object-fit: cover;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.24);
-}
-
-.hero-reel-card p {
-  padding: 0 0.45rem 0.15rem;
-  color: var(--navy);
-  font-size: 0.88rem;
-  font-weight: 800;
-  text-align: center;
-}
-
 .hero-bg-video {
   display: none;
 }
@@ -919,7 +869,8 @@ html:not([data-theme="dark"]) .hero-title span {
   grid-template-areas:
     "copy"
     "media"
-    "trust";
+    "trust"
+    "privacy";
   gap: 1.25rem;
 }
 
@@ -1056,6 +1007,20 @@ html:not([data-theme="dark"]) .hero-title span {
 .coach-trust-card p {
   color: var(--muted);
   font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.expert-privacy-note {
+  grid-area: privacy;
+  max-width: 38rem;
+  margin: 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(15, 118, 110, 0.14);
+  border-radius: 18px;
+  background: rgba(15, 118, 110, 0.07);
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 700;
   line-height: 1.5;
 }
 
@@ -1493,8 +1458,20 @@ html:not([data-theme="dark"]) .hero-title span {
   font-size: 0.84rem;
 }
 
+.location-action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.42rem;
+}
+
+.location-action-icon {
+  width: 1.05em;
+  height: 1.05em;
+  flex: 0 0 auto;
+}
+
 .location-actions .btn-link {
-  grid-column: 1 / -1;
   justify-self: center;
   min-height: 34px;
 }
@@ -1671,6 +1648,9 @@ html:not([data-theme="dark"]) .hero-title span {
 
 .admin-body {
   min-height: 100svh;
+  background:
+    radial-gradient(circle at 18% 8%, rgba(20, 184, 166, 0.12), transparent 22rem),
+    linear-gradient(180deg, #f8fafc 0%, #eef7f6 100%);
 }
 
 .admin-page {
@@ -1682,11 +1662,15 @@ html:not([data-theme="dark"]) .hero-title span {
   padding: 2rem 0;
 }
 
+.admin-loading-card {
+  max-width: 560px;
+}
+
 .admin-card {
   width: min(100%, 1080px);
   display: grid;
-  gap: 1.2rem;
-  padding: clamp(1rem, 3vw, 1.5rem);
+  gap: 1.25rem;
+  padding: clamp(1.1rem, 3vw, 1.65rem);
   border: 1px solid rgba(15, 118, 110, 0.12);
   border-radius: 28px;
   background: rgba(255, 255, 255, 0.92);
@@ -1714,6 +1698,14 @@ html:not([data-theme="dark"]) .hero-title span {
   color: var(--navy);
 }
 
+.admin-head img,
+.admin-toolbar-brand img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
 .admin-login-form,
 .admin-filters {
   display: grid;
@@ -1724,10 +1716,41 @@ html:not([data-theme="dark"]) .hero-title span {
   justify-content: space-between;
   align-items: flex-start;
   flex-wrap: wrap;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(17, 26, 58, 0.08);
 }
 
 .admin-actions {
   flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.admin-toolbar-brand {
+  min-width: min(100%, 320px);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+}
+
+.admin-toolbar-brand p,
+.admin-head p {
+  margin-top: 0.25rem;
+}
+
+.admin-meta,
+.admin-row-meta {
+  display: block;
+  color: var(--dim);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.admin-filters {
+  grid-template-columns: 1fr;
+  padding: 1rem;
+  border: 1px solid rgba(17, 26, 58, 0.08);
+  border-radius: 22px;
+  background: rgba(238, 248, 250, 0.55);
 }
 
 .admin-table-wrap {
@@ -1746,7 +1769,7 @@ html:not([data-theme="dark"]) .hero-title span {
 
 .admin-table th,
 .admin-table td {
-  padding: 0.75rem;
+  padding: 0.85rem;
   border-bottom: 1px solid rgba(17, 26, 58, 0.08);
   text-align: start;
   vertical-align: top;
@@ -1757,6 +1780,48 @@ html:not([data-theme="dark"]) .hero-title span {
   font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+}
+
+.admin-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.admin-table tr.is-dirty td {
+  background: rgba(20, 184, 166, 0.055);
+}
+
+.admin-status-pill {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  margin-bottom: 0.45rem;
+  padding: 0.26rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(15, 118, 110, 0.1);
+  color: #0f766e;
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+.admin-status-pill[data-status-value="new"] {
+  background: rgba(20, 184, 166, 0.16);
+  color: #0f766e;
+}
+
+.admin-status-pill[data-status-value="contacted"] {
+  background: rgba(36, 87, 122, 0.12);
+  color: #24577a;
+}
+
+.admin-status-pill[data-status-value="booked"] {
+  background: rgba(22, 163, 74, 0.12);
+  color: #15803d;
+}
+
+.admin-status-pill[data-status-value="cancelled"] {
+  background: rgba(180, 35, 24, 0.1);
+  color: #b42318;
 }
 
 .admin-table textarea {
@@ -2046,7 +2111,6 @@ html:not([data-theme="dark"]) .hero-title span {
   box-shadow: 0 10px 24px rgba(17, 26, 58, 0.06);
 }
 
-.hero-reel-card,
 .ems-media-card,
 .proof-card,
 .benefit-card,
@@ -2055,10 +2119,6 @@ html:not([data-theme="dark"]) .hero-title span {
   border-color: rgba(17, 26, 58, 0.1);
   background: rgba(255, 255, 255, 0.88);
   box-shadow: 0 18px 46px rgba(17, 26, 58, 0.08);
-}
-
-.hero-reel-top {
-  color: var(--muted);
 }
 
 .before-after-section,
@@ -2212,8 +2272,12 @@ html:not([data-theme="dark"]) .hero-title span {
   }
 
   .hero-grid {
-    grid-template-columns: minmax(0, 1fr) 340px;
-    align-items: end;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .hero-copy {
+    max-width: 760px;
   }
 
   .hero-title {
@@ -2223,10 +2287,6 @@ html:not([data-theme="dark"]) .hero-title span {
   .hero-description {
     max-width: 38rem;
     font-size: 1.12rem;
-  }
-
-  .hero-visual {
-    display: block;
   }
 
   .transformation-track {
@@ -2428,10 +2488,6 @@ html:not([data-theme="dark"]) .hero-title span {
 }
 
 @media (min-width: 1080px) {
-  .hero-grid {
-    grid-template-columns: minmax(0, 1fr) 390px;
-  }
-
   .hero-title {
     font-size: 5.35rem;
   }
@@ -2440,9 +2496,6 @@ html:not([data-theme="dark"]) .hero-title span {
     width: min(100%, 500px);
   }
 
-  .hero-reel-card {
-    padding: 1.25rem;
-  }
 }
 
 @media (max-width: 759px) {
@@ -2689,8 +2742,9 @@ html[data-theme="dark"] .footer-logo-dark {
 }
 
 html[data-theme="dark"] .brand-logo-dark {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
 }
 
 html[data-theme="dark"] .footer-logo-dark {
@@ -2698,7 +2752,13 @@ html[data-theme="dark"] .footer-logo-dark {
   height: 32px;
 }
 
-html[data-theme="dark"] .brand-logo-wrap,
+html[data-theme="dark"] .brand-logo-wrap {
+  border-radius: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
 html[data-theme="dark"] .footer-logo-wrap {
   background: #0d0c15;
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -2840,7 +2900,6 @@ html[data-theme="dark"] .hero-badges li {
   box-shadow: none;
 }
 
-html[data-theme="dark"] .hero-reel-card,
 html[data-theme="dark"] .ems-media-card,
 html[data-theme="dark"] .proof-card,
 html[data-theme="dark"] .coach-video-card,
@@ -2855,20 +2914,11 @@ html[data-theme="dark"] .review-card {
   box-shadow: 0 18px 60px rgba(0, 0, 0, 0.24);
 }
 
-html[data-theme="dark"] .hero-reel-card {
-  border-color: rgba(141, 215, 207, 0.22);
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.045)),
-    rgba(5, 3, 10, 0.68);
-  box-shadow: 0 24px 80px rgba(141, 215, 207, 0.12);
-}
-
 html[data-theme="dark"] .ems-media-card {
   border-color: rgba(248, 250, 252, 0.14);
   background: rgba(9, 11, 22, 0.82);
 }
 
-html[data-theme="dark"] .hero-reel-card p,
 html[data-theme="dark"] .chip {
   color: #f8fafc;
 }
@@ -2893,8 +2943,10 @@ html[data-theme="dark"] .coach-video-frame {
   background: rgba(5, 3, 10, 0.58);
 }
 
-html[data-theme="dark"] .hero-reel-top {
-  color: rgba(248, 250, 252, 0.54);
+html[data-theme="dark"] .expert-privacy-note {
+  border-color: rgba(141, 215, 207, 0.2);
+  background: rgba(141, 215, 207, 0.08);
+  color: rgba(248, 250, 252, 0.76);
 }
 
 html[data-theme="dark"] .before-after-section,

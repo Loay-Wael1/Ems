@@ -21,7 +21,18 @@ import '../styles/global.css';
   </head>
   <body class="admin-body">
     <main class="admin-page" id="main-content">
-      <section class="admin-card" data-login-panel>
+      <section class="admin-card admin-loading-card" data-auth-loading>
+        <div class="admin-head">
+          <img src="/logo-transparent.png" alt="" width="54" height="54" />
+          <div>
+            <h1>Leads Admin</h1>
+            <p>Checking your admin session...</p>
+          </div>
+        </div>
+        <p class="admin-status" data-auth-status aria-live="polite">Loading leads dashboard.</p>
+      </section>
+
+      <section class="admin-card" data-login-panel hidden>
         <div class="admin-head">
           <img src="/logo-transparent.png" alt="" width="54" height="54" />
           <div>
@@ -40,11 +51,16 @@ import '../styles/global.css';
 
       <section class="admin-dashboard admin-card" data-dashboard hidden>
         <div class="admin-toolbar">
-          <div>
-            <h1>Leads</h1>
-            <p data-admin-summary>No leads loaded yet.</p>
+          <div class="admin-toolbar-brand">
+            <img src="/logo-transparent.png" alt="" width="48" height="48" />
+            <div>
+              <h1>Leads</h1>
+              <p data-admin-summary>No leads loaded yet.</p>
+              <p class="admin-meta" data-last-updated aria-live="polite">Last updated: never</p>
+            </div>
           </div>
           <div class="admin-actions">
+            <button class="btn btn-primary" type="button" data-save-all disabled>Save All</button>
             <a class="btn btn-ghost" href="/api/admin/leads/export">Export CSV</a>
             <button class="btn btn-primary" type="button" data-logout>Logout</button>
           </div>
@@ -103,28 +119,57 @@ import '../styles/global.css';
 
     <script>
       (() => {
+        const POLL_INTERVAL_MS = 12000;
+        const STATUSES = ['new', 'contacted', 'booked', 'cancelled'];
         const loginPanel = document.querySelector('[data-login-panel]');
         const dashboard = document.querySelector('[data-dashboard]');
+        const authLoading = document.querySelector('[data-auth-loading]');
         const loginForm = document.querySelector('[data-login-form]');
         const filterForm = document.querySelector('[data-filter-form]');
         const loginStatus = document.querySelector('[data-login-status]');
+        const authStatus = document.querySelector('[data-auth-status]');
         const adminStatus = document.querySelector('[data-admin-status]');
         const summary = document.querySelector('[data-admin-summary]');
+        const lastUpdated = document.querySelector('[data-last-updated]');
         const tbody = document.querySelector('[data-leads-body]');
         const logoutButton = document.querySelector('[data-logout]');
+        const saveAllButton = document.querySelector('[data-save-all]');
 
-        const setText = (node, text) => {
-          if (node) node.textContent = text;
+        const leadBaseline = new Map();
+        const dirtyRows = new Map();
+        let pollTimer = 0;
+        let isLoadingLeads = false;
+        let isSaving = false;
+
+        const setText = (node, text, state = '') => {
+          if (!node) return;
+          node.textContent = text;
+          if (state) {
+            node.dataset.state = state;
+          } else {
+            delete node.dataset.state;
+          }
+        };
+
+        const setView = (view) => {
+          authLoading.hidden = view !== 'loading';
+          loginPanel.hidden = view !== 'login';
+          dashboard.hidden = view !== 'dashboard';
+
+          if (view === 'dashboard') {
+            startPolling();
+          } else {
+            stopPolling();
+          }
         };
 
         const showDashboard = () => {
-          loginPanel.hidden = true;
-          dashboard.hidden = false;
+          setView('dashboard');
         };
 
-        const showLogin = () => {
-          loginPanel.hidden = false;
-          dashboard.hidden = true;
+        const showLogin = (message = '') => {
+          setView('login');
+          setText(loginStatus, message, message ? 'error' : '');
         };
 
         const paramsFromFilters = () => {
@@ -137,47 +182,247 @@ import '../styles/global.css';
           return params;
         };
 
-        const loadLeads = async () => {
-          const params = paramsFromFilters();
-          const response = await fetch(`/api/admin/leads?${params.toString()}`, { credentials: 'same-origin' });
-          if (response.status === 401) {
-            showLogin();
+        const updateLastUpdated = () => {
+          setText(lastUpdated, `Last updated: ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`);
+        };
+
+        const updateSaveAllState = () => {
+          const hasDirtyRows = dirtyRows.size > 0;
+          if (saveAllButton) {
+            saveAllButton.disabled = !hasDirtyRows || isSaving;
+            saveAllButton.textContent = isSaving ? 'Saving...' : hasDirtyRows ? `Save All (${dirtyRows.size})` : 'Save All';
+          }
+          tbody.querySelectorAll('[data-save]').forEach((button) => {
+            const row = button.closest('[data-lead-id]');
+            button.disabled = isSaving || !row || !dirtyRows.has(row.dataset.leadId);
+          });
+        };
+
+        const loadLeads = async ({ initial = false, silent = false } = {}) => {
+          if (isLoadingLeads) return;
+
+          isLoadingLeads = true;
+          if (!silent) setText(adminStatus, initial ? '' : 'Refreshing leads...');
+
+          try {
+            const params = paramsFromFilters();
+            const query = params.toString();
+            const response = await fetch(`/api/admin/leads${query ? `?${query}` : ''}`, {
+              credentials: 'same-origin'
+            });
+
+            if (response.status === 401) {
+              dirtyRows.clear();
+              leadBaseline.clear();
+              setText(adminStatus, '');
+              showLogin();
+              return;
+            }
+
+            const result = await response.json().catch(() => ({ ok: false }));
+            if (!response.ok || !result.ok) throw new Error('load_failed');
+
+            renderLeads(result.leads || []);
+            updateLastUpdated();
+            if (!silent) setText(adminStatus, result.leads?.length ? 'Leads loaded.' : 'No leads yet.', 'success');
+            showDashboard();
+          } catch {
+            if (initial) {
+              setView('login');
+              setText(loginStatus, 'Could not verify your session. Please sign in again.', 'error');
+              setText(authStatus, 'Could not load the admin dashboard.', 'error');
+            } else {
+              setText(adminStatus, 'Could not refresh leads. Please try again.', 'error');
+            }
+          } finally {
+            isLoadingLeads = false;
+          }
+        };
+
+        const startPolling = () => {
+          stopPolling();
+          if (document.hidden) return;
+
+          pollTimer = window.setInterval(() => {
+            if (!document.hidden && !isSaving) {
+              loadLeads({ silent: true }).catch(() => {});
+            }
+          }, POLL_INTERVAL_MS);
+        };
+
+        const stopPolling = () => {
+          if (pollTimer) {
+            window.clearInterval(pollTimer);
+            pollTimer = 0;
+          }
+        };
+
+        const refreshVisibleDashboard = () => {
+          if (!dashboard.hidden && !document.hidden && !isSaving) {
+            loadLeads({ silent: true }).catch(() => {});
+          }
+        };
+
+        const getRowValues = (row) => ({
+          status: row.querySelector('[data-status]')?.value || 'new',
+          notes: row.querySelector('[data-notes]')?.value || ''
+        });
+
+        const setRowDirtyState = (row, isDirty) => {
+          row.classList.toggle('is-dirty', isDirty);
+          const saveButton = row.querySelector('[data-save]');
+          if (saveButton) {
+            saveButton.textContent = isDirty ? 'Save' : 'Saved';
+            saveButton.setAttribute('aria-label', isDirty ? 'Save lead changes' : 'Lead changes saved');
+          }
+        };
+
+        const syncDirtyState = (row) => {
+          const leadId = row.dataset.leadId;
+          const baseline = leadBaseline.get(leadId);
+          if (!baseline) return;
+
+          const current = getRowValues(row);
+          const isDirty = current.status !== baseline.status || current.notes !== baseline.notes;
+
+          if (isDirty) {
+            dirtyRows.set(leadId, current);
+          } else {
+            dirtyRows.delete(leadId);
+          }
+
+          setRowDirtyState(row, isDirty);
+          updateSaveAllState();
+        };
+
+        const saveLead = async (leadId, values) => {
+          const response = await fetch(`/api/admin/leads/${encodeURIComponent(leadId)}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(values),
+            credentials: 'same-origin'
+          });
+          const result = await response.json().catch(() => ({ ok: false }));
+          if (!response.ok || !result.ok) throw new Error('save_failed');
+          return result;
+        };
+
+        const markSaved = (leadId, values) => {
+          leadBaseline.set(leadId, { ...values });
+          dirtyRows.delete(leadId);
+          const row = tbody.querySelector(`[data-lead-id="${cssEscape(leadId)}"]`);
+          if (row) setRowDirtyState(row, false);
+          updateSaveAllState();
+        };
+
+        const saveOneRow = async (row, button) => {
+          const leadId = row.dataset.leadId;
+          const values = getRowValues(row);
+
+          button.disabled = true;
+          isSaving = true;
+          updateSaveAllState();
+          setText(adminStatus, '');
+
+          try {
+            await saveLead(leadId, values);
+            markSaved(leadId, values);
+            setText(adminStatus, 'Lead updated.', 'success');
+          } catch {
+            setText(adminStatus, 'Could not update lead.', 'error');
+          } finally {
+            isSaving = false;
+            updateSaveAllState();
+          }
+        };
+
+        const saveAllRows = async () => {
+          const entries = [...dirtyRows.entries()];
+          if (!entries.length || isSaving) return;
+
+          isSaving = true;
+          updateSaveAllState();
+          setText(adminStatus, `Saving ${entries.length} changed lead${entries.length === 1 ? '' : 's'}...`);
+
+          const results = await Promise.allSettled(entries.map(([leadId, values]) => saveLead(leadId, values)));
+          let savedCount = 0;
+          let failedCount = 0;
+
+          results.forEach((result, index) => {
+            const [leadId, values] = entries[index];
+            if (result.status === 'fulfilled') {
+              savedCount += 1;
+              markSaved(leadId, values);
+            } else {
+              failedCount += 1;
+            }
+          });
+
+          isSaving = false;
+          updateSaveAllState();
+
+          if (failedCount) {
+            setText(adminStatus, `${savedCount} saved. ${failedCount} failed. Please retry the remaining changes.`, 'error');
             return;
           }
-          const result = await response.json();
-          if (!result.ok) throw new Error('load_failed');
-          renderLeads(result.leads || []);
-          showDashboard();
+
+          setText(adminStatus, `${savedCount} lead${savedCount === 1 ? '' : 's'} saved.`, 'success');
+          loadLeads({ silent: true }).catch(() => {});
         };
 
         const renderLeads = (leads) => {
+          const visibleIds = new Set(leads.map((lead) => String(lead.id)));
+          [...dirtyRows.keys()].forEach((leadId) => {
+            if (!visibleIds.has(leadId)) dirtyRows.delete(leadId);
+          });
+
           setText(summary, leads.length ? `${leads.length} latest lead${leads.length === 1 ? '' : 's'}` : 'No leads yet.');
           if (!leads.length) {
+            leadBaseline.clear();
             tbody.innerHTML = '<tr><td colspan="7">No leads yet.</td></tr>';
+            updateSaveAllState();
             return;
           }
 
           tbody.innerHTML = leads
-            .map(
-              (lead) => `
-                <tr data-lead-id="${escapeHtml(lead.id)}">
+            .map((lead) => {
+              const leadId = String(lead.id);
+              const baseline = {
+                status: lead.status || 'new',
+                notes: lead.notes || ''
+              };
+              const dirty = dirtyRows.get(leadId);
+              const current = dirty || baseline;
+              const isDirty = Boolean(dirty);
+
+              leadBaseline.set(leadId, baseline);
+
+              return `
+                <tr data-lead-id="${escapeHtml(leadId)}" class="${isDirty ? 'is-dirty' : ''}">
                   <td>${escapeHtml(formatDate(lead.created_at))}</td>
-                  <td>${escapeHtml(lead.name)}</td>
+                  <td>
+                    <strong>${escapeHtml(lead.name)}</strong>
+                    ${lead.utm_source ? `<span class="admin-row-meta">${escapeHtml(lead.utm_source)}</span>` : ''}
+                  </td>
                   <td><a href="tel:${escapeHtml(lead.phone)}">${escapeHtml(lead.phone)}</a></td>
                   <td>${escapeHtml(formatBranch(lead.branch))}</td>
                   <td>
+                    <span class="admin-status-pill" data-status-value="${escapeHtml(current.status)}">${escapeHtml(formatStatus(current.status))}</span>
                     <select data-status aria-label="Lead status">
-                      ${['new', 'contacted', 'booked', 'cancelled']
-                        .map((status) => `<option value="${status}" ${lead.status === status ? 'selected' : ''}>${formatStatus(status)}</option>`)
-                        .join('')}
+                      ${STATUSES.map((status) => `<option value="${status}" ${current.status === status ? 'selected' : ''}>${formatStatus(status)}</option>`).join('')}
                     </select>
                   </td>
-                  <td><textarea data-notes rows="2" aria-label="Lead notes">${escapeHtml(lead.notes || '')}</textarea></td>
-                  <td><button class="btn btn-primary" type="button" data-save>Save</button></td>
+                  <td><textarea data-notes rows="2" aria-label="Lead notes">${escapeHtml(current.notes)}</textarea></td>
+                  <td><button class="btn btn-primary" type="button" data-save aria-label="${isDirty ? 'Save lead changes' : 'Lead changes saved'}">${isDirty ? 'Save' : 'Saved'}</button></td>
                 </tr>
-              `
-            )
+              `;
+            })
             .join('');
+
+          tbody.querySelectorAll('[data-lead-id]').forEach((row) => {
+            setRowDirtyState(row, dirtyRows.has(row.dataset.leadId));
+          });
+          updateSaveAllState();
         };
 
         loginForm.addEventListener('submit', async (event) => {
@@ -197,18 +442,40 @@ import '../styles/global.css';
             loginForm.reset();
             await loadLeads();
           } catch {
-            setText(loginStatus, 'Login failed.');
+            setText(loginStatus, 'Login failed.', 'error');
           }
         });
 
         filterForm.addEventListener('submit', async (event) => {
           event.preventDefault();
           setText(adminStatus, '');
-          try {
-            await loadLeads();
-          } catch {
-            setText(adminStatus, 'Could not load leads.');
+          await loadLeads();
+        });
+
+        filterForm.addEventListener('change', () => {
+          stopPolling();
+          startPolling();
+        });
+
+        tbody.addEventListener('input', (event) => {
+          const target = event.target;
+          if (!(target instanceof Element) || !target.matches('[data-status], [data-notes]')) return;
+          const row = target.closest('[data-lead-id]');
+          if (!row) return;
+          syncDirtyState(row);
+        });
+
+        tbody.addEventListener('change', (event) => {
+          const target = event.target;
+          if (!(target instanceof Element) || !target.matches('[data-status]')) return;
+          const row = target.closest('[data-lead-id]');
+          if (!row) return;
+          const pill = row.querySelector('.admin-status-pill');
+          if (pill) {
+            pill.dataset.statusValue = target.value;
+            pill.textContent = formatStatus(target.value);
           }
+          syncDirtyState(row);
         });
 
         tbody.addEventListener('click', async (event) => {
@@ -216,36 +483,32 @@ import '../styles/global.css';
           if (!button) return;
 
           const row = button.closest('[data-lead-id]');
-          const status = row.querySelector('[data-status]').value;
-          const notes = row.querySelector('[data-notes]').value;
-          button.disabled = true;
-          setText(adminStatus, '');
-
-          try {
-            const response = await fetch(`/api/admin/leads/${encodeURIComponent(row.dataset.leadId)}`, {
-              method: 'PATCH',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ status, notes }),
-              credentials: 'same-origin'
-            });
-            const result = await response.json().catch(() => ({ ok: false }));
-            if (!response.ok || !result.ok) throw new Error('save_failed');
-            setText(adminStatus, 'Lead updated.');
-          } catch {
-            setText(adminStatus, 'Could not update lead.');
-          } finally {
-            button.disabled = false;
-          }
+          if (!row || !dirtyRows.has(row.dataset.leadId)) return;
+          await saveOneRow(row, button);
         });
 
+        saveAllButton?.addEventListener('click', saveAllRows);
+
         logoutButton.addEventListener('click', async () => {
+          stopPolling();
           await fetch('/api/admin/logout', { method: 'POST', credentials: 'same-origin' }).catch(() => {});
+          dirtyRows.clear();
+          leadBaseline.clear();
+          updateSaveAllState();
           showLogin();
         });
 
-        // Always start on login panel.
-        // Do not auto-load leads to prevent flashing/hanging if an old session is present.
-        showLogin();
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden) {
+            stopPolling();
+            return;
+          }
+
+          startPolling();
+          refreshVisibleDashboard();
+        });
+
+        loadLeads({ initial: true });
 
         function formatDate(value) {
           return value ? new Date(value).toLocaleString() : '';
@@ -257,6 +520,11 @@ import '../styles/global.css';
 
         function formatStatus(value) {
           return value.charAt(0).toUpperCase() + value.slice(1);
+        }
+
+        function cssEscape(value) {
+          if (window.CSS?.escape) return window.CSS.escape(value);
+          return String(value).replace(/"/g, '\\"');
         }
 
         function escapeHtml(value) {
