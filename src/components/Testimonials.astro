@@ -59,18 +59,22 @@ const reviews = [
 const videoReviews = [
   {
     src: '/videos/reviews/client-review-1.mp4',
+    poster: '/videos/reviews/client-review-1-poster.webp',
     title: 'Client video review 1'
   },
   {
     src: '/videos/reviews/client-review-2.mp4',
+    poster: '/videos/reviews/client-review-2-poster.webp',
     title: 'Client video review 2'
   },
   {
     src: '/videos/reviews/client-review-3.mp4',
+    poster: '/videos/reviews/client-review-3-poster.webp',
     title: 'Client video review 3'
   },
   {
     src: '/videos/reviews/client-review-4.mp4',
+    poster: '/videos/reviews/client-review-4-poster.webp',
     title: 'Client video review 4'
   }
 ];
@@ -102,15 +106,17 @@ const videoReviews = [
               data-review-card
               data-review-type="video"
               data-full={review.src}
+              data-poster={review.poster}
               data-title={review.title}
               aria-label={`Open ${review.title}`}
             >
               <video
                 class="review-preview-video"
                 data-src={review.src}
+                poster={review.poster}
                 muted
                 playsinline
-                preload="metadata"
+                preload="none"
                 aria-hidden="true"
               ></video>
               <span class="review-play-badge" aria-hidden="true"></span>
@@ -222,6 +228,7 @@ const videoReviews = [
       modalVideo.pause();
       modalVideo.hidden = true;
       modalVideo.removeAttribute('src');
+      modalVideo.removeAttribute('poster');
       modalVideo.removeAttribute('aria-label');
       modalVideo.load();
     };
@@ -258,12 +265,14 @@ const videoReviews = [
       const type = card.getAttribute('data-review-type') || 'image';
       const title = card.getAttribute('data-title') || 'Client review';
       const src = card.getAttribute('data-full') || '';
+      const poster = card.getAttribute('data-poster') || '';
 
       if (type === 'video') {
         resetModalImage();
         modal.dataset.activeType = 'video';
         modalVideo.hidden = false;
         modalVideo.setAttribute('aria-label', `${title} from Easy Fit Alexandria`);
+        if (poster) modalVideo.setAttribute('poster', poster);
         modalVideo.src = src;
         modalVideo.load();
         
