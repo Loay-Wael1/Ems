@@ -1,5 +1,5 @@
 import { enforceRateLimit, isReasonablePhone, normalizeBranch, normalizeText, pruneOldLeads, type Env } from '../_utils/db';
-import { assertSameOrigin, getClientIp, hashValue, jsonResponse, readJsonBody } from '../_utils/security';
+import { assertSameOrigin, getClientIp, hashValue, jsonResponse, readJsonBody, safeErrorMessage } from '../_utils/security';
 
 const GENERIC_VALIDATION = 'Please check your details and try again.';
 const GENERIC_ERROR = 'Something went wrong. Please try again.';
@@ -28,7 +28,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       return jsonResponse({ ok: false, message: GENERIC_VALIDATION }, { status: 400 });
     }
 
-    const ipHash = await hashValue(getClientIp(request), env.RATE_LIMIT_SECRET || 'local-dev-rate-limit-secret');
+    const ipHash = await hashValue(getClientIp(request), getRateLimitSecret(env, request));
     const allowed = await enforceRateLimit(env.DB, ipHash);
     if (!allowed) {
       return jsonResponse({ ok: false, message: GENERIC_VALIDATION }, { status: 429 });
@@ -43,7 +43,9 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     const utmCampaign = normalizeText(body.utm_campaign, 120);
     const userAgent = normalizeText(request.headers.get('User-Agent'), 240);
 
-    await pruneOldLeads(env.DB).catch(() => {});
+    await pruneOldLeads(env.DB).catch((error) => {
+      console.error('lead_prune_failed', safeErrorMessage(error));
+    });
 
     await env.DB.prepare(
       `INSERT INTO leads (
@@ -67,7 +69,19 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
       .run();
 
     return jsonResponse({ ok: true });
-  } catch {
+  } catch (error) {
+    console.error('lead_submit_failed', safeErrorMessage(error));
     return jsonResponse({ ok: false, message: GENERIC_ERROR }, { status: 500 });
   }
 };
+
+function getRateLimitSecret(env: Env, request: Request) {
+  if (env.RATE_LIMIT_SECRET) return env.RATE_LIMIT_SECRET;
+
+  const hostname = new URL(request.url).hostname;
+  if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1') {
+    return 'local-dev-rate-limit-secret';
+  }
+
+  throw new Error('missing_rate_limit_secret');
+}
