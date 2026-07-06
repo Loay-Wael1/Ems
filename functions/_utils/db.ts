@@ -6,7 +6,7 @@ export interface Env {
 }
 
 export const BRANCHES = ['smouha', 'ganaklis'] as const;
-export const STATUSES = ['new', 'contacted', 'booked', 'cancelled'] as const;
+export const STATUSES = ['new', 'arrived', 'booked'] as const;
 
 export function normalizeText(value: unknown, maxLength: number) {
   return String(value || '')

@@ -1737,8 +1737,7 @@ html:not([data-theme="dark"]) .hero-title span {
   margin-top: 0.25rem;
 }
 
-.admin-meta,
-.admin-row-meta {
+.admin-meta {
   display: block;
   color: var(--dim);
   font-size: 0.78rem;
@@ -1809,7 +1808,7 @@ html:not([data-theme="dark"]) .hero-title span {
   color: #0f766e;
 }
 
-.admin-status-pill[data-status-value="contacted"] {
+.admin-status-pill[data-status-value="arrived"] {
   background: rgba(36, 87, 122, 0.12);
   color: #24577a;
 }
@@ -1817,11 +1816,6 @@ html:not([data-theme="dark"]) .hero-title span {
 .admin-status-pill[data-status-value="booked"] {
   background: rgba(22, 163, 74, 0.12);
   color: #15803d;
-}
-
-.admin-status-pill[data-status-value="cancelled"] {
-  background: rgba(180, 35, 24, 0.1);
-  color: #b42318;
 }
 
 .admin-table textarea {
