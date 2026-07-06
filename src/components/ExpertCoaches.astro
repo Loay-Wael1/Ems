@@ -30,9 +30,10 @@ const coachVideos = [
     ariaLabel: 'Easy Fit coach sharing EMS training guidance'
   },
   {
-    src: '/videos/coaches/coach-arwa-ems-2.mp4',
-    label: 'Coach advice',
-    ariaLabel: 'Easy Fit coach sharing EMS session advice'
+    src: '/videos/coaches/coach-train-smarter.mp4',
+    label: 'Train smarter',
+    detail: 'How EMS fits your routine',
+    ariaLabel: 'Easy Fit coach explaining how EMS fits your routine'
   }
 ];
 
@@ -105,6 +106,7 @@ const [featuredVideo, ...supportingVideos] = coachVideos;
                 </div>
                 <div class="coach-video-caption">
                   <span>{video.label}</span>
+                  {video.detail && <strong>{video.detail}</strong>}
                 </div>
               </article>
             ))}
