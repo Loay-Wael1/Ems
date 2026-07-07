@@ -29,6 +29,11 @@ const canonicalUrl = new URL(canonicalPath, siteUrl).href;
 const alternateUrl = new URL(alternatePath, siteUrl).href;
 const englishUrl = lang === 'en' ? canonicalUrl : alternateUrl;
 const arabicUrl = lang === 'ar' ? canonicalUrl : alternateUrl;
+const englishFontHref =
+  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap';
+const arabicFontHref =
+  'https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap';
+const fontHref = lang === 'ar' ? arabicFontHref : englishFontHref;
 const instagramUrl = 'https://instagram.com/ems.easyfit.alexandria?igsh=MWV1NDlkcG1wc3dnYw==';
 const facebookUrl = 'https://www.facebook.com/ems.easyfit.alexandria/?ref=NONE_xav_ig_profile_page_web#';
 const structuredData = {
@@ -131,14 +136,14 @@ const structuredData = {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap"
+      href={fontHref}
       rel="stylesheet"
       media="print"
       onload="this.media='all'"
     />
     <noscript>
       <link
-        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap"
+        href={fontHref}
         rel="stylesheet"
       />
     </noscript>

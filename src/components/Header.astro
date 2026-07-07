@@ -34,7 +34,13 @@ const navItems = copy.nav;
     <div class="header-actions">
       <a class="social-link" href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram">IG</a>
       <a class="social-link" href={facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="Facebook">FB</a>
-      <a class="language-switch" href={alternateHref} hreflang={locale === 'ar' ? 'en' : 'ar'} aria-label={copy.languageSwitch.ariaLabel}>
+      <a
+        class="language-switch"
+        href={alternateHref}
+        hreflang={locale === 'ar' ? 'en' : 'ar'}
+        aria-label={copy.languageSwitch.ariaLabel}
+        data-compact-label={locale === 'ar' ? 'EN' : 'عربي'}
+      >
         {copy.languageSwitch.label}
       </a>
       <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode" aria-pressed="false">
