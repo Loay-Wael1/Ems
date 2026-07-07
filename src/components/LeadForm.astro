@@ -23,7 +23,7 @@ const renderedAt = Date.now();
   <div class="lead-form-card">
     <h3>{copy.cardTitle}</h3>
     <form class="lead-form" data-lead-form data-locale={locale} data-success-message={copy.success} data-error-message={copy.error} novalidate>
-      <input type="text" name="company" tabindex="-1" autocomplete="off" class="lead-honeypot" aria-hidden="true" />
+      <input type="text" name="lead_trap_field" tabindex="-1" autocomplete="new-password" class="lead-honeypot" aria-hidden="true" />
       <input type="hidden" name="renderedAt" value={renderedAt} />
 
       <div class="form-field">
@@ -99,7 +99,7 @@ const renderedAt = Date.now();
         name: data.get('name'),
         phone: data.get('phone'),
         branch: data.get('branch'),
-        company: data.get('company'),
+        lead_trap_field: data.get('lead_trap_field'),
         renderedAt: Number(data.get('renderedAt')),
         submittedAt: Date.now(),
         page: window.location.pathname,

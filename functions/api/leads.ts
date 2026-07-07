@@ -13,7 +13,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     }
 
     const body = await readJsonBody(request, 4096);
-    const honeypot = normalizeText(body.company, 120);
+    const honeypot = normalizeText(body.lead_trap_field, 120);
     if (honeypot) return jsonResponse({ ok: true });
 
     const renderedAt = Number(body.renderedAt || 0);
