@@ -1,18 +1,18 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import IntroReveal from '../components/IntroReveal.astro';
-import Hero from '../components/Hero.astro';
-import BeforeAfter from '../components/BeforeAfter.astro';
-import ObjectionSection from '../components/ObjectionSection.astro';
-import WhatIsEMS from '../components/WhatIsEMS.astro';
-import ExpertCoaches from '../components/ExpertCoaches.astro';
-import Testimonials from '../components/Testimonials.astro';
-import Locations from '../components/Locations.astro';
-import FinalCTA from '../components/FinalCTA.astro';
-import { siteContent } from '../i18n/content';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import IntroReveal from '../../components/IntroReveal.astro';
+import Hero from '../../components/Hero.astro';
+import BeforeAfter from '../../components/BeforeAfter.astro';
+import ObjectionSection from '../../components/ObjectionSection.astro';
+import WhatIsEMS from '../../components/WhatIsEMS.astro';
+import ExpertCoaches from '../../components/ExpertCoaches.astro';
+import Testimonials from '../../components/Testimonials.astro';
+import Locations from '../../components/Locations.astro';
+import FinalCTA from '../../components/FinalCTA.astro';
+import { siteContent } from '../../i18n/content';
 
-const locale = 'en';
+const locale = 'ar';
 const copy = siteContent[locale];
 ---
 
@@ -21,15 +21,15 @@ const copy = siteContent[locale];
   description={copy.meta.description}
   schemaDescription={copy.meta.schemaDescription}
   skipLink={copy.layout.skipLink}
-  lang="en"
-  dir="ltr"
-  canonicalPath="/"
-  alternatePath="/ar/"
+  lang="ar"
+  dir="rtl"
+  canonicalPath="/ar/"
+  alternatePath="/"
 >
   <IntroReveal />
 
   <div class="page-shell">
-    <Header copy={copy.header} locale={locale} alternateHref="/ar/" />
+    <Header copy={copy.header} locale={locale} alternateHref="/" />
 
     <main id="main-content">
       <Hero copy={copy.hero} locale={locale} />

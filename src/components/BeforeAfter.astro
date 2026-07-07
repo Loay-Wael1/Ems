@@ -1,29 +1,35 @@
 ---
+import { siteContent, type Locale } from '../i18n/content';
 import resultOne from '../../b&a/result-1.webp';
 import resultTwo from '../../b&a/result-2.webp';
 import resultThree from '../../b&a/result-3.webp';
 import resultFour from '../../b&a/result-4.webp';
 import resultFive from '../../b&a/result-5.webp';
 
-const transformations = [
-  { image: resultOne, tag: 'Fat Loss Journey', title: 'Focused consistency' },
-  { image: resultTwo, tag: 'Body Toning', title: 'Shape & confidence' },
-  { image: resultThree, tag: 'EMS Progress', title: 'Coach-guided change' },
-  { image: resultFour, tag: 'Strength & Shape', title: 'Stronger silhouette' },
-  { image: resultFive, tag: 'Body Toning', title: 'Visible progress' }
-];
+interface Props {
+  copy?: (typeof siteContent)[Locale]['beforeAfter'];
+  locale?: Locale;
+}
+
+const { copy = siteContent.en.beforeAfter } = Astro.props;
+
+const resultImages = [resultOne, resultTwo, resultThree, resultFour, resultFive];
+const transformations = copy.transformations.map((item, index) => ({
+  ...item,
+  image: resultImages[index]
+}));
 ---
 
 <section class="section-padding before-after-section" id="results" aria-labelledby="results-title">
   <div class="container">
     <div class="section-head center reveal-on-scroll">
-      <h2 id="results-title" class="section-title">Progress that speaks for itself.</h2>
+      <h2 id="results-title" class="section-title">{copy.title}</h2>
       <p class="section-intro">
-        Real client progress from focused EMS sessions, coaching, nutrition, and consistency.
+        {copy.intro}
       </p>
     </div>
 
-    <div class="transformation-track" aria-label="Client transformation examples">
+    <div class="transformation-track" aria-label={copy.trackAriaLabel}>
       {
         transformations.map((item, index) => (
           <article class="transformation-card reveal-on-scroll" style={`--card-index:${index}`}>
@@ -32,7 +38,7 @@ const transformations = [
                 src={item.image.src}
                 width={item.image.width}
                 height={item.image.height}
-                alt={`${item.tag} before and after progress at Easy Fit Alexandria`}
+                alt={`${item.tag} ${copy.altSuffix}`}
                 loading={index === 0 ? 'eager' : 'lazy'}
                 decoding="async"
               />
@@ -46,10 +52,10 @@ const transformations = [
       }
     </div>
 
-    <p class="swipe-hint reveal-on-scroll">Swipe to see more results</p>
+    <p class="swipe-hint reveal-on-scroll">{copy.swipeHint}</p>
 
     <p class="results-disclaimer reveal-on-scroll">
-      Results vary depending on consistency, nutrition, and individual goals.
+      {copy.disclaimer}
     </p>
   </div>
 </section>

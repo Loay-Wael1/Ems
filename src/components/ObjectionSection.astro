@@ -1,33 +1,23 @@
 ---
-const proofCards = [
-  {
-    title: 'Deep muscle activation',
-    text: 'EMS adds controlled impulses while you move, helping more muscle groups join the session with focused effort.'
-  },
-  {
-    title: 'Coach-controlled intensity',
-    text: 'Your coach adjusts the intensity zone by zone, so the session feels personal instead of random.'
-  },
-  {
-    title: 'Full-body session in less time',
-    text: 'The workout is short, structured, and designed to get the whole body working without wasting time.'
-  },
-  {
-    title: 'Built around your goal',
-    text: 'Fat loss support, toning, strength, or returning to training. The plan changes with your body.'
-  }
-];
+import { siteContent, type Locale } from '../i18n/content';
+
+interface Props {
+  copy?: (typeof siteContent)[Locale]['proof'];
+  locale?: Locale;
+}
+
+const { copy = siteContent.en.proof } = Astro.props;
+const proofCards = copy.cards;
 ---
 
 <section class="section-padding proof-section" id="why-ems" aria-labelledby="proof-title">
   <div class="container split-layout">
     <div class="section-head sticky-head reveal-on-scroll">
       <h2 id="proof-title" class="section-title">
-        Why EMS feels different from a regular workout.
+        {copy.title}
       </h2>
       <p class="section-intro">
-        It is not about doing more exercises. It is about making every minute more targeted,
-        more guided, and more connected to your goal.
+        {copy.intro}
       </p>
     </div>
 

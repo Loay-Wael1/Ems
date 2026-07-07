@@ -25,6 +25,7 @@
   --shadow-glow: 0 20px 55px rgba(13, 115, 142, 0.13);
   --shadow-pink: 0 18px 45px rgba(17, 26, 58, 0.08);
   --container: min(1160px, calc(100vw - 32px));
+  --font-arabic: "Cairo", "Tajawal", system-ui, sans-serif;
   --font-body: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
 }
@@ -52,6 +53,24 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+[dir="rtl"] {
+  --font-body: var(--font-arabic);
+  --font-display: var(--font-arabic);
+}
+
+[dir="rtl"] body {
+  text-align: right;
+}
+
+[dir="rtl"] input[type="tel"] {
+  direction: ltr;
+  text-align: right;
+}
+
+[dir="rtl"] .review-marquee {
+  direction: ltr;
 }
 
 img,
@@ -311,6 +330,30 @@ p {
   min-height: 42px;
   padding-inline: 1rem;
   font-size: 0.82rem;
+}
+
+.language-switch {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0.76rem;
+  border: 1px solid rgba(17, 26, 58, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--navy);
+  box-shadow: 0 10px 24px rgba(17, 26, 58, 0.06);
+  font-size: 0.82rem;
+  font-weight: 900;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease;
+}
+
+.language-switch:hover,
+.language-switch:focus-visible {
+  transform: translate3d(0, -1px, 0);
+  border-color: rgba(15, 118, 110, 0.28);
 }
 
 .theme-toggle {
@@ -2649,6 +2692,12 @@ html:not([data-theme="dark"]) .hero-title span {
     padding-inline: 0.68rem;
   }
 
+  .language-switch {
+    min-height: 38px;
+    padding-inline: 0.58rem;
+    font-size: 0.74rem;
+  }
+
   .theme-toggle-text {
     display: none;
   }
@@ -2779,7 +2828,8 @@ html[data-theme="dark"] .footer-links a:hover {
   color: #f8fafc;
 }
 
-html[data-theme="dark"] .theme-toggle {
+html[data-theme="dark"] .theme-toggle,
+html[data-theme="dark"] .language-switch {
   border-color: rgba(248, 250, 252, 0.18);
   background: rgba(255, 255, 255, 0.08);
   color: #f8fafc;

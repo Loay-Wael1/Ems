@@ -1,23 +1,42 @@
 ---
 import '../styles/global.css';
+import { siteContent, type Locale } from '../i18n/content';
 
 interface Props {
   title?: string;
   description?: string;
+  lang?: Locale;
+  dir?: 'ltr' | 'rtl';
+  canonicalPath?: string;
+  alternatePath?: string;
+  schemaDescription?: string;
+  skipLink?: string;
 }
 
 const {
-  title = "Easy Fit Alexandria | Alexandria's 1st EMS Studio",
-  description = 'Premium EMS fitness training in Alexandria. 20-minute coach-guided EMS sessions for body transformation, fat loss support, toning, strength, and smarter training.'
+  title = siteContent.en.meta.title,
+  description = siteContent.en.meta.description,
+  lang = 'en',
+  dir = lang === 'ar' ? 'rtl' : 'ltr',
+  canonicalPath = lang === 'ar' ? '/ar/' : '/',
+  alternatePath = lang === 'ar' ? '/' : '/ar/',
+  schemaDescription = siteContent[lang].meta.schemaDescription,
+  skipLink = siteContent[lang].layout.skipLink
 } = Astro.props;
 
+const siteUrl = 'https://easyfitems.com';
+const canonicalUrl = new URL(canonicalPath, siteUrl).href;
+const alternateUrl = new URL(alternatePath, siteUrl).href;
+const englishUrl = lang === 'en' ? canonicalUrl : alternateUrl;
+const arabicUrl = lang === 'ar' ? canonicalUrl : alternateUrl;
 const instagramUrl = 'https://instagram.com/ems.easyfit.alexandria?igsh=MWV1NDlkcG1wc3dnYw==';
 const facebookUrl = 'https://www.facebook.com/ems.easyfit.alexandria/?ref=NONE_xav_ig_profile_page_web#';
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'HealthAndBeautyBusiness',
   name: 'Easy Fit Alexandria',
-  description: "Alexandria's 1st EMS Studio for 20-minute coach-guided EMS fitness sessions.",
+  description: schemaDescription,
+  inLanguage: lang,
   image: '/hero-desktop.webp',
   logo: '/logo-transparent.png',
   telephone: '+201124799978',
@@ -41,7 +60,7 @@ const structuredData = {
 ---
 
 <!doctype html>
-<html lang="en" dir="ltr">
+<html lang={lang} dir={dir}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -49,7 +68,10 @@ const structuredData = {
 
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={Astro.url.href} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="en" href={englishUrl} />
+    <link rel="alternate" hreflang="ar" href={arabicUrl} />
+    <link rel="alternate" hreflang="x-default" href="https://easyfitems.com/" />
     <link rel="icon" type="image/png" href="/logo-transparent.png" />
     <link rel="apple-touch-icon" href="/logo-transparent.png" />
 
@@ -58,6 +80,7 @@ const structuredData = {
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/hero-desktop.webp" />
     <meta property="og:site_name" content="Easy Fit Alexandria" />
+    <meta property="og:url" content={canonicalUrl} />
     <meta name="twitter:card" content="summary_large_image" />
 
     <link rel="preload" href="/logo-transparent.png" as="image" />
@@ -108,14 +131,14 @@ const structuredData = {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap"
       rel="stylesheet"
       media="print"
       onload="this.media='all'"
     />
     <noscript>
       <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap"
         rel="stylesheet"
       />
     </noscript>
@@ -154,7 +177,7 @@ const structuredData = {
     </script>
   </head>
   <body>
-    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <a class="skip-link" href="#main-content">{skipLink}</a>
     <slot />
   </body>
 </html>

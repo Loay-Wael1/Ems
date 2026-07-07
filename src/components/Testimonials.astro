@@ -1,4 +1,5 @@
 ---
+import { siteContent, type Locale } from '../i18n/content';
 import reviewOne from '../../صور الريفيوز الجديده/5933510690117193229.jpg';
 import reviewTwo from '../../صور الريفيوز الجديده/5933510690117193230.jpg';
 import reviewThree from '../../صور الريفيوز الجديده/5933510690117193231.jpg';
@@ -24,6 +25,13 @@ import reviewTwentyTwo from '../../صور الريفيوز الجديده/593351
 import reviewTwentyThree from '../../صور الريفيوز الجديده/5933510690117193251.jpg';
 import reviewTwentyFour from '../../صور الريفيوز الجديده/5933510690117193252.jpg';
 import reviewTwentyFive from '../../صور الريفيوز الجديده/5933510690117193253.jpg';
+
+interface Props {
+  copy?: (typeof siteContent)[Locale]['testimonials'];
+  locale?: Locale;
+}
+
+const { copy = siteContent.en.testimonials } = Astro.props;
 
 const reviews = [
   reviewOne,
@@ -53,50 +61,50 @@ const reviews = [
   reviewTwentyFive
 ].map((image, index) => ({
   image,
-  title: `Client review ${index + 1}`
+  title: `${copy.imageTitlePrefix} ${index + 1}`
 }));
 
 const videoReviews = [
   {
     src: '/videos/reviews/client-review-1.mp4',
     poster: '/videos/reviews/client-review-1-poster.webp',
-    title: 'Client video review 1'
+    title: `${copy.videoTitlePrefix} 1`
   },
   {
     src: '/videos/reviews/client-review-2.mp4',
     poster: '/videos/reviews/client-review-2-poster.webp',
-    title: 'Client video review 2'
+    title: `${copy.videoTitlePrefix} 2`
   },
   {
     src: '/videos/reviews/client-review-3.mp4',
     poster: '/videos/reviews/client-review-3-poster.webp',
-    title: 'Client video review 3'
+    title: `${copy.videoTitlePrefix} 3`
   },
   {
     src: '/videos/reviews/client-review-4.mp4',
     poster: '/videos/reviews/client-review-4-poster.webp',
-    title: 'Client video review 4'
+    title: `${copy.videoTitlePrefix} 4`
   }
 ];
 ---
 
-<section class="section-padding reviews-section" id="testimonials" aria-labelledby="reviews-title">
+<section class="section-padding reviews-section" id="testimonials" aria-labelledby="reviews-title" data-modal-alt-suffix={copy.modalAltSuffix}>
   <div class="container">
     <div class="section-head center review-heading reveal-on-scroll">
-      <span class="section-kicker">CLIENT FEEDBACK</span>
-      <h2 id="reviews-title" class="section-title">Real people. Real results.</h2>
+      <span class="section-kicker">{copy.kicker}</span>
+      <h2 id="reviews-title" class="section-title">{copy.title}</h2>
       <p class="section-intro">
-        Watch client stories and browse real feedback from Easy Fit Alexandria.
+        {copy.intro}
       </p>
     </div>
   </div>
 
   <div class="container review-sub-head reveal-on-scroll">
-    <h3 class="review-sub-title">Clients say</h3>
+    <h3 class="review-sub-title">{copy.videoSubhead}</h3>
   </div>
 
   <div class="review-carousel-shell review-video-shell reveal-on-scroll">
-    <div class="review-marquee review-video-marquee" data-review-scroll aria-label="Client video reviews">
+    <div class="review-marquee review-video-marquee" data-review-scroll aria-label={copy.videoMarqueeLabel}>
       <div class="review-marquee-track">
         {
           videoReviews.map((review) => (
@@ -108,7 +116,7 @@ const videoReviews = [
               data-full={review.src}
               data-poster={review.poster}
               data-title={review.title}
-              aria-label={`Open ${review.title}`}
+              aria-label={`${copy.openPrefix} ${review.title}`}
             >
               <video
                 class="review-preview-video"
@@ -128,11 +136,11 @@ const videoReviews = [
   </div>
 
   <div class="container review-sub-head reveal-on-scroll">
-    <h3 class="review-sub-title">Reviews</h3>
+    <h3 class="review-sub-title">{copy.imageSubhead}</h3>
   </div>
 
   <div class="review-carousel-shell reveal-on-scroll">
-    <div id="review-marquee" class="review-marquee" data-review-marquee data-review-scroll aria-label="Client review screenshots">
+    <div id="review-marquee" class="review-marquee" data-review-marquee data-review-scroll aria-label={copy.imageMarqueeLabel}>
       <div class="review-marquee-track">
         {
           reviews.map((review) => (
@@ -143,13 +151,13 @@ const videoReviews = [
               data-review-type="image"
               data-full={review.image.src}
               data-title={review.title}
-              aria-label={`Open ${review.title}`}
+              aria-label={`${copy.openPrefix} ${review.title}`}
             >
               <img
                 src={review.image.src}
                 width={review.image.width}
                 height={review.image.height}
-                alt={`${review.title} from Easy Fit Alexandria client`}
+                alt={`${review.title} ${copy.altSuffix}`}
                 loading="lazy"
                 decoding="async"
                 draggable="false"
@@ -162,24 +170,24 @@ const videoReviews = [
   </div>
 
   <div class="container review-controls-bar reveal-on-scroll">
-    <div class="review-controls" aria-label="Review carousel controls">
-      <button class="review-nav" type="button" data-review-prev aria-label="Show previous reviews" aria-controls="review-marquee">
+    <div class="review-controls" aria-label={copy.controlsLabel}>
+      <button class="review-nav" type="button" data-review-prev aria-label={copy.previousLabel} aria-controls="review-marquee">
         <span aria-hidden="true">&lsaquo;</span>
       </button>
-      <button class="review-nav" type="button" data-review-next aria-label="Show next reviews" aria-controls="review-marquee">
+      <button class="review-nav" type="button" data-review-next aria-label={copy.nextLabel} aria-controls="review-marquee">
         <span aria-hidden="true">&rsaquo;</span>
       </button>
     </div>
   </div>
 
   <div class="container review-cta-row reveal-on-scroll">
-    <p>Feel the Power of EMS Training</p>
-    <a class="btn btn-primary" href="#booking-form">Book Your Trial</a>
+    <p>{copy.ctaText}</p>
+    <a class="btn btn-primary" href="#booking-form">{copy.ctaLabel}</a>
   </div>
 
-  <dialog class="review-modal" aria-label="Client review preview" aria-modal="true">
+  <dialog class="review-modal" aria-label={copy.modalLabel} aria-modal="true">
     <div class="review-modal-card">
-      <button class="modal-close-button" type="button" data-review-close aria-label="Close review preview">
+      <button class="modal-close-button" type="button" data-review-close aria-label={copy.closeLabel}>
         &times;
       </button>
       <img id="review-modal-image" src="" alt="" hidden />
@@ -263,15 +271,16 @@ const videoReviews = [
       lastReviewTrigger = card;
       openedByKeyboard = byKeyboard;
       const type = card.getAttribute('data-review-type') || 'image';
-      const title = card.getAttribute('data-title') || 'Client review';
+      const title = card.getAttribute('data-title') || '';
       const src = card.getAttribute('data-full') || '';
       const poster = card.getAttribute('data-poster') || '';
+      const modalAltSuffix = section.getAttribute('data-modal-alt-suffix') || 'from Easy Fit Alexandria';
 
       if (type === 'video') {
         resetModalImage();
         modal.dataset.activeType = 'video';
         modalVideo.hidden = false;
-        modalVideo.setAttribute('aria-label', `${title} from Easy Fit Alexandria`);
+        modalVideo.setAttribute('aria-label', `${title} ${modalAltSuffix}`.trim());
         if (poster) modalVideo.setAttribute('poster', poster);
         modalVideo.src = src;
         modalVideo.load();
@@ -287,7 +296,7 @@ const videoReviews = [
         modal.dataset.activeType = 'image';
         modalImage.hidden = false;
         modalImage.src = src;
-        modalImage.alt = `${title} from Easy Fit Alexandria`;
+        modalImage.alt = `${title} ${modalAltSuffix}`.trim();
       }
 
       if (typeof modal.showModal === 'function') {
