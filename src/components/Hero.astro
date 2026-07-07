@@ -84,9 +84,8 @@ const impactBadges = copy.badges;
         }
 
         const markReady = () => bgVideo.classList.add('is-ready');
-        bgVideo.addEventListener('loadeddata', markReady, { once: true });
-        bgVideo.addEventListener('canplay', markReady, { once: true });
         bgVideo.addEventListener('playing', markReady, { once: true });
+        bgVideo.addEventListener('timeupdate', markReady, { once: true });
 
         const attempt = bgVideo.play();
         if (attempt && typeof attempt.catch === 'function') {

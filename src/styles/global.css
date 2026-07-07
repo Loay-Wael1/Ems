@@ -2979,6 +2979,23 @@ html[dir="rtl"][data-theme="dark"] .hero-section::after {
   background: linear-gradient(180deg, transparent, #05030a);
 }
 
+/* English hero bottom fade to remove the hard media seam before the next section.
+   Scoped to LTR so the approved Arabic fade stays unchanged. */
+html[dir="ltr"] .hero-section::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: -1px;
+  z-index: 0;
+  height: clamp(64px, 12vw, 140px);
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, #f8fafc);
+}
+
+html[dir="ltr"][data-theme="dark"] .hero-section::after {
+  background: linear-gradient(180deg, transparent, #05030a);
+}
+
 @media (max-width: 420px) {
   html[dir="ltr"] .header-container {
     gap: 0.45rem;
