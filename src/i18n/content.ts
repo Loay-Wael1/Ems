@@ -275,7 +275,7 @@ export const siteContent = {
     },
     hero: {
       title: 'تمرّن بذكاء…',
-      titleAccent: 'وشوف الفرق أسرع.',
+      titleAccent: 'وشوف الفرق\u00A0أسرع.',
       description:
         'جلسة EMS موجهة مع كوتش متخصص في 20 دقيقة، مصممة لتنشيط العضلات بعمق وتوفير وقتك - من غير تمرين طويل في الجيم.',
       primaryCta: 'احجز تجربة EMS',
