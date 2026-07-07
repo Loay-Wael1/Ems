@@ -2933,6 +2933,37 @@ html[data-theme="dark"] .hero-title span {
   background-clip: text;
 }
 
+/* Arabic hero title typography.
+   Scoped to the Arabic hero only so media, videos, English, EMS, reviews, admin, and forms remain untouched. */
+html[dir="rtl"] .hero-title {
+  max-width: min(7.6em, 100%);
+  line-height: 1.18;
+  overflow: visible;
+}
+
+html[dir="rtl"] .hero-title span {
+  line-height: 1.18;
+  color: var(--accent-muted);
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  padding-block: 0.08em 0.16em;
+  margin-block: -0.08em -0.16em;
+  overflow: visible;
+}
+
+@media (max-width: 559px) {
+  [dir="rtl"] .hero-title {
+    font-size: clamp(2.85rem, 13.6vw, 3.55rem);
+    max-width: min(6.6em, 100%);
+    line-height: 1.16;
+  }
+
+  [dir="rtl"] .hero-title span {
+    line-height: 1.16;
+  }
+}
+
 html[data-theme="dark"] .hero-description {
   color: rgba(248, 250, 252, 0.82);
 }
