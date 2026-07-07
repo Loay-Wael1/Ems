@@ -3,6 +3,8 @@ import { assertSameOrigin, getClientIp, hashValue, jsonResponse, readJsonBody, s
 
 const GENERIC_VALIDATION = 'Please check your details and try again.';
 const GENERIC_ERROR = 'Something went wrong. Please try again.';
+// Blocks instant automated submissions while avoiding false positives for fast real users.
+const MIN_SUBMIT_DELAY_MS = 600;
 
 export const onRequestPost = async ({ request, env }: { request: Request; env: Env }) => {
   try {
@@ -16,7 +18,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
 
     const renderedAt = Number(body.renderedAt || 0);
     const submittedAt = Number(body.submittedAt || Date.now());
-    if (!Number.isFinite(renderedAt) || submittedAt - renderedAt < 1200) {
+    if (!Number.isFinite(renderedAt) || submittedAt - renderedAt < MIN_SUBMIT_DELAY_MS) {
       return jsonResponse({ ok: true });
     }
 
