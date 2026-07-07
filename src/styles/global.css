@@ -2980,6 +2980,45 @@ html[dir="rtl"][data-theme="dark"] .hero-section::after {
 }
 
 @media (max-width: 420px) {
+  html[dir="ltr"] .header-container {
+    gap: 0.45rem;
+  }
+
+  html[dir="ltr"] .brand {
+    gap: 0.42rem;
+    min-width: 0;
+  }
+
+  html[dir="ltr"] .brand-name {
+    font-size: 0.78rem;
+  }
+
+  html[dir="ltr"] .brand-sub {
+    font-size: 0.58rem;
+  }
+
+  html[dir="ltr"] .header-actions {
+    gap: 0.36rem;
+    flex: 0 0 auto;
+  }
+
+  html[dir="ltr"] .language-switch {
+    min-height: 34px;
+    padding-inline: 0.5rem;
+    font-size: 0;
+  }
+
+  html[dir="ltr"] .language-switch::after {
+    content: attr(data-compact-label);
+    font-size: 0.68rem;
+  }
+
+  html[dir="ltr"] .nav-cta {
+    min-height: 34px;
+    padding-inline: 0.58rem;
+    font-size: 0.72rem;
+  }
+
   html[dir="rtl"] .header-container {
     gap: 0.45rem;
   }

@@ -153,6 +153,7 @@ export const siteContent = {
         },
         {
           label: 'Training guidance',
+          detail: 'Technique cues while you train',
           ariaLabel: 'Easy Fit coach sharing EMS training guidance'
         },
         {
@@ -392,6 +393,7 @@ export const siteContent = {
         },
         {
           label: 'توجيه في التمرين',
+          detail: 'توجيه عملي أثناء الجلسة',
           ariaLabel: 'كوتش Easy Fit يشارك نصائح تدريب EMS'
         },
         {
