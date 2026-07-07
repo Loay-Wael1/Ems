@@ -1,12 +1,16 @@
 ---
+import { siteContent, type Locale } from '../i18n/content';
+
+interface Props {
+  copy?: (typeof siteContent)[Locale]['hero'];
+  locale?: Locale;
+}
+
+const { copy = siteContent.en.hero } = Astro.props;
+
 const mobileHeroVideoUrl = '/videos/ems-experience-reel-v2-mobile.mp4';
 const mobileHeroPosterUrl = '/videos/ems-experience-reel-v2-poster.webp';
-const impactBadges = [
-  { label: 'Smart 20-Minute EMS', href: '#what-is-ems' },
-  { label: 'Expert Coaches & Nutrition', href: '#expert-coaches' },
-  { label: 'Client Reviews', href: '#testimonials' },
-  { label: 'Our Branches', href: '#locations' }
-];
+const impactBadges = copy.badges;
 ---
 
 <section class="hero-section" aria-labelledby="hero-title">
@@ -29,21 +33,20 @@ const impactBadges = [
   <div class="container hero-grid">
     <div class="hero-copy">
       <h1 id="hero-title" class="hero-title reveal-on-scroll">
-        Train smarter. <span>Transform faster.</span>
+        {copy.title} <span>{copy.titleAccent}</span>
       </h1>
       <p class="hero-description reveal-on-scroll reveal-delay-2">
-        Get the results of a 4-hour gym workout in just one 20-minute weekly session. Experience
-        coach-guided EMS designed to activate deep muscle fibers and save you time.
+        {copy.description}
       </p>
 
       <div class="hero-actions reveal-on-scroll reveal-delay-3">
         <a class="btn btn-primary btn-large" href="#booking-form">
-          Book Your Trial Session
+          {copy.primaryCta}
         </a>
-        <a class="btn btn-ghost btn-large" href="#results">See Transformations</a>
+        <a class="btn btn-ghost btn-large" href="#results">{copy.secondaryCta}</a>
       </div>
 
-      <ul class="hero-badges reveal-on-scroll reveal-delay-4" aria-label="Easy Fit highlights">
+      <ul class="hero-badges reveal-on-scroll reveal-delay-4" aria-label={copy.badgesAriaLabel}>
         {
           impactBadges.map((badge) => (
             <li>
@@ -81,9 +84,8 @@ const impactBadges = [
         }
 
         const markReady = () => bgVideo.classList.add('is-ready');
-        bgVideo.addEventListener('loadeddata', markReady, { once: true });
-        bgVideo.addEventListener('canplay', markReady, { once: true });
         bgVideo.addEventListener('playing', markReady, { once: true });
+        bgVideo.addEventListener('timeupdate', markReady, { once: true });
 
         const attempt = bgVideo.play();
         if (attempt && typeof attempt.catch === 'function') {

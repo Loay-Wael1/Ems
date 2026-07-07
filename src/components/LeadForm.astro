@@ -1,57 +1,65 @@
 ---
+import { siteContent, type Locale } from '../i18n/content';
+
+interface Props {
+  copy?: (typeof siteContent)[Locale]['leadForm'];
+  locale?: Locale;
+}
+
+const { copy = siteContent.en.leadForm, locale = 'en' } = Astro.props;
 const renderedAt = Date.now();
 ---
 
 <div class="lead-shell">
   <div class="section-head lead-copy">
-    <span class="lead-eyebrow">START YOUR EMS TRIAL</span>
-    <h2 id="final-cta-title" class="section-title">Ready for your 20-minute EMS trial?</h2>
+    <span class="lead-eyebrow">{copy.eyebrow}</span>
+    <h2 id="final-cta-title" class="section-title">{copy.title}</h2>
     <p class="section-intro">
-      Pick your branch, leave your details, and our team will confirm your trial time.
+      {copy.intro}
     </p>
 
   </div>
 
   <div class="lead-form-card">
-    <h3>Book your trial</h3>
-    <form class="lead-form" data-lead-form novalidate>
+    <h3>{copy.cardTitle}</h3>
+    <form class="lead-form" data-lead-form data-locale={locale} data-success-message={copy.success} data-error-message={copy.error} novalidate>
       <input type="text" name="company" tabindex="-1" autocomplete="off" class="lead-honeypot" aria-hidden="true" />
       <input type="hidden" name="renderedAt" value={renderedAt} />
 
       <div class="form-field">
-        <label for="lead-name">Full name</label>
-        <input id="lead-name" name="name" type="text" autocomplete="name" placeholder="Your full name" maxlength="80" required />
+        <label for="lead-name">{copy.labels.name}</label>
+        <input id="lead-name" name="name" type="text" autocomplete="name" placeholder={copy.placeholders.name} maxlength="80" required />
       </div>
 
       <div class="form-field">
-        <label for="lead-phone">Phone number</label>
+        <label for="lead-phone">{copy.labels.phone}</label>
         <input
           id="lead-phone"
           name="phone"
           type="tel"
           autocomplete="tel"
           inputmode="tel"
-          placeholder="Your mobile number"
+          placeholder={copy.placeholders.phone}
           maxlength="30"
           required
         />
       </div>
 
       <div class="form-field">
-        <label for="lead-branch">Preferred branch</label>
+        <label for="lead-branch">{copy.labels.branch}</label>
         <select id="lead-branch" name="branch" required>
-          <option value="">Select your branch</option>
-          <option value="smouha">Smouha</option>
-          <option value="ganaklis">Ganaklis</option>
+          <option value="">{copy.branchPlaceholder}</option>
+          <option value="smouha">{copy.branches.smouha}</option>
+          <option value="ganaklis">{copy.branches.ganaklis}</option>
         </select>
       </div>
 
       <p class="lead-privacy">
-        We will only use your details to contact you about your EMS trial.
+        {copy.privacy}
       </p>
 
-      <button class="btn btn-primary btn-large lead-submit" type="submit" data-submit-label="Request my trial session" data-loading-label="Sending request...">
-        Request my trial session
+      <button class="btn btn-primary btn-large lead-submit" type="submit" data-submit-label={copy.submit} data-loading-label={copy.loading}>
+        {copy.submit}
       </button>
 
       <p class="lead-status" data-lead-status aria-live="polite"></p>
@@ -66,8 +74,8 @@ const renderedAt = Date.now();
 
     const status = form.querySelector('[data-lead-status]');
     const submitButton = form.querySelector('.lead-submit');
-    const successMessage = 'Your request has been received. We will contact you shortly.';
-    const errorMessage = 'Something went wrong. Please try again or message us on WhatsApp.';
+    const successMessage = form.dataset.successMessage || 'Your request has been received. We will contact you shortly.';
+    const errorMessage = form.dataset.errorMessage || 'Something went wrong. Please try again or message us on WhatsApp.';
 
     const setStatus = (message, type = '') => {
       if (!status) return;
@@ -95,7 +103,7 @@ const renderedAt = Date.now();
         renderedAt: Number(data.get('renderedAt')),
         submittedAt: Date.now(),
         page: window.location.pathname,
-        locale: 'en',
+        locale: form.dataset.locale || 'en',
         utm_source: params.get('utm_source') || '',
         utm_medium: params.get('utm_medium') || '',
         utm_campaign: params.get('utm_campaign') || ''

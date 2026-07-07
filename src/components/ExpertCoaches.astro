@@ -1,41 +1,30 @@
 ---
-const trustCards = [
+import { siteContent, type Locale } from '../i18n/content';
+
+interface Props {
+  copy?: (typeof siteContent)[Locale]['coaches'];
+  locale?: Locale;
+}
+
+const { copy = siteContent.en.coaches } = Astro.props;
+const trustCards = copy.trustCards;
+
+const coachVideoSources = [
   {
-    title: 'Private PT coach sessions',
-    text: 'Every movement, posture, and intensity level is guided by a dedicated personal coach.'
+    src: '/videos/coaches/coach-sohaila-ems.mp4'
   },
   {
-    title: 'Nutrition direction',
-    text: 'You get practical nutrition support matched to your goal and progress.'
+    src: '/videos/coaches/coach-arwa-ems-1.mp4'
   },
   {
-    title: 'InBody tracking',
-    text: 'We track body composition, not just weight, so progress is easier to understand.'
-  },
-  {
-    title: '14-day follow-up',
-    text: 'Your plan is reviewed every 14 days and adjusted based on your body’s response.'
+    src: '/videos/coaches/coach-train-smarter.mp4'
   }
 ];
 
-const coachVideos = [
-  {
-    src: '/videos/coaches/coach-sohaila-ems.mp4',
-    label: 'Coach insight',
-    ariaLabel: 'Easy Fit coach explaining EMS training guidance'
-  },
-  {
-    src: '/videos/coaches/coach-arwa-ems-1.mp4',
-    label: 'Training guidance',
-    ariaLabel: 'Easy Fit coach sharing EMS training guidance'
-  },
-  {
-    src: '/videos/coaches/coach-train-smarter.mp4',
-    label: 'Train smarter',
-    detail: 'How EMS fits your routine',
-    ariaLabel: 'Easy Fit coach explaining how EMS fits your routine'
-  }
-];
+const coachVideos = coachVideoSources.map((video, index) => ({
+  ...video,
+  ...copy.videos[index]
+}));
 
 const [featuredVideo, ...supportingVideos] = coachVideos;
 ---
@@ -44,12 +33,12 @@ const [featuredVideo, ...supportingVideos] = coachVideos;
   <div class="container expert-shell">
     <div class="expert-content-column">
       <div class="section-head expert-copy reveal-on-scroll">
-        <span class="section-kicker">EXPERT GUIDANCE</span>
+        <span class="section-kicker">{copy.kicker}</span>
         <h2 id="expert-title" class="section-title">
-          Real coaches guide every EMS session.
+          {copy.title}
         </h2>
         <p class="section-intro">
-          From movement control to nutrition direction and InBody follow-ups, your 20-minute session is part of a guided plan — not a random workout.
+          {copy.intro}
         </p>
       </div>
 
@@ -68,7 +57,7 @@ const [featuredVideo, ...supportingVideos] = coachVideos;
       </div>
 
       <p class="expert-privacy-note reveal-on-scroll">
-        Private, same-gender coaching keeps every session comfortable: men train with male coaches, and women train with female coaches.
+        {copy.privacyNote}
       </p>
     </div>
 
@@ -86,13 +75,13 @@ const [featuredVideo, ...supportingVideos] = coachVideos;
         </div>
         <div class="coach-video-caption">
           <span>{featuredVideo.label}</span>
-          <strong>Real guidance before you train</strong>
+          <strong>{copy.featuredDetail}</strong>
         </div>
       </article>
 
       {
         supportingVideos.length > 0 && (
-          <div class="coach-video-grid" aria-label="More coach guidance videos">
+          <div class="coach-video-grid" aria-label={copy.moreVideosLabel}>
             {supportingVideos.map((video) => (
               <article class="coach-video-card coach-video-card-small">
                 <div class="coach-video-frame">

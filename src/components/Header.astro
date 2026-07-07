@@ -1,18 +1,20 @@
 ---
-const whatsappUrl = 'https://wa.me/201124799978';
+import { siteContent, type Locale } from '../i18n/content';
+
+interface Props {
+  copy?: (typeof siteContent)[Locale]['header'];
+  locale?: Locale;
+  alternateHref?: string;
+}
+
+const { copy = siteContent.en.header, locale = 'en', alternateHref = '/ar/' } = Astro.props;
+
 const instagramUrl = 'https://instagram.com/ems.easyfit.alexandria?igsh=MWV1NDlkcG1wc3dnYw==';
 const facebookUrl = 'https://www.facebook.com/ems.easyfit.alexandria/?ref=NONE_xav_ig_profile_page_web#';
-
-const navItems = [
-  { label: 'Results', href: '#results' },
-  { label: 'Systems', href: '#what-is-ems' },
-  { label: 'EMS', href: '#why-ems' },
-  { label: 'Reviews', href: '#testimonials' },
-  { label: 'Branches', href: '#locations' }
-];
+const navItems = copy.nav;
 ---
 
-<header class="site-header" aria-label="Primary navigation">
+<header class="site-header" aria-label={copy.ariaLabel}>
   <div class="container header-container">
     <a class="brand" href="#main-content">
       <span class="brand-logo-wrap" aria-hidden="true">
@@ -21,17 +23,26 @@ const navItems = [
       </span>
       <span class="brand-text">
         <span class="brand-name">Easy Fit Alexandria</span>
-        <span class="brand-sub">EMS Studios</span>
+        <span class="brand-sub">{copy.brandSub}</span>
       </span>
     </a>
 
-    <nav class="nav-links" aria-label="Page sections">
+    <nav class="nav-links" aria-label={copy.navAriaLabel}>
       {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
     </nav>
 
     <div class="header-actions">
       <a class="social-link" href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram">IG</a>
       <a class="social-link" href={facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="Facebook">FB</a>
+      <a
+        class="language-switch"
+        href={alternateHref}
+        hreflang={locale === 'ar' ? 'en' : 'ar'}
+        aria-label={copy.languageSwitch.ariaLabel}
+        data-compact-label={locale === 'ar' ? 'EN' : 'عربي'}
+      >
+        {copy.languageSwitch.label}
+      </a>
       <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode" aria-pressed="false">
         <span class="theme-toggle-icon" aria-hidden="true">
           <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" focusable="false">
@@ -44,9 +55,9 @@ const navItems = [
         </span>
         <span class="theme-toggle-text">Night</span>
       </button>
-      <a class="btn btn-primary nav-cta" href="#booking-form" aria-label="Book Trial">
-        <span class="cta-full">Book Trial</span>
-        <span class="cta-short" aria-hidden="true">Book</span>
+      <a class="btn btn-primary nav-cta" href="#booking-form" aria-label={copy.bookAriaLabel}>
+        <span class="cta-full">{copy.bookTrial}</span>
+        <span class="cta-short" aria-hidden="true">{copy.bookShort}</span>
       </a>
     </div>
   </div>

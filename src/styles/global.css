@@ -25,6 +25,7 @@
   --shadow-glow: 0 20px 55px rgba(13, 115, 142, 0.13);
   --shadow-pink: 0 18px 45px rgba(17, 26, 58, 0.08);
   --container: min(1160px, calc(100vw - 32px));
+  --font-arabic: "Cairo", "Tajawal", system-ui, sans-serif;
   --font-body: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
 }
@@ -52,6 +53,24 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+[dir="rtl"] {
+  --font-body: var(--font-arabic);
+  --font-display: var(--font-arabic);
+}
+
+[dir="rtl"] body {
+  text-align: right;
+}
+
+[dir="rtl"] input[type="tel"] {
+  direction: ltr;
+  text-align: right;
+}
+
+[dir="rtl"] .review-marquee {
+  direction: ltr;
 }
 
 img,
@@ -311,6 +330,30 @@ p {
   min-height: 42px;
   padding-inline: 1rem;
   font-size: 0.82rem;
+}
+
+.language-switch {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0.76rem;
+  border: 1px solid rgba(17, 26, 58, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--navy);
+  box-shadow: 0 10px 24px rgba(17, 26, 58, 0.06);
+  font-size: 0.82rem;
+  font-weight: 900;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease;
+}
+
+.language-switch:hover,
+.language-switch:focus-visible {
+  transform: translate3d(0, -1px, 0);
+  border-color: rgba(15, 118, 110, 0.28);
 }
 
 .theme-toggle {
@@ -2649,6 +2692,12 @@ html:not([data-theme="dark"]) .hero-title span {
     padding-inline: 0.68rem;
   }
 
+  .language-switch {
+    min-height: 38px;
+    padding-inline: 0.58rem;
+    font-size: 0.74rem;
+  }
+
   .theme-toggle-text {
     display: none;
   }
@@ -2779,7 +2828,8 @@ html[data-theme="dark"] .footer-links a:hover {
   color: #f8fafc;
 }
 
-html[data-theme="dark"] .theme-toggle {
+html[data-theme="dark"] .theme-toggle,
+html[data-theme="dark"] .language-switch {
   border-color: rgba(248, 250, 252, 0.18);
   background: rgba(255, 255, 255, 0.08);
   color: #f8fafc;
@@ -2881,6 +2931,174 @@ html[data-theme="dark"] .hero-title span {
   background: linear-gradient(90deg, var(--accent-dark), var(--accent-muted) 52%, var(--accent-soft));
   -webkit-background-clip: text;
   background-clip: text;
+}
+
+/* Arabic hero title typography.
+   Scoped to the Arabic hero only so media, videos, English, EMS, reviews, admin, and forms remain untouched. */
+html[dir="rtl"] .hero-title {
+  max-width: min(7.6em, 100%);
+  line-height: 1.18;
+  overflow: visible;
+}
+
+html[dir="rtl"] .hero-title span {
+  line-height: 1.18;
+  color: var(--accent-muted);
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  padding-block: 0.08em 0.16em;
+  margin-block: -0.08em -0.16em;
+  overflow: visible;
+}
+
+@media (max-width: 559px) {
+  [dir="rtl"] .hero-title {
+    font-size: clamp(2.85rem, 13.6vw, 3.55rem);
+    max-width: min(6.6em, 100%);
+    line-height: 1.16;
+  }
+
+  [dir="rtl"] .hero-title span {
+    line-height: 1.16;
+  }
+}
+
+html[dir="rtl"] .hero-section::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: -1px;
+  z-index: 0;
+  height: clamp(64px, 12vw, 140px);
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, #f8fafc);
+}
+
+html[dir="rtl"][data-theme="dark"] .hero-section::after {
+  background: linear-gradient(180deg, transparent, #05030a);
+}
+
+/* English hero bottom fade to remove the hard media seam before the next section.
+   Scoped to LTR so the approved Arabic fade stays unchanged. */
+html[dir="ltr"] .hero-section::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: -1px;
+  z-index: 0;
+  height: clamp(64px, 12vw, 140px);
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, #f8fafc);
+}
+
+html[dir="ltr"][data-theme="dark"] .hero-section::after {
+  background: linear-gradient(180deg, transparent, #05030a);
+}
+
+@media (max-width: 420px) {
+  html[dir="ltr"] .header-container {
+    gap: 0.45rem;
+  }
+
+  html[dir="ltr"] .brand {
+    gap: 0.42rem;
+    min-width: 0;
+  }
+
+  html[dir="ltr"] .brand-name {
+    font-size: 0.78rem;
+  }
+
+  html[dir="ltr"] .brand-sub {
+    font-size: 0.58rem;
+  }
+
+  html[dir="ltr"] .header-actions {
+    gap: 0.36rem;
+    flex: 0 0 auto;
+  }
+
+  html[dir="ltr"] .language-switch {
+    min-height: 34px;
+    padding-inline: 0.5rem;
+    font-size: 0;
+  }
+
+  html[dir="ltr"] .language-switch::after {
+    content: attr(data-compact-label);
+    font-size: 0.68rem;
+  }
+
+  html[dir="ltr"] .nav-cta {
+    min-height: 34px;
+    padding-inline: 0.58rem;
+    font-size: 0.72rem;
+  }
+
+  html[dir="rtl"] .header-container {
+    gap: 0.45rem;
+  }
+
+  html[dir="rtl"] .brand {
+    gap: 0.42rem;
+    min-width: 0;
+  }
+
+  html[dir="rtl"] .brand-name {
+    font-size: 0.78rem;
+  }
+
+  html[dir="rtl"] .brand-sub {
+    font-size: 0.58rem;
+  }
+
+  html[dir="rtl"] .header-actions {
+    gap: 0.36rem;
+    flex: 0 0 auto;
+  }
+
+  html[dir="rtl"] .language-switch {
+    min-height: 34px;
+    padding-inline: 0.5rem;
+    font-size: 0;
+  }
+
+  html[dir="rtl"] .language-switch::after {
+    content: attr(data-compact-label);
+    font-size: 0.68rem;
+  }
+
+  html[dir="rtl"] .nav-cta {
+    min-height: 34px;
+    padding-inline: 0.58rem;
+    font-size: 0.72rem;
+  }
+}
+
+@media (max-width: 759px) {
+  html[dir="rtl"] .footer-container {
+    justify-items: stretch;
+    text-align: right;
+  }
+
+  html[dir="rtl"] .footer-brand {
+    justify-content: flex-start;
+    min-width: 0;
+  }
+
+  html[dir="rtl"] .footer-brand div {
+    min-width: 0;
+  }
+
+  html[dir="rtl"] .footer-links {
+    justify-content: flex-start;
+    gap: 0.7rem 0.9rem;
+  }
+
+  html[dir="rtl"] .footer-copy {
+    text-align: right;
+  }
 }
 
 html[data-theme="dark"] .hero-description {

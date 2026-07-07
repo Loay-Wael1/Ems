@@ -1,13 +1,22 @@
 ---
+import { siteContent, type Locale } from '../i18n/content';
+
+interface Props {
+  copy?: (typeof siteContent)[Locale]['ems'];
+  locale?: Locale;
+}
+
+const { copy = siteContent.en.ems } = Astro.props;
+const systems = copy.systems;
 ---
 
 <section class="section-padding ems-section" id="what-is-ems" aria-labelledby="ems-title">
   <div class="container">
     <div class="section-head center reveal-on-scroll">
-      <span class="ems-eyebrow">EMS SYSTEMS</span>
-      <h2 id="ems-title" class="section-title">20 minutes EMS = 4 hours in the gym</h2>
+      <span class="ems-eyebrow">{copy.eyebrow}</span>
+      <h2 id="ems-title" class="section-title">{copy.title}</h2>
       <p class="section-intro">
-        Three EMS systems. One smarter way to train, shape, and activate.
+        {copy.intro}
       </p>
     </div>
 
@@ -27,7 +36,7 @@
           </div>
 
           <!-- Tabs shifted below stage -->
-          <div class="systems-tabs" role="tablist" aria-label="EMS Systems">
+          <div class="systems-tabs" role="tablist" aria-label={copy.tablistLabel}>
             <button type="button" role="tab" aria-selected="true" aria-controls="panel-imotion" id="tab-imotion" class="system-tab-btn active" data-index="0">I-MOTION</button>
             <button type="button" role="tab" aria-selected="false" aria-controls="panel-imodel" id="tab-imodel" class="system-tab-btn" data-index="1" tabindex="-1">I-MODEL</button>
             <button type="button" role="tab" aria-selected="false" aria-controls="panel-ishape" id="tab-ishape" class="system-tab-btn" data-index="2" tabindex="-1">I-SHAPE</button>
@@ -37,43 +46,37 @@
         <!-- Content panels -->
         <div class="systems-content">
           <div id="panel-imotion" role="tabpanel" aria-labelledby="tab-imotion" class="sys-panel active" data-panel="0">
-            <h3 class="sys-name">I-MOTION</h3>
-            <p class="sys-tagline">Full-body EMS for strength, movement, and transformation.</p>
-            <p class="sys-desc">Built for active coach-guided sessions that activate the whole body in one efficient workout.</p>
-            <div class="sys-chips" aria-label="I-MOTION features">
-              <span class="sys-chip">Full-body activation</span>
-              <span class="sys-chip">Coach-guided</span>
-              <span class="sys-chip">20-minute format</span>
+            <h3 class="sys-name">{systems[0].name}</h3>
+            <p class="sys-tagline">{systems[0].tagline}</p>
+            <p class="sys-desc">{systems[0].description}</p>
+            <div class="sys-chips" aria-label={systems[0].chipsLabel}>
+              {systems[0].chips.map((chip) => <span class="sys-chip">{chip}</span>)}
             </div>
-            <p class="sys-best">Best for full-body training and overall transformation.</p>
+            <p class="sys-best">{systems[0].best}</p>
           </div>
 
           <div id="panel-imodel" role="tabpanel" aria-labelledby="tab-imodel" class="sys-panel" data-panel="1" hidden>
-            <h3 class="sys-name">I-MODEL</h3>
-            <p class="sys-tagline">Targeted EMS for shaping and toning.</p>
-            <p class="sys-desc">Designed to focus on areas like the abdomen, glutes, and thighs with more precise stimulation.</p>
-            <div class="sys-chips" aria-label="I-MODEL features">
-              <span class="sys-chip">Targeted shaping</span>
-              <span class="sys-chip">Toning support</span>
-              <span class="sys-chip">Aesthetic sessions</span>
+            <h3 class="sys-name">{systems[1].name}</h3>
+            <p class="sys-tagline">{systems[1].tagline}</p>
+            <p class="sys-desc">{systems[1].description}</p>
+            <div class="sys-chips" aria-label={systems[1].chipsLabel}>
+              {systems[1].chips.map((chip) => <span class="sys-chip">{chip}</span>)}
             </div>
-            <p class="sys-best">Best for contouring, toning, and body-shape goals.</p>
+            <p class="sys-best">{systems[1].best}</p>
           </div>
 
           <div id="panel-ishape" role="tabpanel" aria-labelledby="tab-ishape" class="sys-panel" data-panel="2" hidden>
-            <h3 class="sys-name">I-SHAPE</h3>
-            <p class="sys-tagline">Advanced lower-body EMS for glutes and legs.</p>
-            <p class="sys-desc">A focused EMS system for lower-body definition and high-value shaping sessions.</p>
-            <div class="sys-chips" aria-label="I-SHAPE features">
-              <span class="sys-chip">Lower-body focus</span>
-              <span class="sys-chip">Glutes & legs</span>
-              <span class="sys-chip">Premium shaping</span>
+            <h3 class="sys-name">{systems[2].name}</h3>
+            <p class="sys-tagline">{systems[2].tagline}</p>
+            <p class="sys-desc">{systems[2].description}</p>
+            <div class="sys-chips" aria-label={systems[2].chipsLabel}>
+              {systems[2].chips.map((chip) => <span class="sys-chip">{chip}</span>)}
             </div>
-            <p class="sys-best">Best for glute focus and lower-body definition.</p>
+            <p class="sys-best">{systems[2].best}</p>
           </div>
 
           <div class="systems-cta-wrap">
-            <a class="btn btn-primary" href="#booking-form">Book the 20-Minute Trial</a>
+            <a class="btn btn-primary" href="#booking-form">{copy.cta}</a>
           </div>
         </div>
       </div>
