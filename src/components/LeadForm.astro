@@ -7,7 +7,6 @@ interface Props {
 }
 
 const { copy = siteContent.en.leadForm, locale = 'en' } = Astro.props;
-const renderedAt = Date.now();
 ---
 
 <div class="lead-shell">
@@ -24,7 +23,7 @@ const renderedAt = Date.now();
     <h3>{copy.cardTitle}</h3>
     <form class="lead-form" data-lead-form data-locale={locale} data-success-message={copy.success} data-error-message={copy.error} novalidate>
       <input type="text" name="lead_trap_field" tabindex="-1" autocomplete="new-password" class="lead-honeypot" aria-hidden="true" />
-      <input type="hidden" name="renderedAt" value={renderedAt} />
+      <input type="hidden" name="renderedAt" value="" />
 
       <div class="form-field">
         <label for="lead-name">{copy.labels.name}</label>
@@ -71,6 +70,17 @@ const renderedAt = Date.now();
   (() => {
     const form = document.querySelector('[data-lead-form]');
     if (!(form instanceof HTMLFormElement)) return;
+
+    const renderedAtInput = form.querySelector('input[name="renderedAt"]');
+
+    const markRenderedAt = () => {
+      if (renderedAtInput instanceof HTMLInputElement) {
+        renderedAtInput.value = String(Date.now());
+      }
+    };
+
+    markRenderedAt();
+    window.addEventListener('pageshow', markRenderedAt);
 
     const status = form.querySelector('[data-lead-status]');
     const submitButton = form.querySelector('.lead-submit');

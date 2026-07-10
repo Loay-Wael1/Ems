@@ -31,30 +31,31 @@ export function isReasonablePhone(phone: string) {
   return /^(\+?20|0020)?0?\d{7,11}$/.test(compact);
 }
 
-export async function enforceRateLimit(db: D1Database, ipHash: string) {
-  const windowMs = 10 * 60 * 1000;
+export async function enforceRateLimit(
+  db: D1Database,
+  ipHash: string,
+  options: { windowMs?: number; maxRequests?: number } = {}
+) {
+  const windowMs = options.windowMs ?? 10 * 60 * 1000;
+  const maxRequests = options.maxRequests ?? 8;
   const windowStart = new Date(Math.floor(Date.now() / windowMs) * windowMs).toISOString();
 
-  const existing = await db
+  await db
+    .prepare(
+      `INSERT INTO lead_rate_limits (ip_hash, window_start, count)
+       VALUES (?, ?, 1)
+       ON CONFLICT(ip_hash, window_start)
+       DO UPDATE SET count = count + 1`
+    )
+    .bind(ipHash, windowStart)
+    .run();
+
+  const current = await db
     .prepare('SELECT count FROM lead_rate_limits WHERE ip_hash = ? AND window_start = ?')
     .bind(ipHash, windowStart)
     .first<{ count: number }>();
 
-  if (!existing) {
-    await db
-      .prepare('INSERT INTO lead_rate_limits (ip_hash, window_start, count) VALUES (?, ?, 1)')
-      .bind(ipHash, windowStart)
-      .run();
-    return true;
-  }
-
-  const nextCount = existing.count + 1;
-  await db
-    .prepare('UPDATE lead_rate_limits SET count = ? WHERE ip_hash = ? AND window_start = ?')
-    .bind(nextCount, ipHash, windowStart)
-    .run();
-
-  return nextCount <= 8;
+  return Number(current?.count || 0) <= maxRequests;
 }
 
 export async function pruneOldLeads(db: D1Database) {

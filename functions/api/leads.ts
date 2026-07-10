@@ -1,5 +1,13 @@
 import { enforceRateLimit, isReasonablePhone, normalizeBranch, normalizeText, pruneOldLeads, type Env } from '../_utils/db';
-import { assertSameOrigin, getClientIp, hashValue, jsonResponse, readJsonBody, safeErrorMessage } from '../_utils/security';
+import {
+  assertSameOrigin,
+  getClientIp,
+  getRateLimitSecret,
+  hashValue,
+  jsonResponse,
+  readJsonBody,
+  safeErrorMessage
+} from '../_utils/security';
 
 const GENERIC_VALIDATION = 'Please check your details and try again.';
 const GENERIC_ERROR = 'Something went wrong. Please try again.';
@@ -76,14 +84,3 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     return jsonResponse({ ok: false, message: GENERIC_ERROR }, { status: 500 });
   }
 };
-
-function getRateLimitSecret(env: Env, request: Request) {
-  if (env.RATE_LIMIT_SECRET) return env.RATE_LIMIT_SECRET;
-
-  const hostname = new URL(request.url).hostname;
-  if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1') {
-    return 'local-dev-rate-limit-secret';
-  }
-
-  throw new Error('missing_rate_limit_secret');
-}

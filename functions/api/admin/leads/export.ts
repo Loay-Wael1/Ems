@@ -3,7 +3,7 @@ import { pruneOldLeads, type Env } from '../../../_utils/db';
 import { requireAdmin, safeErrorMessage, securityHeaders } from '../../../_utils/security';
 
 export const onRequestGet = async ({ request, env }: { request: Request; env: Env }) => {
-  if (!(await requireAdmin(request, env.ADMIN_SESSION_SECRET || ''))) {
+  if (!(await requireAdmin(request, env.ADMIN_SESSION_SECRET))) {
     return new Response('Unauthorized', {
       status: 401,
       headers: securityHeaders({ 'Content-Type': 'text/plain; charset=utf-8' })

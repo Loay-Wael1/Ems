@@ -10,7 +10,7 @@ export const onRequestPatch = async ({
   env: Env;
   params: { id?: string };
 }) => {
-  if (!(await requireAdmin(request, env.ADMIN_SESSION_SECRET || ''))) {
+  if (!(await requireAdmin(request, env.ADMIN_SESSION_SECRET))) {
     return jsonResponse({ ok: false, message: 'Unauthorized.' }, { status: 401 });
   }
 

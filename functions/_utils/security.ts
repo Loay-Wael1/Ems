@@ -1,6 +1,11 @@
 const encoder = new TextEncoder();
 const ADMIN_COOKIE = 'easyfit_admin';
 const MAX_SESSION_AGE_SECONDS = 60 * 60 * 8;
+const MIN_SECRET_LENGTH = 32;
+
+export function hasStrongSecret(secret: unknown) {
+  return typeof secret === 'string' && secret.trim().length >= MIN_SECRET_LENGTH;
+}
 
 export const jsonHeaders = {
   'Content-Type': 'application/json; charset=utf-8',
@@ -41,6 +46,17 @@ export function getClientIp(request: Request) {
   );
 }
 
+export function getRateLimitSecret(env: { RATE_LIMIT_SECRET?: string }, request: Request) {
+  if (env.RATE_LIMIT_SECRET) return env.RATE_LIMIT_SECRET;
+
+  const hostname = new URL(request.url).hostname;
+  if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1') {
+    return 'local-dev-rate-limit-secret';
+  }
+
+  throw new Error('missing_rate_limit_secret');
+}
+
 export async function hashValue(value: string, secret: string) {
   const data = encoder.encode(`${secret}:${value}`);
   const digest = await crypto.subtle.digest('SHA-256', data);
@@ -60,6 +76,11 @@ export function clearAdminCookie() {
 }
 
 export async function createAdminCookie(secret: string, request: Request) {
+  const normalizedSecret = typeof secret === 'string' ? secret.trim() : '';
+  if (!hasStrongSecret(normalizedSecret)) {
+    throw new Error('admin_session_secret_invalid');
+  }
+
   const expiresAt = Math.floor(Date.now() / 1000) + MAX_SESSION_AGE_SECONDS;
   const payload = toBase64Url(
     encoder.encode(
@@ -69,17 +90,20 @@ export async function createAdminCookie(secret: string, request: Request) {
       })
     )
   );
-  const signature = await sign(payload, secret);
+  const signature = await sign(payload, normalizedSecret);
   const secure = new URL(request.url).protocol === 'https:' ? '; Secure' : '';
   return `${ADMIN_COOKIE}=${encodeURIComponent(`${payload}.${signature}`)}; HttpOnly; Path=/; SameSite=Strict; Max-Age=${MAX_SESSION_AGE_SECONDS}${secure}`;
 }
 
 export async function requireAdmin(request: Request, secret: string) {
+  const normalizedSecret = typeof secret === 'string' ? secret.trim() : '';
+  if (!hasStrongSecret(normalizedSecret)) return false;
+
   const cookie = getCookie(request, ADMIN_COOKIE);
   const [payload, signature] = cookie.split('.');
   if (!payload || !signature) return false;
 
-  const expected = await sign(payload, secret);
+  const expected = await sign(payload, normalizedSecret);
   if (!constantTimeEqual(signature, expected)) return false;
 
   try {
