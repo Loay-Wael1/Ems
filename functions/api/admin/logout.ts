@@ -6,7 +6,7 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
     return jsonResponse({ ok: false, message: 'Invalid request.' }, { status: 403 });
   }
 
-  if (!(await requireAdmin(request, env.ADMIN_SESSION_SECRET || ''))) {
+  if (!(await requireAdmin(request, env.ADMIN_SESSION_SECRET))) {
     return jsonResponse({ ok: false, message: 'Unauthorized.' }, { status: 401 });
   }
 

@@ -2,7 +2,7 @@ import { normalizeBranch, normalizeStatus, normalizeText, pruneOldLeads, type En
 import { jsonResponse, requireAdmin, safeErrorMessage } from '../../_utils/security';
 
 export const onRequestGet = async ({ request, env }: { request: Request; env: Env }) => {
-  if (!(await requireAdmin(request, env.ADMIN_SESSION_SECRET || ''))) {
+  if (!(await requireAdmin(request, env.ADMIN_SESSION_SECRET))) {
     return jsonResponse({ ok: false, message: 'Unauthorized.' }, { status: 401 });
   }
 
