@@ -72,27 +72,27 @@ export const siteContent = {
       systems: [
         {
           name: 'I-MOTION',
-          tagline: 'Full-body EMS for strength, movement, and transformation.',
-          description: 'Built for active coach-guided sessions that activate the whole body in one efficient workout.',
+          tagline: 'Wireless WB-EMS for active, full-body training.',
+          description: 'Its 22-electrode Bio-Jacket supports guided movement and full-body stimulation in a 20-minute session.',
           chipsLabel: 'I-MOTION features',
-          chips: ['Full-body activation', 'Coach-guided', '20-minute format'],
-          best: 'Best for full-body training and overall transformation.'
+          chips: ['Active training', '22-electrode suit', '20-minute sessions'],
+          best: 'Best for guided, full-body EMS workouts.'
         },
         {
           name: 'I-MODEL',
-          tagline: 'Targeted EMS for shaping and toning.',
-          description: 'Designed to focus on areas like the abdomen, glutes, and thighs with more precise stimulation.',
+          tagline: 'Full-body EMS for passive aesthetic sessions.',
+          description: 'Its 22 stimulation points work the legs, glutes, abdomen, back, chest, and arms in a 25-minute session.',
           chipsLabel: 'I-MODEL features',
-          chips: ['Targeted shaping', 'Toning support', 'Aesthetic sessions'],
-          best: 'Best for contouring, toning, and body-shape goals.'
+          chips: ['Passive programs', '22 stimulation points', 'Full-body coverage'],
+          best: 'Best for non-exercise aesthetic body sessions.'
         },
         {
           name: 'I-SHAPE',
-          tagline: 'Advanced lower-body EMS for glutes and legs.',
-          description: 'A focused EMS system for lower-body definition and high-value shaping sessions.',
+          tagline: 'Lower-body-focused EMS for passive aesthetic sessions.',
+          description: 'Its EMS pants concentrate stimulation on the abdomen, glutes, and legs in a 25-minute session.',
           chipsLabel: 'I-SHAPE features',
-          chips: ['Lower-body focus', 'Glutes & legs', 'Premium shaping'],
-          best: 'Best for glute focus and lower-body definition.'
+          chips: ['Lower-body focus', 'EMS pants', '25-minute sessions'],
+          best: 'Best for focused aesthetic sessions on the lower body.'
         }
       ]
     },
@@ -250,7 +250,7 @@ export const siteContent = {
       title: 'Easy Fit Alexandria | أول EMS Studio في الإسكندرية',
       description:
         'تدريب EMS Premium في الإسكندرية: جلسات 20 دقيقة مع كوتش متخصص لمساعدتك على التمرين بذكاء، تنشيط العضلات بعمق، وتحسين شكل الجسم.',
-      schemaDescription: 'أول EMS Studio في الإسكندرية لجلسات EMS موجهة مع كوتش متخصص في 20 دقيقة.'
+      schemaDescription: 'أول EMS Studio في الإسكندرية لجلسات EMS مخصصة مع كوتش متخصص في 20 دقيقة.'
     },
     layout: {
       skipLink: 'تخطي إلى المحتوى الرئيسي'
@@ -275,10 +275,10 @@ export const siteContent = {
       bookAriaLabel: 'احجز تجربة EMS'
     },
     hero: {
-      title: 'تمرّن بذكاء…',
+      title: 'اتمرّن بذكاء…',
       titleAccent: 'وشوف الفرق\u00A0أسرع.',
       description:
-        'جلسة EMS موجهة مع كوتش متخصص في 20 دقيقة، مصممة لتنشيط العضلات بعمق وتوفير وقتك - من غير تمرين طويل في الجيم.',
+        'جلسة EMS مخصصة مع كوتش متخصص في 20 دقيقة، مصممة لتنشيط العضلات بعمق وتوفير وقتك — من غير تمرين طويل في الچيم.',
       primaryCta: 'احجز تجربة EMS',
       secondaryCta: 'شوف التحوّلات',
       badgesAriaLabel: 'مميزات Easy Fit',
@@ -308,55 +308,55 @@ export const siteContent = {
     ems: {
       eyebrow: 'أنظمة EMS',
       title: '20 دقيقة EMS ممكن تغيّر شكل تمرينك بالكامل',
-      intro: 'ثلاث أنظمة EMS، كل واحد مصمم لهدف مختلف: حركة، شد، وتشكيل.',
+      intro: 'ثلاثة أنظمة EMS، كل نظام مصمم لهدف مختلف.',
       tablistLabel: 'أنظمة EMS',
       cta: 'احجز تجربة الـ20 دقيقة',
       systems: [
         {
           name: 'I-MOTION',
-          tagline: 'EMS للجسم بالكامل، للحركة والقوة والتحوّل.',
-          description: 'جلسة نشطة مع كوتش تساعد على تنشيط عضلات الجسم كله بكفاءة وفي وقت قصير.',
+          tagline: 'نظام WB-EMS لاسلكي لتمرين نشط للجسم بالكامل.',
+          description: 'بدلة Bio-Jacket المزودة بـ22 قطبًا تدعم الحركة الموجهة وتنشيط الجسم بالكامل في جلسة 20 دقيقة.',
           chipsLabel: 'مميزات I-MOTION',
-          chips: ['تنشيط كامل للجسم', 'متابعة كوتش', 'نظام 20 دقيقة'],
-          best: 'الأفضل للتدريب الكامل وتحسين الشكل العام.'
+          chips: ['تمرين نشط', 'بدلة بـ22 قطبًا', 'جلسة 20 دقيقة'],
+          best: 'الأنسب لتمرين EMS موجه للجسم بالكامل.'
         },
         {
           name: 'I-MODEL',
-          tagline: 'EMS موجه للشد والتناسق.',
-          description: 'مصمم للتركيز على مناطق محددة مثل البطن، الأرداف، والفخذين بتحكم أدق.',
+          tagline: 'EMS للجسم بالكامل في جلسات تجميلية بدون تمرين.',
+          description: 'يعتمد على 22 نقطة تحفيز للعمل على الرجلين، الأرداف، البطن، الظهر، الصدر والذراعين في جلسة 25 دقيقة.',
           chipsLabel: 'مميزات I-MODEL',
-          chips: ['تشكيل مركز', 'مساعدة على الشد', 'جلسات جمالية'],
-          best: 'الأفضل لأهداف التناسق وتحديد شكل الجسم.'
+          chips: ['برامج بدون تمرين', '22 نقطة تحفيز', 'تغطية للجسم بالكامل'],
+          best: 'الأنسب لجلسات تجميلية للجسم بدون مجهود بدني.'
         },
         {
           name: 'I-SHAPE',
-          tagline: 'EMS متقدم للجزء السفلي: الأرداف والرجلين.',
-          description: 'نظام مركز لمن يريد إبراز وتشكيل الجزء السفلي بجلسات عالية القيمة.',
+          tagline: 'EMS تجميلي بتركيز أكبر على الجزء السفلي.',
+          description: 'بنطال EMS يركز التحفيز على البطن، الأرداف والرجلين في جلسة 25 دقيقة.',
           chipsLabel: 'مميزات I-SHAPE',
-          chips: ['تركيز على الجزء السفلي', 'الأرداف والرجلين', 'تشكيل Premium'],
-          best: 'الأفضل للتركيز على الأرداف وتحسين شكل الرجلين.'
+          chips: ['تركيز على الجزء السفلي', 'بنطال EMS', 'جلسة 25 دقيقة'],
+          best: 'الأنسب للجلسات التجميلية المركزة على الجزء السفلي.'
         }
       ]
     },
     proof: {
-      title: 'ليه EMS مختلف عن التمرين العادي؟',
-      intro: 'الفكرة مش إنك تعمل تمارين أكتر. الفكرة إن كل دقيقة تبقى أذكى، أوضح، وموجهة لهدفك.',
+      title: 'ليه تمرين الـEMS مختلف عن التمرين العادي؟',
+      intro: 'الفكرة مش إنك تعمل تمارين أكتر. الفكرة إن كل دقيقة تبقى أذكى، أوضح، ومخصصة لهدفك.',
       cards: [
         {
           title: 'تنشيط أعمق للعضلات',
-          text: 'EMS يضيف نبضات محسوبة أثناء الحركة، فيساعد مجموعات عضلية أكتر تدخل في الجلسة.'
+          text: 'تمرين الـEMS بيساعد على تنشيط عضلات عميقة ممكن يكون صعب توصل لها بنفس الكفاءة في الچيم.'
         },
         {
-          title: 'تحكم كامل من الكوتش',
-          text: 'الكوتش يظبط الشدة منطقة بمنطقة حسب جسمك وإحساسك.'
+          title: 'تحكم كامل من الكابتن الشخصي',
+          text: 'الكابتن الشخصي بيظبط شدة النبضات لكل مجموعة عضلية حسب جسمك ومستواك، ويراعي أي إصابات أو قيود حركية أثناء التمرين.'
         },
         {
-          title: 'جلسة كاملة في وقت أقل',
-          text: 'تمرين قصير ومنظم يخلي الجسم كله يشتغل من غير وقت طويل في الجيم.'
+          title: '40 دقيقة في الأسبوع',
+          text: '40 دقيقة موزعة خلال الأسبوع بتقدّم تمرين EMS مركز، مع شدة تتظبط حسب مستواك وتحت متابعة الكابتن الشخصي.'
         },
         {
           title: 'خطة حسب هدفك',
-          text: 'نزول دهون، شد، قوة، أو رجوع للتمرين - الخطة بتتظبط مع تقدمك.'
+          text: 'الكابتن الشخصي ودكتور التغذية من فريق Easy Fit بيقدموا لك الدعم اللي تحتاجه علشان توصل لهدفك.'
         }
       ]
     },
@@ -364,37 +364,37 @@ export const siteContent = {
       kicker: 'متابعة متخصصة',
       title: 'جلسة EMS باشراف فريق متخصص.',
       intro:
-        'من ضبط الحركة والشدة، لتوجيه التغذية ومتابعة InBody، جلسة الـ20 دقيقة جزء من خطة واضحة - مش تمرين عشوائي.',
-      privacyNote: 'خصوصية وراحة أكتر: الرجال مع كوتش رجال، والسيدات مع كوتش سيدات.',
-      featuredDetail: 'توجيه حقيقي قبل ما تبدأ',
+        'مش تمرين وخلاص. بنظبطلك الحركة والشدة، ونتابع التغذية والـInBody، وكل جلسة بتبقى خطوة واضحة ناحية هدفك.',
+      privacyNote: 'مواعيد العمل يوميًا من 8 صباحًا إلى 10 مساءً.',
+      featuredDetail: '',
       moreVideosLabel: 'فيديوهات إضافية من الكوتش',
       trustCards: [
         {
           title: 'مدربون متخصصون',
-          text: 'الجلسة تحت متابعة مدربين متخصصين من خلفية تربية رياضية، لمتابعة الحركة والوضعية ومستوى الشدة بأمان.'
+          text: 'الجلسة تحت متابعة مدربين متخصصين من خلفية تربية رياضية، لمتابعة الحركة والتمرين ومستوى الشدة بأمان، مع مراعاة الإصابات والقيود الحركية.'
         },
         {
-          title: 'توجيه تغذية من فريق مؤهل',
-          text: 'إرشاد غذائي عملي من متخصصين، منهم خريجو صيدلة، عشان الخطوات تناسب هدفك وتقدمك.'
+          title: 'دكاترة تغذية على أعلى مستوى',
+          text: 'نظام غذائي تحت متابعة دكتور متخصص، بيتظبط حسب هدفك وقياساتك وتقدمك.'
         },
         {
-          title: 'متابعة InBody دقيقة',
-          text: 'بنقرأ تكوين الجسم معاك: دهون، عضلات، ومياه — مش الوزن بس — عشان التقدم يبقى واضح ومبني على قياس.'
+          title: 'متابعة الـInBody',
+          text: 'متابعة الـInBody بتكون كل 14 يوم للتأكد من جودة الخطة الغذائية ومساعدتك توصل لهدفك.'
         },
         {
-          title: 'مراجعة كل 14 يوم',
-          text: 'الفريق بيراجع قياساتك واستجابة جسمك كل 14 يوم، ويعدّل الخطة حسب النتيجة.'
+          title: 'خصوصية وراحة أكتر',
+          text: 'تمرينتك بتكون في خصوصية تامة داخل غرفة مخصصة ليك لوحدك، مع مدرب أو مدربة مخصصة ليك، علشان تضمن أعلى تركيز وأفضل توجيه.'
         }
       ],
       videos: [
         {
-          label: 'نصيحة من الكوتش',
-          ariaLabel: 'كوتش Easy Fit يشرح توجيه تدريب EMS'
+          label: 'هل الـEMS مناسب لكل الناس؟',
+          ariaLabel: 'كوتش Easy Fit يوضح مين يناسبه تمرين EMS'
         },
         {
-          label: 'توجيه في التمرين',
-          detail: 'توجيه عملي أثناء الجلسة',
-          ariaLabel: 'كوتش Easy Fit يشارك نصائح تدريب EMS'
+          label: 'إحنا محتاجين وقت قد إيه علشان نوصل للتارجت بتاعنا؟',
+          detail: '',
+          ariaLabel: 'كوتش Easy Fit يوضح الوقت المتوقع للوصول لهدف التمرين'
         },
         {
           label: 'تمرّن بذكاء',
@@ -405,10 +405,10 @@ export const siteContent = {
     },
     testimonials: {
       kicker: 'آراء العملاء',
-      title: 'ناس حقيقية. نتائج حقيقية.',
+      title: 'ناس حقيقية، نتايج خيالية.',
       intro: 'شوف تجارب العملاء وآرائهم مع Easy Fit Alexandria.',
-      videoSubhead: 'العملاء بيقولوا',
-      imageSubhead: 'الريفيوهات',
+      videoSubhead: 'آراء العملاء',
+      imageSubhead: 'التقييمات',
       videoMarqueeLabel: 'فيديوهات آراء العملاء',
       imageMarqueeLabel: 'صور آراء العملاء',
       controlsLabel: 'أزرار تحريك آراء العملاء',
@@ -426,7 +426,7 @@ export const siteContent = {
     },
     locations: {
       title: 'فروعنا',
-      intro: 'سموحة أو جناكليس - اختار الفرع الأقرب ليومك.',
+      intro: 'سموحة أو جناكليس — اختار الفرع الأقرب ليك.',
       imageAltSuffix: 'صورة فرع Easy Fit Alexandria',
       actions: {
         whatsapp: 'واتساب',
@@ -448,9 +448,10 @@ export const siteContent = {
       ]
     },
     leadForm: {
-      eyebrow: 'ابدأ تجربة EMS',
+      eyebrow: 'ابدأ تمرينة الـEMS',
       title: 'جاهز لتجربة EMS في 20 دقيقة؟',
-      intro: 'اختار الفرع، سيب بياناتك، وفريقنا هيتواصل معاك لتأكيد ميعاد التجربة.',
+      intro:
+        'لو حابب تعرف أكتر عن عروضنا وخدماتنا في تمارين الـEMS، سيب اسمك ورقم تليفونك وهنتواصل معاك في أسرع وقت.',
       cardTitle: 'احجز تجربتك',
       labels: {
         name: 'الاسم بالكامل',
@@ -466,7 +467,7 @@ export const siteContent = {
         smouha: 'سموحة',
         ganaklis: 'جناكليس'
       },
-      privacy: 'هنستخدم بياناتك فقط للتواصل معاك بخصوص تجربة EMS.',
+      privacy: 'شكرًا لثقتك 🌸🩵',
       submit: 'اطلب جلسة التجربة',
       loading: 'جاري إرسال الطلب...',
       success: 'تم استلام طلبك. هنتواصل معاك قريبًا.',

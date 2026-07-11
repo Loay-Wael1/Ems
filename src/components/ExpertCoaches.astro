@@ -75,7 +75,7 @@ const [featuredVideo, ...supportingVideos] = coachVideos;
         </div>
         <div class="coach-video-caption">
           <span>{featuredVideo.label}</span>
-          <strong>{copy.featuredDetail}</strong>
+          {copy.featuredDetail && <strong>{copy.featuredDetail}</strong>}
         </div>
       </article>
 
