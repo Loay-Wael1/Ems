@@ -397,8 +397,8 @@ export const siteContent = {
           ariaLabel: 'كوتش Easy Fit يوضح الوقت المتوقع للوصول لهدف التمرين'
         },
         {
-          label: 'تمرّن بذكاء',
-          detail: 'إزاي EMS يناسب يومك',
+          label: 'إزاي EMS يناسب يومك',
+          detail: '',
           ariaLabel: 'كوتش Easy Fit يشرح إزاي EMS يناسب روتينك'
         }
       ]
