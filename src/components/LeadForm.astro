@@ -71,6 +71,127 @@ const { copy = siteContent.en.leadForm, locale = 'en' } = Astro.props;
     const form = document.querySelector('[data-lead-form]');
     if (!(form instanceof HTMLFormElement)) return;
 
+    const UTM_STORAGE_KEY = 'easyfitLeadUtmV1';
+    const UTM_MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000;
+    const UTM_FIELDS = ['utm_source', 'utm_medium', 'utm_campaign'];
+
+    const emptyAttribution = () => ({
+      utm_source: '',
+      utm_medium: '',
+      utm_campaign: ''
+    });
+
+    const normalizeUtm = (value) => {
+      try {
+        return String(value ?? '')
+          .replace(/[\u0000-\u001F\u007F-\u009F]/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim()
+          .slice(0, 120)
+          .toLowerCase();
+      } catch {
+        return '';
+      }
+    };
+
+    const getCurrentAttribution = () => {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        return {
+          utm_source: normalizeUtm(params.get('utm_source')),
+          utm_medium: normalizeUtm(params.get('utm_medium')),
+          utm_campaign: normalizeUtm(params.get('utm_campaign'))
+        };
+      } catch {
+        return emptyAttribution();
+      }
+    };
+
+    const hasAttribution = (attribution) => UTM_FIELDS.some((field) => Boolean(attribution[field]));
+
+    const removeStoredAttribution = () => {
+      try {
+        localStorage.removeItem(UTM_STORAGE_KEY);
+      } catch {
+        /* Attribution still works for the current URL when storage is unavailable. */
+      }
+    };
+
+    const readStoredAttribution = () => {
+      let raw = '';
+      try {
+        raw = localStorage.getItem(UTM_STORAGE_KEY) || '';
+      } catch {
+        return null;
+      }
+
+      if (!raw) return null;
+
+      try {
+        const stored = JSON.parse(raw);
+        const hasValidShape =
+          stored &&
+          typeof stored === 'object' &&
+          UTM_FIELDS.every((field) => typeof stored[field] === 'string') &&
+          typeof stored.capturedAt === 'number' &&
+          Number.isFinite(stored.capturedAt);
+
+        if (!hasValidShape) {
+          removeStoredAttribution();
+          return null;
+        }
+
+        const age = Date.now() - stored.capturedAt;
+        if (age < 0 || age > UTM_MAX_AGE_MS) {
+          removeStoredAttribution();
+          return null;
+        }
+
+        const attribution = {
+          utm_source: normalizeUtm(stored.utm_source),
+          utm_medium: normalizeUtm(stored.utm_medium),
+          utm_campaign: normalizeUtm(stored.utm_campaign)
+        };
+
+        if (!hasAttribution(attribution)) {
+          removeStoredAttribution();
+          return null;
+        }
+
+        return attribution;
+      } catch {
+        removeStoredAttribution();
+        return null;
+      }
+    };
+
+    const storeAttribution = (attribution) => {
+      try {
+        localStorage.setItem(
+          UTM_STORAGE_KEY,
+          JSON.stringify({
+            utm_source: attribution.utm_source,
+            utm_medium: attribution.utm_medium,
+            utm_campaign: attribution.utm_campaign,
+            capturedAt: Date.now()
+          })
+        );
+      } catch {
+        /* Current URL attribution remains available without persistent storage. */
+      }
+    };
+
+    const resolveAttribution = () => {
+      const current = getCurrentAttribution();
+      if (hasAttribution(current)) {
+        storeAttribution(current);
+        return current;
+      }
+
+      return readStoredAttribution() || emptyAttribution();
+    };
+
+    let activeAttribution = resolveAttribution();
     const renderedAtInput = form.querySelector('input[name="renderedAt"]');
 
     const markRenderedAt = () => {
@@ -104,7 +225,7 @@ const { copy = siteContent.en.leadForm, locale = 'en' } = Astro.props;
       setStatus('', '');
 
       const data = new FormData(form);
-      const params = new URLSearchParams(window.location.search);
+      activeAttribution = resolveAttribution();
       const payload = {
         name: data.get('name'),
         phone: data.get('phone'),
@@ -114,9 +235,9 @@ const { copy = siteContent.en.leadForm, locale = 'en' } = Astro.props;
         submittedAt: Date.now(),
         page: window.location.pathname,
         locale: form.dataset.locale || 'en',
-        utm_source: params.get('utm_source') || '',
-        utm_medium: params.get('utm_medium') || '',
-        utm_campaign: params.get('utm_campaign') || ''
+        utm_source: activeAttribution.utm_source,
+        utm_medium: activeAttribution.utm_medium,
+        utm_campaign: activeAttribution.utm_campaign
       };
 
       try {
