@@ -18,6 +18,174 @@ import '../styles/global.css';
         document.documentElement.style.colorScheme = 'light';
       })();
     </script>
+    <style>
+      .admin-page .admin-dashboard {
+        width: min(100%, 1280px);
+      }
+
+      .admin-page .admin-toolbar-description {
+        max-width: 58ch;
+        color: #4b5563;
+      }
+
+      .admin-page .admin-summary-section {
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .admin-page .admin-summary-heading {
+        color: #111a3a;
+        font-size: 0.9rem;
+        line-height: 1.3;
+      }
+
+      .admin-page .admin-summary-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.75rem;
+      }
+
+      .admin-page .admin-summary-card {
+        min-width: 0;
+        display: grid;
+        gap: 0.35rem;
+        padding: 1rem;
+        border: 1px solid rgba(17, 26, 58, 0.1);
+        border-radius: 14px;
+        background: #ffffff;
+      }
+
+      .admin-page .admin-summary-label {
+        color: #5f6b7a;
+        font-size: 0.76rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .admin-page .admin-summary-value {
+        color: #111a3a;
+        font-family: var(--font-display);
+        font-size: clamp(1.65rem, 4vw, 2.2rem);
+        font-weight: 900;
+        line-height: 1;
+      }
+
+      .admin-page .admin-filters {
+        grid-template-columns: 1fr;
+      }
+
+      .admin-page .admin-filter-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        align-items: center;
+      }
+
+      .admin-page .admin-filter-actions .btn {
+        flex: 1 1 150px;
+      }
+
+      .admin-page .admin-table-wrap {
+        max-height: min(68vh, 760px);
+        overflow: auto;
+      }
+
+      .admin-page .admin-table {
+        min-width: 1120px;
+      }
+
+      .admin-page .admin-table thead th {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        box-shadow: 0 1px 0 rgba(17, 26, 58, 0.08);
+      }
+
+      .admin-page .admin-attribution {
+        min-width: 150px;
+        display: grid;
+        justify-items: start;
+        gap: 0.3rem;
+      }
+
+      .admin-page .admin-source-badge {
+        display: inline-flex;
+        align-items: center;
+        min-height: 26px;
+        padding: 0.24rem 0.55rem;
+        border: 1px solid rgba(15, 118, 110, 0.18);
+        border-radius: 999px;
+        background: rgba(15, 118, 110, 0.1);
+        color: #0f766e;
+        font-size: 0.74rem;
+        font-weight: 900;
+      }
+
+      .admin-page .admin-attribution-medium,
+      .admin-page .admin-attribution-campaign,
+      .admin-page .admin-attribution-empty {
+        color: #5f6b7a;
+        font-size: 0.78rem;
+        line-height: 1.35;
+        overflow-wrap: anywhere;
+      }
+
+      .admin-page .admin-attribution-campaign strong {
+        color: #344054;
+      }
+
+      .admin-page .admin-attribution-empty {
+        font-weight: 750;
+      }
+
+      .admin-page .admin-filters input:focus-visible,
+      .admin-page .admin-filters select:focus-visible,
+      .admin-page .admin-filter-actions .btn:focus-visible,
+      .admin-page .admin-table button:focus-visible {
+        outline: 2px solid #0f766e;
+        outline-offset: 2px;
+      }
+
+      @media (min-width: 680px) {
+        .admin-page .admin-summary-grid {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .admin-page .admin-filters {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .admin-page .admin-filter-actions {
+          grid-column: 1 / -1;
+          justify-content: flex-end;
+        }
+
+        .admin-page .admin-filter-actions .btn {
+          flex: 0 0 auto;
+        }
+      }
+
+      @media (min-width: 1040px) {
+        .admin-page .admin-filters {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 430px) {
+        .admin-page .admin-summary-card {
+          padding: 0.85rem;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .admin-page .btn,
+        .admin-page input,
+        .admin-page select,
+        .admin-page textarea {
+          transition: none !important;
+        }
+      }
+    </style>
   </head>
   <body class="admin-body">
     <main class="admin-page" id="main-content">
@@ -54,17 +222,40 @@ import '../styles/global.css';
           <div class="admin-toolbar-brand">
             <img src="/logo-transparent.png" alt="" width="48" height="48" />
             <div>
-              <h1>Leads</h1>
-              <p data-admin-summary>No leads loaded yet.</p>
+              <h1>Lead Dashboard</h1>
+              <p class="admin-toolbar-description">Recent booking requests with campaign attribution and follow-up status.</p>
+              <p data-admin-summary>Showing 0 leads</p>
               <p class="admin-meta" data-last-updated aria-live="polite">Last updated: never</p>
             </div>
           </div>
           <div class="admin-actions">
             <button class="btn btn-primary" type="button" data-save-all disabled>Save All</button>
-            <a class="btn btn-ghost" href="/api/admin/leads/export">Export CSV</a>
+            <a class="btn btn-ghost" href="/api/admin/leads/export">Export All CSV</a>
             <button class="btn btn-primary" type="button" data-logout>Logout</button>
           </div>
         </div>
+
+        <section class="admin-summary-section" aria-labelledby="admin-summary-heading">
+          <h2 class="admin-summary-heading" id="admin-summary-heading">Current retained leads</h2>
+          <div class="admin-summary-grid">
+            <article class="admin-summary-card" aria-label="Total retained leads">
+              <span class="admin-summary-label">Total Leads</span>
+              <strong class="admin-summary-value" data-summary-total>0</strong>
+            </article>
+            <article class="admin-summary-card" aria-label="New retained leads">
+              <span class="admin-summary-label">New</span>
+              <strong class="admin-summary-value" data-summary-new>0</strong>
+            </article>
+            <article class="admin-summary-card" aria-label="Arrived retained leads">
+              <span class="admin-summary-label">Arrived</span>
+              <strong class="admin-summary-value" data-summary-arrived>0</strong>
+            </article>
+            <article class="admin-summary-card" aria-label="Booked retained leads">
+              <span class="admin-summary-label">Booked</span>
+              <strong class="admin-summary-value" data-summary-booked>0</strong>
+            </article>
+          </div>
+        </section>
 
         <form class="admin-filters" data-filter-form>
           <label>
@@ -88,7 +279,25 @@ import '../styles/global.css';
             Search
             <input name="search" type="search" placeholder="Name or phone" autocomplete="off" />
           </label>
-          <button class="btn btn-ghost" type="submit">Apply</button>
+          <label>
+            Source
+            <input name="source" type="text" list="admin-source-options" placeholder="e.g. facebook" autocomplete="off" maxlength="120" />
+          </label>
+          <label>
+            Medium
+            <input name="medium" type="text" list="admin-medium-options" placeholder="e.g. paid_social" autocomplete="off" maxlength="120" />
+          </label>
+          <label>
+            Campaign
+            <input name="campaign" type="text" list="admin-campaign-options" placeholder="Campaign contains..." autocomplete="off" maxlength="120" />
+          </label>
+          <datalist id="admin-source-options" data-source-options></datalist>
+          <datalist id="admin-medium-options" data-medium-options></datalist>
+          <datalist id="admin-campaign-options" data-campaign-options></datalist>
+          <div class="admin-filter-actions">
+            <button class="btn btn-primary" type="submit">Apply Filters</button>
+            <button class="btn btn-ghost" type="button" data-clear-filters>Clear Filters</button>
+          </div>
         </form>
 
         <div class="admin-table-wrap">
@@ -99,6 +308,7 @@ import '../styles/global.css';
                 <th scope="col">Name</th>
                 <th scope="col">Phone</th>
                 <th scope="col">Branch</th>
+                <th scope="col">Attribution</th>
                 <th scope="col">Status</th>
                 <th scope="col">Notes</th>
                 <th scope="col">Action</th>
@@ -106,7 +316,7 @@ import '../styles/global.css';
             </thead>
             <tbody data-leads-body>
               <tr>
-                <td colspan="7">No leads yet.</td>
+                <td colspan="8">No leads yet.</td>
               </tr>
             </tbody>
           </table>
@@ -130,9 +340,17 @@ import '../styles/global.css';
         const adminStatus = document.querySelector('[data-admin-status]');
         const summary = document.querySelector('[data-admin-summary]');
         const lastUpdated = document.querySelector('[data-last-updated]');
+        const summaryTotal = document.querySelector('[data-summary-total]');
+        const summaryNew = document.querySelector('[data-summary-new]');
+        const summaryArrived = document.querySelector('[data-summary-arrived]');
+        const summaryBooked = document.querySelector('[data-summary-booked]');
+        const sourceOptions = document.querySelector('[data-source-options]');
+        const mediumOptions = document.querySelector('[data-medium-options]');
+        const campaignOptions = document.querySelector('[data-campaign-options]');
         const tbody = document.querySelector('[data-leads-body]');
         const logoutButton = document.querySelector('[data-logout]');
         const saveAllButton = document.querySelector('[data-save-all]');
+        const clearFiltersButton = document.querySelector('[data-clear-filters]');
 
         const leadBaseline = new Map();
         const dirtyRows = new Map();
@@ -175,11 +393,42 @@ import '../styles/global.css';
         const paramsFromFilters = () => {
           const data = new FormData(filterForm);
           const params = new URLSearchParams();
-          ['branch', 'status', 'search'].forEach((key) => {
+          ['branch', 'status', 'search', 'source', 'medium', 'campaign'].forEach((key) => {
             const value = String(data.get(key) || '').trim();
             if (value) params.set(key, value);
           });
           return params;
+        };
+
+        const renderSummary = (value = {}) => {
+          setText(summaryTotal, formatCount(value.total));
+          setText(summaryNew, formatCount(value.new));
+          setText(summaryArrived, formatCount(value.arrived));
+          setText(summaryBooked, formatCount(value.booked));
+        };
+
+        const replaceDatalistOptions = (datalist, values) => {
+          if (!datalist) return;
+          const fragment = document.createDocumentFragment();
+          const seen = new Set();
+
+          (Array.isArray(values) ? values : []).forEach((value) => {
+            const text = cleanAttributionValue(value);
+            const key = text.toLowerCase();
+            if (!text || seen.has(key)) return;
+            seen.add(key);
+            const option = document.createElement('option');
+            option.value = text;
+            fragment.append(option);
+          });
+
+          datalist.replaceChildren(fragment);
+        };
+
+        const renderFilterOptions = (options = {}) => {
+          replaceDatalistOptions(sourceOptions, options.sources);
+          replaceDatalistOptions(mediumOptions, options.media);
+          replaceDatalistOptions(campaignOptions, options.campaigns);
         };
 
         const updateLastUpdated = () => {
@@ -224,6 +473,8 @@ import '../styles/global.css';
             const result = await response.json().catch(() => ({ ok: false }));
             if (!response.ok || !result.ok) throw new Error('load_failed');
 
+            renderSummary(result.summary || {});
+            renderFilterOptions(result.filterOptions || {});
             renderLeads(result.leads || []);
             updateLastUpdated();
             if (!silent) setText(adminStatus, result.leads?.length ? 'Leads loaded.' : 'No leads yet.', 'success');
@@ -379,10 +630,10 @@ import '../styles/global.css';
             if (!visibleIds.has(leadId)) dirtyRows.delete(leadId);
           });
 
-          setText(summary, leads.length ? `${leads.length} latest lead${leads.length === 1 ? '' : 's'}` : 'No leads yet.');
+          setText(summary, `Showing ${leads.length} lead${leads.length === 1 ? '' : 's'}`);
           if (!leads.length) {
             leadBaseline.clear();
-            tbody.innerHTML = '<tr><td colspan="7">No leads yet.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="8">No leads match the current filters.</td></tr>';
             updateSaveAllState();
             return;
           }
@@ -408,6 +659,7 @@ import '../styles/global.css';
                   </td>
                   <td><a href="tel:${escapeHtml(lead.phone)}">${escapeHtml(lead.phone)}</a></td>
                   <td>${escapeHtml(formatBranch(lead.branch))}</td>
+                  <td>${renderAttribution(lead)}</td>
                   <td>
                     <span class="admin-status-pill" data-status-value="${escapeHtml(current.status)}">${escapeHtml(formatStatus(current.status))}</span>
                     <select data-status aria-label="Lead status">
@@ -457,6 +709,12 @@ import '../styles/global.css';
         filterForm.addEventListener('change', () => {
           stopPolling();
           startPolling();
+        });
+
+        clearFiltersButton?.addEventListener('click', async () => {
+          filterForm.reset();
+          setText(adminStatus, 'Refreshing leads...');
+          await loadLeads();
         });
 
         tbody.addEventListener('input', (event) => {
@@ -522,6 +780,61 @@ import '../styles/global.css';
 
         function formatStatus(value) {
           return value.charAt(0).toUpperCase() + value.slice(1);
+        }
+
+        function formatCount(value) {
+          const count = Number(value || 0);
+          return String(Number.isFinite(count) && count > 0 ? Math.floor(count) : 0);
+        }
+
+        function cleanAttributionValue(value) {
+          return String(value ?? '')
+            .replace(/[\u0000-\u001F\u007F-\u009F]/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim()
+            .slice(0, 120);
+        }
+
+        function humanizeAttributionValue(value) {
+          return cleanAttributionValue(value)
+            .replace(/[_-]+/g, ' ')
+            .replace(/\b\w/g, (character) => character.toUpperCase());
+        }
+
+        function formatMedium(value) {
+          const medium = cleanAttributionValue(value);
+          const knownMedia = {
+            paid_social: 'Paid Social',
+            organic_social: 'Organic Social',
+            organic_local: 'Organic Local',
+            paid_video: 'Paid Video',
+            cpc: 'CPC',
+            messaging: 'Messaging'
+          };
+          return knownMedia[medium.toLowerCase()] || humanizeAttributionValue(medium);
+        }
+
+        function renderAttribution(lead) {
+          const source = cleanAttributionValue(lead.utm_source);
+          const medium = cleanAttributionValue(lead.utm_medium);
+          const campaign = cleanAttributionValue(lead.utm_campaign);
+
+          if (!source && !medium && !campaign) {
+            return '<span class="admin-attribution-empty">Direct / Unknown</span>';
+          }
+
+          const details = [];
+          if (source) {
+            details.push(`<span class="admin-source-badge">${escapeHtml(humanizeAttributionValue(source))}</span>`);
+          }
+          if (medium) {
+            details.push(`<span class="admin-attribution-medium">${escapeHtml(formatMedium(medium))}</span>`);
+          }
+          if (campaign) {
+            details.push(`<span class="admin-attribution-campaign"><strong>Campaign:</strong> ${escapeHtml(campaign)}</span>`);
+          }
+
+          return `<div class="admin-attribution">${details.join('')}</div>`;
         }
 
         function normalizeLeadStatus(value) {

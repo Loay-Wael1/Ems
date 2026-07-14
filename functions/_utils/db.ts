@@ -59,7 +59,7 @@ export async function enforceRateLimit(
 }
 
 export async function pruneOldLeads(db: D1Database) {
-  const LEAD_RETENTION_DAYS = 4;
+  const LEAD_RETENTION_DAYS = 90;
   const cutoff = new Date(Date.now() - LEAD_RETENTION_DAYS * 24 * 60 * 60 * 1000).toISOString();
 
   await db.prepare('DELETE FROM leads WHERE created_at < ?').bind(cutoff).run();

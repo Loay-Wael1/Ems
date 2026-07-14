@@ -38,7 +38,11 @@ Do not commit real values.
 
 ## Automatic Lead Pruning
 
-Leads older than 4 days are automatically pruned from the database by the Pages Functions when API requests are made. This is intentional to prevent unlimited storage growth. The admin dashboard is for managing recent leads only, not for long-term CRM storage.
+Leads older than 90 days are automatically pruned from the database when the lead or admin APIs run.
+
+The 90-day retention period provides enough history for monthly and quarterly campaign analysis while avoiding indefinite storage of customer contact data.
+
+The admin dashboard is intended for recent operational and campaign analysis, not permanent CRM storage.
 
 ## Create the Admin Password Hash
 
